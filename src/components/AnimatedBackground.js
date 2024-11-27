@@ -23,7 +23,7 @@ const AnimatedBackground = () => {
   const springs = useSpring({
     from: { backgroundPosition: '0% 50%' },
     to: { backgroundPosition: '100% 50%' },
-    config: { duration: 20000 },
+    config: { duration: 8000 },
     loop: true,
   });
 
