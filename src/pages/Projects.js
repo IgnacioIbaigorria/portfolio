@@ -127,7 +127,7 @@ const Projects = () => {
   return (
     <div className="relative p-4 max-w-7xl mx-auto">
       <motion.h1 
-        className="text-4xl md:text-5xl font-bold mb-8 text-center bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent py-1"
+        className="text-4xl md:text-5xl font-bold mb-8 text-center bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent leading-relaxed py-1"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
       >
