@@ -5,7 +5,7 @@ const Home = () => {
   const skills = [
     {
       category: "Desarrollo Frontend",
-      level: 90,
+      level: 80,
       technologies: "React, JavaScript, TypeScript, HTML5, CSS3, Tailwind"
     },
     {
@@ -15,12 +15,12 @@ const Home = () => {
     },
     {
       category: "Bases de Datos",
-      level: 90,
+      level: 80,
       technologies: "MySQL, PostgreSQL, MongoDB, Firebase"
     },
     {
       category: "Desarrollo Móvil",
-      level: 85,
+      level: 90,
       technologies: "React Native, Expo, Android Studio"
     },
     {
