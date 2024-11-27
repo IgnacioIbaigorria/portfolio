@@ -82,7 +82,7 @@ const Header = () => {
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="fixed top-0 right-0 bottom-0 w-64 bg-slate-900/95 
+          className="fixed top-0 right-0 bottom-0 w-64 bg-slate-900 
             flex flex-col items-center pt-20 px-4 
             border-l border-blue-900/30 shadow-xl z-[200] md:hidden"
         >
