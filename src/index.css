@@ -23,5 +23,7 @@ input, textarea {
 }
 
 button {
-  color: #ffffff;
-} 
+  /* Eliminar esta regla o hacerla más específica */
+  /* color: #ffffff; */
+}
+
