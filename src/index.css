@@ -13,7 +13,7 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #ffffff;
-  background-color: #0f172a; /* Color de fondo de respaldo */
+  background-color: #1e293b; /* Color de fondo de respaldo */
 }
 
 #root {

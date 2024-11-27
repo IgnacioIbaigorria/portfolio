@@ -8,12 +8,15 @@ const BackgroundWrapper = styled(animated.div)`
   left: 0;
   right: 0;
   bottom: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh; /* Cambiamos a vh */
+  min-height: 100vh; /* Aseguramos altura mínima */
+  min-height: calc(var(--vh, 1vh) * 100); /* Usamos la variable personalizada */
   z-index: 0;
   background: linear-gradient(45deg, #0f172a, #1e293b, #334155);
   background-size: 400% 400%;
-  overflow: hidden;
+  background-attachment: fixed; /* Fijamos el fondo */
+  -webkit-overflow-scrolling: touch; /* Mejor scroll en iOS */
 `;
 
 const AnimatedBackground = () => {
