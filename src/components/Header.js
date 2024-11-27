@@ -12,7 +12,7 @@ const Header = () => {
       <motion.header 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="sticky top-0 z-50 bg-gradient-to-r from-[#020617]/95 to-[#0f172a]/95 backdrop-blur-md text-white p-4 md:p-6 flex justify-between items-center h-auto md:h-22 shadow-xl border-b border-blue-900/30"
+        className="sticky top-0 z-50 bg-gradient-to-r from-[#020617]/95 to-[#0f172a]/95 backdrop-blur-md text-white p-4 md:p-6 flex justify-around items-center h-auto md:h-22 shadow-xl border-b border-blue-900/30"
       >
         {/* Logo */}
         <motion.div

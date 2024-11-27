@@ -59,7 +59,7 @@ const Contact = () => {
   return (
     <div className="p-4 max-w-2xl mx-auto">
       <motion.h1 
-        className="text-5xl font-bold mb-8 text-center"
+        className="text-5xl font-bold mb-8 text-center bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
       >
