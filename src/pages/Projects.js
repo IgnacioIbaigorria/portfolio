@@ -55,7 +55,7 @@ const Projects = () => {
         '/images/projects/servicold-app/servicold-app7.jpg',
       ],
       technologies: ['React Native', 'Expo', 'Firebase', 'TypeScript'],
-      github: 'https://github.com/IgnacioIbaigorria/ServiColdApp',
+      github: 'https://github.com/IgnacioIbaigorria/servicold-app',
       live: ''
     },
     {
