@@ -1,6 +1,43 @@
 import React from 'react';
 import { FaCode, FaMobile, FaDatabase } from 'react-icons/fa';
 
+const CircularProgress = ({ percentage }) => {
+  const radius = 40;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (percentage / 100) * circumference;
+
+  return (
+    <div className="relative w-24 h-24">
+      <svg className="w-24 h-24 transform -rotate-90">
+        <circle
+          className="text-slate-700"
+          strokeWidth="8"
+          stroke="currentColor"
+          fill="transparent"
+          r={radius}
+          cx="48"
+          cy="48"
+        />
+        <circle
+          className="text-blue-400 transition-all duration-1000 ease-out"
+          strokeWidth="8"
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          strokeLinecap="round"
+          stroke="currentColor"
+          fill="transparent"
+          r={radius}
+          cx="48"
+          cy="48"
+        />
+      </svg>
+      <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg font-bold">
+        {percentage}%
+      </span>
+    </div>
+  );
+};
+
 const Home = () => {
   const skills = [
     {
@@ -20,13 +57,18 @@ const Home = () => {
     },
     {
       category: "Desarrollo Móvil",
-      level: 90,
-      technologies: "React Native, Expo, Android Studio"
+      level: 85,
+      technologies: "React Native, Expo, Flutter"
     },
     {
       category: "Herramientas y Otros",
       level: 80,
-      technologies: "Git, Docker, AWS, Figma, Metodologías Ágiles"
+      technologies: "Git, Docker, Metodologías Ágiles, Resolución de problemas"
+    },
+    {
+      category: "UI/UX Design",
+      level: 80,
+      technologies: "Figma, Adobe XD, Responsive Design, Tailwind"
     }
   ];
 
@@ -88,25 +130,18 @@ const Home = () => {
 
       <section className="mb-12">
         <h2 className="text-4xl font-bold mb-6 text-blue-400">Habilidades</h2>
-        <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skills.map((skill, index) => (
             <div key={index} className="bg-slate-900/60 backdrop-blur-md p-6 rounded-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-              <div className="flex justify-between mb-2">
+              <div className="flex flex-col items-center text-center gap-4">
                 <h3 className="text-xl font-semibold">{skill.category}</h3>
-                <span className="text-blue-400">{skill.level}%</span>
+                <CircularProgress percentage={skill.level} />
+                <p className="text-gray-300 text-sm">{skill.technologies}</p>
               </div>
-              <div className="w-full bg-slate-700 rounded-full h-2.5 mb-3">
-                <div 
-                  className="bg-gradient-to-r from-blue-400 to-cyan-300 h-2.5 rounded-full transition-all duration-500"
-                  style={{ width: `${skill.level}%` }}
-                ></div>
-              </div>
-              <p className="text-gray-300 text-sm">{skill.technologies}</p>
             </div>
           ))}
         </div>
       </section>
-
 
     </div>
   );
