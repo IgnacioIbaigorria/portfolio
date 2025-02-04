@@ -56,7 +56,7 @@ const Projects = () => {
       ],
       technologies: ['React Native', 'Expo', 'Firebase', 'TypeScript'],
       github: 'https://github.com/IgnacioIbaigorria/servicold-app',
-      live: ''
+      live: 'https://play.google.com/store/apps/details?id=com.ignacioivan00.servicoldApp&hl=es_419'
     },
     {
       title: 'Punto Eco Ecommerce',
