@@ -80,7 +80,7 @@ const Home = () => {
         </h1>
         <p className="text-lg text-gray-300 leading-relaxed">
           Ingeniero en Sistemas de Información en formación y desarrollador Full Stack apasionado 
-          por crear experiencias digitales excepcionales. Con más de 3 años transformando ideas 
+          por crear experiencias digitales excepcionales. Con más de 4 años transformando ideas 
           en soluciones tecnológicas innovadoras, combino creatividad y expertise técnico para 
           desarrollar aplicaciones web y móviles que marcan la diferencia.
           <br />
@@ -116,14 +116,31 @@ const Home = () => {
 
       <section className="mb-12">
         <h2 className="text-4xl font-bold mb-6 text-blue-400">Experiencia Profesional</h2>
-        <div className="bg-slate-900/60 backdrop-blur-md p-6 rounded-lg">
+        <div className="bg-slate-900/60 backdrop-blur-md p-6 rounded-lg mb-4">
           <h3 className="text-xl font-semibold mb-2">Ingeniero de Software</h3>
-          <p className="text-blue-400 mb-4">Servicold SAS | Marzo 2024 - Presente</p>
+          <p className="text-blue-400 mb-4">Servicold SAS | Marzo 2024 - Noviembre 2024</p>
           <ul className="list-disc list-inside text-gray-300 space-y-2">
             <li>Desarrollo de sitio web con landing page, sistema de usuarios y sensores permitiendo la visualización en vivo de los sensores, utilizando JavaScript, Bootstrap, PHP y MySQL.</li>
             <li>Desarrollo de aplicación móvil multiplataforma con sistema de usuarios y sensores, replicando las funciones del sitio web.</li>
             <li>Automatización de los sensores de la empresa mediante Arduino con C++.</li>
-            {/* Aquí puedes agregar más detalles específicos */}
+          </ul>
+        </div>
+        
+        <div className="bg-slate-900/60 backdrop-blur-md p-6 rounded-lg">
+          <h3 className="text-xl font-semibold mb-2">Desarrollador Independiente</h3>
+          <p className="text-blue-400 mb-4">Freelance | Enero 2022 - Presente</p>
+          <ul className="list-disc list-inside text-gray-300 space-y-2">
+            <li>
+              <span className="font-medium">Punto Eco Ecommerce:</span> Desarrollo de plataforma de comercio electrónico para tienda de productos eco-friendly, implementando catálogo de productos, carrito de compras y sistema de pagos con React, Next.js y PostgreSQL.
+            </li>
+            <li>
+              <span className="font-medium">Gestión Punto Eco:</span> Creación de sistema completo de gestión para inventario, ventas y análisis financiero con funcionalidades avanzadas como etiquetado de productos, actualización masiva de precios, estadísticas de ventas y control de caja. Implementación de tema oscuro/claro y soporte multiidioma.
+            </li>
+            <li>
+              <span className="font-medium">Sistema de Gestión de Stock:</span> Desarrollo de aplicación de escritorio para pequeños y medianos negocios con Python y PyQt6, facilitando la gestión de inventario, ventas, caja y clientes con una interfaz intuitiva y eficiente.
+            </li>
+            <li>Consultoría técnica y optimización de bases de datos para diversos clientes, mejorando el rendimiento y la seguridad de sus sistemas existentes.</li>
+            <li>Diseño e implementación de soluciones personalizadas según las necesidades específicas de cada cliente, priorizando la usabilidad y la experiencia del usuario final.</li>
           </ul>
         </div>
       </section>
@@ -140,6 +157,100 @@ const Home = () => {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Nueva sección de Educación y Certificaciones */}
+      <section className="mb-12">
+        <h2 className="text-4xl font-bold mb-6 text-blue-400">Educación y Certificaciones</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-slate-900/60 backdrop-blur-md p-6 rounded-lg">
+            <h3 className="text-xl font-semibold mb-2">Ingeniería en Sistemas de Información</h3>
+            <p className="text-blue-400 mb-2">Universidad Tecnológica Nacional | 2019 - Presente</p>
+            <p className="text-gray-300">Formación integral en desarrollo de software, bases de datos, redes y gestión de proyectos tecnológicos.</p>
+          </div>
+          <div className="bg-slate-900/60 backdrop-blur-md p-6 rounded-lg">
+            <h3 className="text-xl font-semibold mb-2">Certificaciones</h3>
+            <ul className="list-disc list-inside text-gray-300 space-y-2">
+              <li>Full Stack Web Development - Udemy</li>
+              <li>React Native Mobile Development - Coursera</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Nueva sección de Metodología de Trabajo */}
+      <section className="mb-12">
+        <h2 className="text-4xl font-bold mb-6 text-blue-400">Mi Metodología</h2>
+        <div className="bg-slate-900/60 backdrop-blur-md p-6 rounded-lg">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-400/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-blue-400">1</span>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Descubrimiento</h3>
+              <p className="text-gray-300">Entiendo a fondo tus necesidades y objetivos para diseñar la solución perfecta.</p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-400/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-blue-400">2</span>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Desarrollo Iterativo</h3>
+              <p className="text-gray-300">Trabajo en ciclos cortos con feedback constante para asegurar que el producto evolucione según tus expectativas.</p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-400/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-blue-400">3</span>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Entrega y Soporte</h3>
+              <p className="text-gray-300">Implementación cuidadosa y soporte continuo para garantizar el éxito a largo plazo de tu proyecto.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Nueva sección de Por qué trabajar conmigo */}
+      <section className="mb-12">
+        <h2 className="text-4xl font-bold mb-6 text-blue-400">¿Por qué trabajar conmigo?</h2>
+        <div className="bg-slate-900/60 backdrop-blur-md p-6 rounded-lg">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h3 className="text-xl font-semibold mb-2 flex items-center">
+                <span className="w-8 h-8 bg-blue-400/20 rounded-full flex items-center justify-center mr-2">
+                  <span className="text-blue-400">✓</span>
+                </span>
+                Compromiso con la calidad
+              </h3>
+              <p className="text-gray-300 ml-10">Cada línea de código que escribo refleja mi dedicación a la excelencia y a las mejores prácticas de la industria.</p>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-2 flex items-center">
+                <span className="w-8 h-8 bg-blue-400/20 rounded-full flex items-center justify-center mr-2">
+                  <span className="text-blue-400">✓</span>
+                </span>
+                Comunicación transparente
+              </h3>
+              <p className="text-gray-300 ml-10">Mantengo una comunicación clara y constante durante todo el proceso de desarrollo.</p>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-2 flex items-center">
+                <span className="w-8 h-8 bg-blue-400/20 rounded-full flex items-center justify-center mr-2">
+                  <span className="text-blue-400">✓</span>
+                </span>
+                Soluciones a medida
+              </h3>
+              <p className="text-gray-300 ml-10">Desarrollo soluciones personalizadas que se adaptan perfectamente a tus necesidades específicas.</p>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-2 flex items-center">
+                <span className="w-8 h-8 bg-blue-400/20 rounded-full flex items-center justify-center mr-2">
+                  <span className="text-blue-400">✓</span>
+                </span>
+                Enfoque en resultados
+              </h3>
+              <p className="text-gray-300 ml-10">Me centro en crear soluciones que generen un impacto real y medible en tu negocio.</p>
+            </div>
+          </div>
         </div>
       </section>
 

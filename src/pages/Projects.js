@@ -87,6 +87,24 @@ const Projects = () => {
       technologies: ['Python','PyQt6', 'SQLite'],
       github: 'https://github.com/IgnacioIbaigorria/gestion-stock',
       live: ''
+    },
+    {
+      title: 'Gestión Punto Eco',
+      description: 'Sistema avanzado de gestión para Punto Eco con funcionalidades de inventario, ventas y análisis financiero. Incluye gestión de productos con etiquetas y categorías, actualización de precios por categoría, estadísticas de ventas, control de caja, y análisis de valor de inventario. Cuenta con tema oscuro/claro y soporte multiidioma.',
+      images: [
+        '/images/projects/gestion-punto-eco/gestion-punto-eco1.jpg',
+        '/images/projects/gestion-punto-eco/gestion-punto-eco2.jpg',
+        '/images/projects/gestion-punto-eco/gestion-punto-eco3.jpg',
+        '/images/projects/gestion-punto-eco/gestion-punto-eco4.jpg',
+        '/images/projects/gestion-punto-eco/gestion-punto-eco5.jpg',
+        '/images/projects/gestion-punto-eco/gestion-punto-eco6.jpg',
+        '/images/projects/gestion-punto-eco/gestion-punto-eco7.jpg',
+        '/images/projects/gestion-punto-eco/gestion-punto-eco8.jpg',
+        '/images/projects/gestion-punto-eco/gestion-punto-eco9.jpg',
+      ],
+      technologies: ['React', 'Node.js', 'Firebase Database', 'MongoDB', 'Chart.js', 'i18next', 'Tailwind CSS'],
+      github: 'https://github.com/IgnacioIbaigorria/gestion-app',
+      live: ''
     }
     // Más proyectos...
   ];
@@ -137,13 +155,13 @@ const Projects = () => {
         {displayedProjects.map((project, projectIndex) => (
           <ProjectCard
             key={projectIndex}
-            className="h-full flex flex-col"
+            className="h-full flex flex-col backdrop-blur-sm bg-slate-800/40 border border-slate-700/50 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:border-blue-500/30"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: projectIndex * 0.1 }}
           >
             <div 
-              className="relative w-full h-64 mb-4 overflow-hidden rounded-lg cursor-pointer"
+              className="relative w-full h-64 overflow-hidden cursor-pointer group"
               onClick={() => openImageModal(project.images)}
               onMouseEnter={() => {
                 const interval = setInterval(() => {
@@ -171,33 +189,48 @@ const Projects = () => {
                   key={imgIndex}
                   src={image} 
                   alt={`${project.title} - imagen ${imgIndex + 1}`} 
-                  className="absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out"
+                  className="absolute top-0 left-0 w-full h-full object-cover transition-all duration-500 ease-in-out group-hover:scale-105"
                   style={{
                     opacity: (currentImageIndexes[projectIndex] || 0) === imgIndex ? 1 : 0,
                   }}
                 />
               ))}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                <p className="text-white text-sm mb-2">Click para ver galería</p>
+              </div>
             </div>
-            <div className="flex flex-col flex-grow">
-              <h2 className="text-2xl font-bold mb-2">{project.title}</h2>
+            <div className="flex flex-col flex-grow p-4">
+              <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">{project.title}</h2>
               <p className="text-gray-300 mb-4">{project.description}</p>
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.technologies.map((tech, i) => (
                   <span 
                     key={i}
-                    className="px-3 py-1 bg-green-500/20 rounded-full text-lg"
+                    className="px-3 py-1 bg-green-500/20 rounded-full text-sm font-medium hover:bg-green-500/30 transition-colors duration-300"
                   >
                     {tech}
                   </span>
                 ))}
               </div>
-              <div className="flex gap-4 mt-auto">
-                <a href={project.github} className="flex items-center gap-2 hover:text-blue-400">
+              <div className="flex gap-4 mt-auto pt-3 border-t border-slate-700/50">
+                <a 
+                  href={project.github} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-2 hover:text-blue-400 transition-colors duration-300"
+                >
                   <FaGithub /> Código
                 </a>
-                <a href={project.live} className="flex items-center gap-2 hover:text-blue-400">
-                  <FaExternalLinkAlt /> Demo
-                </a>
+                {project.live && (
+                  <a 
+                    href={project.live} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="flex items-center gap-2 hover:text-blue-400 transition-colors duration-300"
+                  >
+                    <FaExternalLinkAlt /> Demo
+                  </a>
+                )}
               </div>
             </div>
           </ProjectCard>
@@ -208,20 +241,39 @@ const Projects = () => {
       <div className="hidden md:block">
         {projects.length > projectsPerPage && (
           <>
-            <button 
-              className="fixed left-4 top-1/2 -translate-y-1/2 bg-slate-800/80 hover:bg-slate-700/80 p-4 rounded-full backdrop-blur-sm transition-all duration-300"
+            <motion.button 
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className={`fixed left-4 top-1/2 -translate-y-1/2 bg-slate-800/80 hover:bg-blue-500/80 p-4 rounded-full backdrop-blur-sm transition-all duration-300 ${
+                currentPage === 0 ? 'opacity-50 cursor-not-allowed' : 'opacity-100'
+              }`}
               onClick={handlePrevPage}
               disabled={currentPage === 0}
             >
               ←
-            </button>
-            <button 
-              className="fixed right-4 top-1/2 -translate-y-1/2 bg-slate-800/80 hover:bg-slate-700/80 p-4 rounded-full backdrop-blur-sm transition-all duration-300"
+            </motion.button>
+            <motion.button 
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className={`fixed right-4 top-1/2 -translate-y-1/2 bg-slate-800/80 hover:bg-blue-500/80 p-4 rounded-full backdrop-blur-sm transition-all duration-300 ${
+                currentPage >= Math.floor((projects.length - 1) / projectsPerPage) ? 'opacity-50 cursor-not-allowed' : 'opacity-100'
+              }`}
               onClick={handleNextPage}
               disabled={currentPage >= Math.floor((projects.length - 1) / projectsPerPage)}
             >
               →
-            </button>
+            </motion.button>
+            <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex gap-2 bg-slate-800/50 px-4 py-2 rounded-full">
+              {Array.from({ length: Math.ceil(projects.length / projectsPerPage) }).map((_, index) => (
+                <button
+                  key={index}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === currentPage ? 'bg-blue-400 scale-125' : 'bg-white/50 hover:bg-white/80'
+                  }`}
+                  onClick={() => setCurrentPage(index)}
+                />
+              ))}
+            </div>
           </>
         )}
       </div>
@@ -229,7 +281,7 @@ const Projects = () => {
       {/* Modal de imágenes */}
       {modalImages && (
         <div 
-          className="fixed inset-0 backdrop-blur-sm z-50 flex items-center justify-center h-full"
+          className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center h-full"
           onClick={closeImageModal}
         >
           <div 
@@ -237,34 +289,38 @@ const Projects = () => {
             onClick={e => e.stopPropagation()}
           >
             <button 
-              className="absolute top-4 right-4 text-white text-3xl hover:text-gray-300 transition-colors z-10"
+              className="absolute top-4 right-4 text-white text-3xl hover:text-gray-300 transition-colors z-10 bg-slate-800/50 rounded-full w-10 h-10 flex items-center justify-center"
               onClick={closeImageModal}
             >
               ×
             </button>
-            <img 
+            <motion.img 
+              key={currentModalImage}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
               src={modalImages[currentModalImage]} 
               alt="Project preview" 
-              className="w-full h-auto max-h-[90vh] object-contain rounded-lg"
+              className="w-full h-auto max-h-[90vh] object-contain rounded-lg shadow-2xl"
             />
             <button 
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-gray/10 hover:bg-white/40 p-2 text-xl rounded-full"
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-slate-800/50 hover:bg-slate-700/70 p-3 text-xl rounded-full transition-all duration-300"
               onClick={prevImage}
             >
               ←
             </button>
             <button 
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-gray/10 hover:bg-white/40 p-2 text-xl rounded-full"
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-slate-800/50 hover:bg-slate-700/70 p-3 text-xl rounded-full transition-all duration-300"
               onClick={nextImage}
             >
               →
             </button>
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 bg-slate-800/50 px-4 py-2 rounded-full">
               {modalImages.map((_, index) => (
                 <button
                   key={index}
-                  className={`w-2 h-2 rounded-full ${
-                    index === currentModalImage ? 'bg-white' : 'bg-white/50'
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === currentModalImage ? 'bg-blue-400 scale-125' : 'bg-white/50 hover:bg-white/80'
                   }`}
                   onClick={() => setCurrentModalImage(index)}
                 />

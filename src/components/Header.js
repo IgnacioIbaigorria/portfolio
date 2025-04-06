@@ -22,10 +22,10 @@ const Header = () => {
         animate={{ opacity: 1, y: 0 }}
         className="fixed w-full top-0 z-[45] bg-gradient-to-r from-[#020617]/95 to-[#0f172a]/95 backdrop-blur-md text-white p-4 md:p-6 flex justify-around items-center h-auto md:h-22 shadow-xl border-b border-blue-900/30"
       >
-        {/* Logo */}
+        {/* Logo con animación mejorada */}
         <motion.div
-          whileHover={{ rotate: 180 }}
-          transition={{ duration: 0.3 }}
+          whileHover={{ rotate: 180, scale: 1.1 }}
+          transition={{ duration: 0.4, type: "spring" }}
         >
           <FaCode className="text-[2rem] md:text-[2.5rem] text-blue-400 hover:text-blue-300" />
         </motion.div>
