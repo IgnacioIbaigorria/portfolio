@@ -102,9 +102,23 @@ const Projects = () => {
         '/images/projects/gestion-punto-eco/gestion-punto-eco8.jpg',
         '/images/projects/gestion-punto-eco/gestion-punto-eco9.jpg',
       ],
-      technologies: ['React', 'Node.js', 'Firebase Database', 'MongoDB', 'Chart.js', 'i18next', 'Tailwind CSS'],
+      technologies: ['React', 'Node.js', 'Firebase Database', 'Chart.js', 'i18next', 'Tailwind CSS'],
       github: 'https://github.com/IgnacioIbaigorria/gestion-app',
       live: ''
+    },
+    {
+      title: 'Projects Management',
+      description: 'Plataforma de gestión de proyectos de diseño con sistema de roles (cliente, diseñador, project manager) que permite solicitar, asignar y entregar proyectos con gestión de archivos integrada.',
+      images: [
+        '/images/projects/design-management/design-management1.jpg',
+        '/images/projects/design-management/design-management2.jpg',
+        '/images/projects/design-management/design-management3.jpg',
+        '/images/projects/design-management/design-management4.jpg',
+        '/images/projects/design-management/design-management5.jpg',
+      ],
+      technologies: ['Next.js', 'TypeScript', 'Node.js', 'Supabase (PostgreSQL)', 'Tailwind CSS', 'Shadcn UI'],
+      github: 'https://github.com/IgnacioIbaigorria/grayola',
+      live: 'https://grayola-eta.vercel.app/'
     }
     // Más proyectos...
   ];
