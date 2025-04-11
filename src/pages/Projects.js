@@ -115,6 +115,8 @@ const Projects = () => {
         '/images/projects/design-management/design-management3.jpg',
         '/images/projects/design-management/design-management4.jpg',
         '/images/projects/design-management/design-management5.jpg',
+        '/images/projects/design-management/design-management6.jpg',
+        '/images/projects/design-management/design-management7.jpg',
       ],
       technologies: ['Next.js', 'TypeScript', 'Node.js', 'Supabase (PostgreSQL)', 'Tailwind CSS', 'Shadcn UI'],
       github: 'https://github.com/IgnacioIbaigorria/grayola',
