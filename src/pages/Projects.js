@@ -102,7 +102,7 @@ const Projects = () => {
         '/images/projects/gestion-punto-eco/gestion-punto-eco8.jpg',
         '/images/projects/gestion-punto-eco/gestion-punto-eco9.jpg',
       ],
-      technologies: ['React', 'Node.js', 'Firebase Database', 'Chart.js', 'i18next', 'Tailwind CSS'],
+      technologies: ['React Native', 'Node.js', 'Firebase Database', 'Chart.js', 'i18next', 'Tailwind CSS'],
       github: 'https://github.com/IgnacioIbaigorria/gestion-app',
       live: ''
     },
