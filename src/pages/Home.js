@@ -212,15 +212,7 @@ const Home = () => {
                 "Diseño e implementación de soluciones personalizadas según las necesidades específicas de cada cliente, priorizando la usabilidad y la experiencia del usuario final."
               ]
             },
-            {
-              title: "Ingeniero de Software",
-              company: "Servicold SAS | Marzo 2024 - Noviembre 2024",
-              items: [
-                "Desarrollo de sitio web con landing page, sistema de usuarios y sensores permitiendo la visualización en vivo de los sensores, utilizando JavaScript, Bootstrap, PHP y MySQL.",
-                "Desarrollo de aplicación móvil multiplataforma con sistema de usuarios y sensores, replicando las funciones del sitio web.",
-                "Automatización de los sensores de la empresa mediante Arduino con C++."
-              ]
-            },
+            
           ].map((exp, i) => (
             <motion.div
               key={exp.title}
