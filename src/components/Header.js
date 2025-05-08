@@ -95,7 +95,7 @@ const Header = () => {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.18, y: -2, color: "#22d3ee", filter: "drop-shadow(0 0 6px #22d3ee)" }}
                 whileTap={{ scale: 0.92 }}
-                className="text-2xl text-cyan-200 hover:text-cyan-400 transition-colors duration-300"
+                className="text-3xl text-cyan-200 hover:text-cyan-400 transition-colors duration-300"
               >
                 <item.icon />
               </motion.a>
