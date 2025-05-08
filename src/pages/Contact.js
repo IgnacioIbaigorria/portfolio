@@ -6,33 +6,33 @@ import emailjs from '@emailjs/browser';
 const FormInput = styled(motion.input)`
   width: 100%;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(26, 35, 50, 0.92);
+  border: 1.5px solid #233554;
   border-radius: 0.5rem;
-  color: white;
+  color: #e0f2fe;
   transition: all 0.3s ease;
 
   &:focus {
     outline: none;
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 2px #38bdf8;
   }
 `;
 
 const FormTextarea = styled(motion.textarea)`
   width: 100%;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(26, 35, 50, 0.92);
+  border: 1.5px solid #233554;
   border-radius: 0.5rem;
-  color: white;
+  color: #e0f2fe;
   min-height: 150px;
   transition: all 0.3s ease;
 
   &:focus {
     outline: none;
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 2px #38bdf8;
   }
 `;
 
@@ -43,23 +43,30 @@ const Contact = () => {
     e.preventDefault();
   
     emailjs.sendForm(
-        'service_gpg94po', // Reemplaza con tu Service ID
-        'template_cvgv8ji', // Reemplaza con tu Template ID
+        'service_gpg94po',
+        'template_cvgv8ji',
         form.current,
-        'D9CllueuoU4GrB7Lm' // Reemplaza con tu Public Key
+        'D9CllueuoU4GrB7Lm'
     )
     .then((result) => {
         alert('Mensaje enviado con éxito!');
-        form.current.reset(); // Limpiar el formulario
+        form.current.reset();
     }, (error) => {
         alert('Hubo un problema al enviar el mensaje. Inténtalo de nuevo.');
     });
   };  
 
   return (
-    <div className="p-4 max-w-2xl mx-auto">
+    <div className="p-2 max-w-2xl mx-auto relative">
+      {/* Fondo animado igual que Home.js */}
+      <motion.div
+        className="fixed inset-0 -z-10 bg-gradient-to-tr from-[#0a192f] via-[#112240] to-[#233554] opacity-80 blur-2xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.2 }}
+      />
       <motion.h1 
-        className="text-5xl font-bold mb-8 text-center bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent leading-relaxed"
+        className="text-5xl font-bold mb-8 text-center bg-gradient-to-r from-cyan-400 to-cyan-700 bg-clip-text text-transparent leading-relaxed"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
       >
@@ -103,8 +110,8 @@ const Contact = () => {
           />
         </div>
         <motion.button
-          className="w-full py-3 px-6 bg-blue-500 text-white rounded-lg font-semibold
-                     hover:bg-blue-600 transition-colors duration-300"
+          className="w-full py-3 px-6 bg-cyan-700 text-white rounded-lg font-semibold
+                     hover:bg-cyan-600 transition-colors duration-300"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >

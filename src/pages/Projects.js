@@ -3,17 +3,23 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 
+// Improved ProjectCard with glassmorphism and dark palette
 const ProjectCard = styled(motion.div)`
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border-radius: 1rem;
+  background: rgba(26, 35, 50, 0.92);
+  backdrop-filter: blur(14px);
+  border-radius: 1.25rem;
   padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.5s ease;
+  border: 1.5px solid #233554;
+  box-shadow: 0 8px 32px 0 rgba(56, 189, 248, 0.10);
+  transition: all 0.4s cubic-bezier(.4,2,.6,1);
+  display: flex;
+  flex-direction: column;
+  height: 500px; /* Fixed height for all cards */
 
   &:hover {
-    transform: translateY(-15px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-10px) scale(1.025);
+    box-shadow: 0 16px 40px 0 rgba(56, 189, 248, 0.18);
+    border-color: #38bdf8;
   }
 `;
 
@@ -159,101 +165,108 @@ const Projects = () => {
 
 
   return (
-    <div className="relative p-4 max-w-7xl mx-auto">
+    <div className="relative p-2 max-w-7xl mx-auto">
+      {/* Fondo animado igual que Home.js */}
+      <motion.div
+        className="fixed inset-0 -z-10 bg-gradient-to-tr from-[#0a192f] via-[#112240] to-[#233554] opacity-80 blur-2xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.2 }}
+      />
       <motion.h1 
-        className="text-4xl md:text-5xl font-bold mb-8 text-center bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent leading-relaxed py-1"
+        className="text-4xl md:text-5xl font-bold mb-8 text-center bg-gradient-to-r from-cyan-400 to-cyan-700 bg-clip-text text-transparent leading-relaxed py-1"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
       >
         Mis Proyectos
       </motion.h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {displayedProjects.map((project, projectIndex) => (
-          <ProjectCard
-            key={projectIndex}
-            className="h-full flex flex-col backdrop-blur-sm bg-slate-800/40 border border-slate-700/50 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:border-blue-500/30"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: projectIndex * 0.1 }}
-          >
-            <div 
-              className="relative w-full h-64 overflow-hidden cursor-pointer group"
-              onClick={() => openImageModal(project.images)}
-              onMouseEnter={() => {
-                const interval = setInterval(() => {
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {displayedProjects.map((project, projectIndex) => (
+            <ProjectCard
+              key={projectIndex}
+              className="h-full flex flex-col rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:border-blue-500/30 border border-slate-700/50 backdrop-blur-sm bg-slate-800/40"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: projectIndex * 0.1 }}
+            >
+              {/* Imagen con galería */}
+              <div 
+                className="relative w-full h-56 overflow-hidden cursor-pointer group flex-shrink-0 rounded-xl mb-4"
+                onClick={() => openImageModal(project.images)}
+                onMouseEnter={() => {
+                  const interval = setInterval(() => {
+                    setCurrentImageIndexes(prev => ({
+                      ...prev,
+                      [projectIndex]: ((prev[projectIndex] || 0) + 1) % project.images.length
+                    }));
+                  }, 3000);
+                  project.intervalId = interval;
+                }}
+                onMouseLeave={() => {
+                  if (project.intervalId) {
+                    clearInterval(project.intervalId);
+                  }
                   setCurrentImageIndexes(prev => ({
                     ...prev,
-                    [projectIndex]: ((prev[projectIndex] || 0) + 1) % project.images.length
+                    [projectIndex]: 0
                   }));
-                }, 3000);
-                // Guardar el ID del intervalo
-                project.intervalId = interval;
-              }}
-              onMouseLeave={() => {
-                // Limpiar el intervalo cuando el mouse sale
-                if (project.intervalId) {
-                  clearInterval(project.intervalId);
-                }
-                setCurrentImageIndexes(prev => ({
-                  ...prev,
-                  [projectIndex]: 0
-                }));
-              }}
-            >
-              {project.images.map((image, imgIndex) => (
-                <img 
-                  key={imgIndex}
-                  src={image} 
-                  alt={`${project.title} - imagen ${imgIndex + 1}`} 
-                  className="absolute top-0 left-0 w-full h-full object-cover transition-all duration-500 ease-in-out group-hover:scale-105"
-                  style={{
-                    opacity: (currentImageIndexes[projectIndex] || 0) === imgIndex ? 1 : 0,
-                  }}
-                />
-              ))}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
-                <p className="text-white text-sm mb-2">Click para ver galería</p>
-              </div>
-            </div>
-            <div className="flex flex-col flex-grow p-4">
-              <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">{project.title}</h2>
-              <p className="text-gray-300 mb-4">{project.description}</p>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {project.technologies.map((tech, i) => (
-                  <span 
-                    key={i}
-                    className="px-3 py-1 bg-green-500/20 rounded-full text-sm font-medium hover:bg-green-500/30 transition-colors duration-300"
-                  >
-                    {tech}
-                  </span>
+                }}
+              >
+                {project.images.map((image, imgIndex) => (
+                  <img 
+                    key={imgIndex}
+                    src={image} 
+                    alt={`${project.title} - imagen ${imgIndex + 1}`} 
+                    className="absolute top-0 left-0 w-full h-56 object-cover transition-all duration-500 ease-in-out group-hover:scale-105"
+                    style={{
+                      opacity: (currentImageIndexes[projectIndex] || 0) === imgIndex ? 1 : 0,
+                    }}
+                  />
                 ))}
+                <div className="absolute h-auto inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                  <p className="text-white text-sm mb-2">Click para ver galería</p>
+                </div>
               </div>
-              <div className="flex gap-4 mt-auto pt-3 border-t border-slate-700/50">
-                <a 
-                  href={project.github} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="flex items-center gap-2 hover:text-blue-400 transition-colors duration-300"
-                >
-                  <FaGithub /> Código
-                </a>
-                {project.live && (
+              {/* Card content starts here, outside the image container */}
+              <div className="flex flex-col flex-grow overflow-y-auto">
+                <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-cyan-700 bg-clip-text text-transparent">{project.title}</h2>
+                <p className="text-gray-300 mb-4">{project.description}</p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {project.technologies.map((tech, i) => (
+                    <span 
+                      key={i}
+                      className="px-3 py-1 bg-cyan-700/20 text-cyan-200 rounded-full text-xs font-semibold tracking-wide border border-cyan-700/40"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex gap-4 mt-auto pt-3 border-t border-[#233554]/60">
                   <a 
-                    href={project.live} 
+                    href={project.github} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="flex items-center gap-2 hover:text-blue-400 transition-colors duration-300"
+                    className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors duration-300"
                   >
-                    <FaExternalLinkAlt /> Demo
+                    <FaGithub /> Código
                   </a>
-                )}
+                  {project.live && (
+                    <a 
+                      href={project.live} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors duration-300"
+                    >
+                      <FaExternalLinkAlt /> Demo
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
-          </ProjectCard>
-        ))}
+            </ProjectCard>
+          ))}
       </div>
 
-      {/* Botones de navegación solo para desktop */}
+      {/* Navigation buttons and modal remain unchanged, but you can update their colors if you wish */}
       <div className="hidden md:block">
         {projects.length > projectsPerPage && (
           <>
