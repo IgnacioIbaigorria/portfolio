@@ -310,7 +310,7 @@ const Projects = () => {
       {/* Modal de imágenes */}
       {modalImages && (
         <div 
-          className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center h-full"
+          className="fixed inset-0 bg-black/80 backdrop-blur-md z-[999] flex items-center justify-center h-full"
           onClick={closeImageModal}
         >
           <div 
@@ -318,7 +318,7 @@ const Projects = () => {
             onClick={e => e.stopPropagation()}
           >
             <button 
-              className="absolute top-4 right-4 text-white text-3xl hover:text-gray-300 transition-colors z-10 bg-slate-800/50 rounded-full w-10 h-10 flex items-center justify-center"
+              className="absolute top-16 md:top-16 right-2 text-white text-3xl hover:text-gray-300 transition-colors z-[1000] bg-slate-800/50 rounded-full w-10 h-10 flex items-center justify-center"
               onClick={closeImageModal}
             >
               ×
