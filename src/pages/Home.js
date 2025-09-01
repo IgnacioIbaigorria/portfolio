@@ -212,7 +212,7 @@ const Home = () => {
                 "Diseño e implementación de soluciones personalizadas según las necesidades específicas de cada cliente, priorizando la usabilidad y la experiencia del usuario final."
               ]
             },
-            
+      
           ].map((exp, i) => (
             <motion.div
               key={exp.title}
