@@ -49,7 +49,7 @@ const Home = () => {
     {
       category: "Desarrollo Backend",
       level: 90,
-      technologies: "Node.js, PHP, Python, Next.js, Django, Laravel"
+      technologies: "Node.js, Spring Boot, PHP, Python, Next.js, Django"
     },
     {
       category: "Bases de Datos",
@@ -59,7 +59,7 @@ const Home = () => {
     {
       category: "Desarrollo Móvil",
       level: 85,
-      technologies: "React Native, Expo, Flutter"
+      technologies: "React Native, Expo, EAS"
     },
     {
       category: "Herramientas",
@@ -69,7 +69,7 @@ const Home = () => {
     {
       category: "UI/UX Design",
       level: 80,
-      technologies: "Figma, Adobe XD, Responsive Design, Tailwind"
+      technologies: "Figma, Responsive Design, Tailwind"
     }
   ];
 
