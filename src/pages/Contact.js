@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import emailjs from '@emailjs/browser';
+import toast from 'react-hot-toast';
 
 const FormInput = styled(motion.input)`
   width: 100%;
@@ -38,23 +39,41 @@ const FormTextarea = styled(motion.textarea)`
 
 const Contact = () => {
   const form = useRef();
+  const [loading, setLoading] = useState(false);
 
-  const sendEmail = (e) => {
+  const sendEmail = async (e) => {
     e.preventDefault();
-  
-    emailjs.sendForm(
-        'service_gpg94po',
-        'template_cvgv8ji',
-        form.current,
-        'D9CllueuoU4GrB7Lm'
-    )
-    .then((result) => {
-        alert('Mensaje enviado con éxito!');
-        form.current.reset();
-    }, (error) => {
-        alert('Hubo un problema al enviar el mensaje. Inténtalo de nuevo.');
-    });
-  };  
+
+    const formEl = form.current;
+    const formData = new FormData(formEl);
+
+    // Campos obligatorios
+    const name = formData.get("user_name")?.trim();
+    const email = formData.get("user_email")?.trim();
+    const message = formData.get("message")?.trim();
+
+    if (!name || !email || !message) {
+      toast.error("Por favor completa todos los campos obligatorios.");
+      return; // corta la ejecución, no manda el mail
+    }
+
+    setLoading(true);
+    try {
+      await emailjs.sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE,
+        formEl,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLICKEY
+      );
+      toast.success("Mensaje enviado con éxito!");
+      formEl.reset();
+    } catch (err) {
+      console.error(err);
+      toast.error("Hubo un problema al enviar el mensaje. Intenta otra vez.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="p-2 max-w-2xl mx-auto relative">
@@ -91,6 +110,7 @@ const Contact = () => {
             type="text" 
             placeholder="Nombre"
             name="user_name" 
+            required
             whileFocus={{ scale: 1.01 }}
           />
         </div>
@@ -99,6 +119,7 @@ const Contact = () => {
             type="email" 
             placeholder="Email"
             name="user_email"
+            required
             whileFocus={{ scale: 1.01 }}
           />
         </div>
@@ -107,6 +128,7 @@ const Contact = () => {
             placeholder="Mensaje"
             name="message"
             whileFocus={{ scale: 1.01 }}
+            required
           />
         </div>
         <motion.button
@@ -114,8 +136,9 @@ const Contact = () => {
                      hover:bg-cyan-600 transition-colors duration-300"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
+          disabled={loading}
         >
-          Enviar Mensaje
+          {loading ? 'Enviando...' : 'Enviar Mensaje'}
         </motion.button>
       </motion.form>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
@@ -74,6 +74,41 @@ const Projects = () => {
   const [currentModalImage, setCurrentModalImage] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const projectsPerPage = 3;
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : true);
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+
+  // manejar intervalos sin mutar objects
+  const hoverIntervalsRef = useRef({});
+  useEffect(() => {
+    return () => {
+      // limpiar todos al desmontar
+      Object.values(hoverIntervalsRef.current).forEach(id => clearInterval(id));
+    };
+  }, []);
+
+  const onMouseEnterProject = (projectIndex, length) => {
+    const id = setInterval(() => {
+      setCurrentImageIndexes(prev => ({
+        ...prev,
+        [projectIndex]: ((prev[projectIndex] || 0) + 1) % length
+      }));
+    }, 3000);
+    hoverIntervalsRef.current[projectIndex] = id;
+  };
+
+  const onMouseLeaveProject = (projectIndex) => {
+    const id = hoverIntervalsRef.current[projectIndex];
+    if (id) {
+      clearInterval(id);
+      delete hoverIntervalsRef.current[projectIndex];
+    }
+    setCurrentImageIndexes(prev => ({ ...prev, [projectIndex]: 0 }));
+  };
 
   const projects = [
     {
@@ -183,10 +218,7 @@ const Projects = () => {
     // Más proyectos...
   ];
 
-  // Determinar qué proyectos mostrar basado en el tamaño de pantalla
-  const displayedProjects = window.innerWidth < 768 
-    ? projects // Mostrar todos los proyectos en móvil
-    : projects.slice(currentPage * projectsPerPage, (currentPage + 1) * projectsPerPage); // Carrusel en desktop
+  const displayedProjects = isMobile ? projects : projects.slice(currentPage * projectsPerPage, (currentPage + 1) * projectsPerPage);
 
   const handlePrevPage = () => {
     setCurrentPage(prev => Math.max(0, prev - 1));
@@ -260,24 +292,8 @@ const Projects = () => {
             <div 
               className="relative w-full h-56 overflow-hidden cursor-pointer group flex-shrink-0 rounded-xl mb-4"
               onClick={() => openImageModal(project.images)}
-              onMouseEnter={() => {
-                const interval = setInterval(() => {
-                  setCurrentImageIndexes(prev => ({
-                    ...prev,
-                    [projectIndex]: ((prev[projectIndex] || 0) + 1) % project.images.length
-                  }));
-                }, 3000);
-                project.intervalId = interval;
-              }}
-              onMouseLeave={() => {
-                if (project.intervalId) {
-                  clearInterval(project.intervalId);
-                }
-                setCurrentImageIndexes(prev => ({
-                  ...prev,
-                  [projectIndex]: 0
-                }));
-              }}
+              onMouseEnter={() => onMouseEnterProject(projectIndex, project.images.length)}
+              onMouseLeave={() => onMouseLeaveProject(projectIndex)}
             >
               {project.images.map((image, imgIndex) => (
                 <img 
