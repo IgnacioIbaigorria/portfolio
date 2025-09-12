@@ -143,7 +143,7 @@ const Home = () => {
           transition={{ delay: 0.6, duration: 0.7 }}
         >
           Ingeniero en Sistemas de Información en formación y desarrollador Full Stack apasionado 
-          por crear experiencias digitales excepcionales. Con más de 4 años transformando ideas 
+          por crear experiencias digitales excepcionales. Con más de 3 años transformando ideas 
           en soluciones tecnológicas innovadoras, combino creatividad y expertise técnico para 
           desarrollar aplicaciones web y móviles que marcan la diferencia.
           <br />
