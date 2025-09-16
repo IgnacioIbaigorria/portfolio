@@ -132,12 +132,11 @@ const Projects = () => {
       title: 'Servicold App',
       description: 'App para la empresa Servicold SAS, para la gestión de usuarios y sensores, compatible con iOS y Android.',
       images: [
-        '/images/projects/servicold-app/servicold-app1.jpg',
-        '/images/projects/servicold-app/servicold-app2.jpg',
-        '/images/projects/servicold-app/servicold-app3.jpg',
-        '/images/projects/servicold-app/servicold-app4.jpg',
-        '/images/projects/servicold-app/servicold-app5.jpg',
-        '/images/projects/servicold-app/servicold-app6.jpg',
+        '/images/projects/servicold-app/servicold_app1.jpg',
+        '/images/projects/servicold-app/servicold_app2.jpg',
+        '/images/projects/servicold-app/servicold_app3.jpg',
+        '/images/projects/servicold-app/servicold_app4.jpg',
+        '/images/projects/servicold-app/servicold_app5.jpg',
         '/images/projects/servicold-app/servicold-app7.jpg',
         '/images/projects/servicold-app/IMG_0006.PNG',
         '/images/projects/servicold-app/IMG_0007.PNG',
@@ -148,7 +147,7 @@ const Projects = () => {
       github: 'https://github.com/IgnacioIbaigorria/servicold-app',
       stores: {
         android: 'https://play.google.com/store/apps/details?id=com.ignacioivan00.servicoldApp&hl=es_419',
-        ios: '' // Reemplaza con tu URL real de App Store
+        ios: 'https://apps.apple.com/ar/app/servicold-app/id6751702418' // Reemplaza con tu URL real de App Store
       }
     },
     {
