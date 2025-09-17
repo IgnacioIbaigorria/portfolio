@@ -181,8 +181,8 @@ const Projects = () => {
       live: ''
     },
     {
-      title: 'Gestión Punto Eco',
-      description: 'App móvil de sistema avanzado de gestión para Punto Eco, con funcionalidades de inventario, ventas y análisis financiero. Incluye gestión de productos con etiquetas y categorías, actualización de precios por categoría, estadísticas de ventas, control de caja, y análisis de valor de inventario. Cuenta con tema oscuro/claro y soporte multiidioma.',
+      title: 'Gestión App',
+      description: 'App móvil de sistema avanzado de gestión para pequeñas y medianas empresas, con funcionalidades de inventario, ventas y análisis financiero. Incluye gestión de productos con etiquetas y categorías, actualización de precios por categoría, estadísticas de ventas, control de caja, y análisis de valor de inventario. Cuenta con tema oscuro/claro y soporte multiidioma.',
       images: [
         '/images/projects/gestion-punto-eco/gestion-punto-eco1.jpg',
         '/images/projects/gestion-punto-eco/gestion-punto-eco2.jpg',
