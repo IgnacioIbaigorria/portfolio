@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
+import { getTechInfo } from '../utils/techData';
 
 // Improved ProjectCard with glassmorphism and dark palette
 const ProjectCard = styled(motion.div)`
@@ -210,7 +211,7 @@ const Projects = () => {
         '/images/projects/design-management/design-management6.jpg',
         '/images/projects/design-management/design-management7.jpg',
       ],
-      technologies: ['Next.js', 'TypeScript', 'Node.js', 'Supabase (PostgreSQL)', 'Tailwind CSS', 'Shadcn UI'],
+      technologies: ['Next.js', 'TypeScript', 'Node.js', 'Supabase', 'Tailwind CSS', 'Shadcn UI'],
       github: 'https://github.com/IgnacioIbaigorria/grayola',
       live: 'https://grayola-eta.vercel.app/'
     }
@@ -319,13 +320,25 @@ const Projects = () => {
               
               {/* Etiquetas de tecnologías mejoradas */}
               <div className="flex flex-wrap gap-2 mb-4">
-                {project.technologies.map((tech, i) => (
-                  <TechTag key={i}>
-                    {tech}
-                  </TechTag>
-                ))}
-              </div>
-              
+                {project.technologies.map((techName, i) => {
+                  const tech = getTechInfo(techName);
+                  return (
+                    <span
+                      key={i}
+                      className="bg-cyan-900/80 text-cyan-300 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm flex items-center gap-2"
+                    >
+                      {/* Renderiza el ícono con su color de marca */}
+                      {tech.icon && (
+                        <span className="text-lg" style={{ color: tech.color }}>
+                          {tech.icon}
+                        </span>
+                      )}
+                      {/* El texto mantiene el color del tema */}
+                      <span>{tech.name}</span>
+                    </span>
+                  );
+                })}
+              </div>              
               {/* Enlaces mejorados */}
               <div className="flex flex-wrap gap-4 mt-auto pt-3 border-t border-[#233554]/60">
                 <a 

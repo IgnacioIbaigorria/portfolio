@@ -2,75 +2,76 @@ import React from 'react';
 import { FaCode, FaMobile, FaDatabase } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import ParallaxLayer from '../components/ParallaxLayer';
+import {
+  SiReact, SiNextdotjs, SiJavascript, SiTypescript, SiHtml5, SiCss3, SiTailwindcss,
+  SiNodedotjs, SiExpress, SiSpringboot, SiPhp, SiPython,
+  SiPostgresql, SiMysql, SiMongodb, SiFirebase, SiSupabase, SiFlutter, SiExpo,
+  SiGit, SiDocker, SiAmazonwebservices as SiAmazonaws, SiGitlab, SiFigma, SiJira,
+  SiGithub
+} from 'react-icons/si';
 
-const CircularProgress = ({ percentage }) => {
-  const radius = 40;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (percentage / 100) * circumference;
-
-  return (
-    <div className="relative w-24 h-24">
-      <svg className="w-24 h-24 transform -rotate-90">
-        <circle
-          className="text-slate-800"
-          strokeWidth="8"
-          stroke="currentColor"
-          fill="transparent"
-          r={radius}
-          cx="48"
-          cy="48"
-        />
-        <circle
-          className="text-cyan-700 transition-all duration-1000 ease-out"
-          strokeWidth="8"
-          strokeDasharray={circumference}
-          strokeDashoffset={strokeDashoffset}
-          strokeLinecap="round"
-          stroke="currentColor"
-          fill="transparent"
-          r={radius}
-          cx="48"
-          cy="48"
-        />
-      </svg>
-      <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg font-bold text-cyan-400">
-        {percentage}%
-      </span>
-    </div>
-  );
-};
 
 const Home = () => {
+
+  // --- ESTRUCTURA DE SKILLS MODIFICADA CON COLORES DE MARCA ---
   const skills = [
     {
       category: "Desarrollo Frontend",
-      level: 75,
-      technologies: "React, JavaScript, TypeScript, HTML5, CSS3, Tailwind"
+      technologies: [
+        { name: "React", icon: <SiReact />, color: "text-[#61DAFB]" },
+        { name: "Next.js", icon: <SiNextdotjs />, color: "text-white" }, // El logo es negro/blanco
+        { name: "JavaScript", icon: <SiJavascript />, color: "text-[#F7DF1E]" },
+        { name: "TypeScript", icon: <SiTypescript />, color: "text-[#3178C6]" },
+        { name: "HTML5", icon: <SiHtml5 />, color: "text-[#E34F26]" },
+        { name: "CSS3", icon: <SiCss3 />, color: "text-[#1572B6]" },
+        { name: "Tailwind", icon: <SiTailwindcss />, color: "text-[#06B6D4]" }
+      ]
     },
     {
       category: "Desarrollo Backend",
-      level: 90,
-      technologies: "Node.js, Spring Boot, PHP, Python, Next.js, Django"
+      technologies: [
+        { name: "Node.js", icon: <SiNodedotjs />, color: "text-[#5FA04E]" },
+        { name: "Express", icon: <SiExpress />, color: "text-gray-400" }, // Logo simple
+        { name: "Spring Boot", icon: <SiSpringboot />, color: "text-[#6DB33F]" },
+        { name: "PHP", icon: <SiPhp />, color: "text-[#777BB4]" },
+        { name: "Python", icon: <SiPython />, color: "text-[#3776AB]" },
+      ]
     },
     {
       category: "Bases de Datos",
-      level: 80,
-      technologies: "MySQL, PostgreSQL, MongoDB, Firebase"
+      technologies: [
+        { name: "PostgreSQL", icon: <SiPostgresql />, color: "text-[#4169E1]" },
+        { name: "MySQL", icon: <SiMysql />, color: "text-[#4479A1]" },
+        { name: "MongoDB", icon: <SiMongodb />, color: "text-[#47A248]" },
+        { name: "Firebase", icon: <SiFirebase />, color: "text-[#FFCA28]" },
+        { name: "Supabase", icon: <SiSupabase />, color: "text-[#3ECF8E]" }
+      ]
     },
     {
       category: "Desarrollo Móvil",
-      level: 85,
-      technologies: "React Native, Expo, EAS"
+      technologies: [
+        { name: "React Native", icon: <SiReact />, color: "text-[#61DAFB]" },
+        { name: "Flutter", icon: <SiFlutter />, color: "text-[#027DFD]" },
+        { name: "Expo", icon: <SiExpo />, color: "text-gray-400" } // Logo simple
+      ]
     },
     {
-      category: "Herramientas",
-      level: 80,
-      technologies: "Git, Docker, Metodologías Ágiles, Resolución de problemas"
+      category: "DevOps & Herramientas",
+      technologies: [
+        { name: "Git", icon: <SiGit />, color: "text-[#F05032]" },
+        { name: "GitHub", icon: <SiGithub />, color: "text-[#171515]" },
+        { name: "Docker", icon: <SiDocker />, color: "text-[#2496ED]" },
+        { name: "AWS", icon: <SiAmazonaws />, color: "text-[#FF9900]" },
+        { name: "GitLab", icon: <SiGitlab />, color: "text-[#FCA121]" },
+        { name: "Met. Ágiles", icon: <SiJira />, color: "text-[#0052CC]" }
+      ]
     },
     {
       category: "UI/UX Design",
-      level: 80,
-      technologies: "Figma, Responsive Design, Tailwind"
+      technologies: [
+        { name: "Figma", icon: <SiFigma />, color: "text-[#F24E1E]" },
+        { name: "Responsive Design", icon: null, color: null }
+      ]
     }
   ];
 
@@ -217,14 +218,16 @@ const Home = () => {
               title: "Desarrollador Independiente",
               company: "Freelance | Enero 2022 - Presente",
               items: [
+                "Servicold App: app gestión de datos de sensores con permisos y roles, visualización de datos en vivo, exportación de datos a excel y notificaciones por correo, desarrollado en React con TypeScript y AG Grid para visualización.",
                 "Punto Eco Ecommerce: Desarrollo de plataforma de comercio electrónico para tienda de productos eco-friendly, implementando catálogo de productos, carrito de compras y sistema de pagos con React, Next.js y PostgreSQL.",
                 "Gestión Punto Eco: Creación de sistema completo de gestión para inventario, ventas y análisis financiero con funcionalidades avanzadas como etiquetado de productos, actualización masiva de precios, estadísticas de ventas y control de caja. Implementación de tema oscuro/claro y soporte multiidioma.",
                 "Sistema de Gestión de Stock: Desarrollo de aplicación de escritorio para pequeños y medianos negocios con Python y PyQt6, facilitando la gestión de inventario, ventas, caja y clientes con una interfaz intuitiva y eficiente.",
+                "Desarrollo de aplicación web para la gestión de números de lotería, con funciones de autenticación, roles, compras y gestión de números utilizando Next.js, Java Spring Boot y PostgreSQL.",
                 "Consultoría técnica y optimización de bases de datos para diversos clientes, mejorando el rendimiento y la seguridad de sus sistemas existentes.",
                 "Diseño e implementación de soluciones personalizadas según las necesidades específicas de cada cliente, priorizando la usabilidad y la experiencia del usuario final."
               ]
             },
-      
+        
           ].map((exp, i) => (
             <motion.div
               key={exp.title}
@@ -247,7 +250,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Habilidades */}
+      {/* --- SECCIÓN DE HABILIDADES MODIFICADA CON COLORES --- */}
       <section className="mb-16">
         <motion.h2
           className="text-4xl font-bold mb-6 text-cyan-400"
@@ -269,13 +272,32 @@ const Home = () => {
               viewport={{ once: true }}
               custom={index}
             >
-              <h3 className="text-2xl font-semibold mb-2 text-cyan-400">{skill.category}</h3>
-              <CircularProgress percentage={skill.level} />
-              <p className="text-gray-300 text-base mt-2">{skill.technologies}</p>
+              {/* Título de la categoría */}
+              <h3 className="text-2xl font-semibold mb-4 text-cyan-400 text-center">{skill.category}</h3>
+              
+              {/* Contenedor de "pills" de tecnología */}
+              <div className="flex flex-wrap justify-center gap-2">
+                {skill.technologies.map((tech) => (
+                  <span
+                    key={tech.name}
+                    className="bg-cyan-900/80 text-cyan-300 text-sm font-medium px-3 py-1.5 rounded-full shadow-sm flex items-center gap-2"
+                  >
+                    {/* Renderiza el ícono con su color de marca */}
+                    {tech.icon && (
+                      <span className={`text-lg ${tech.color ? tech.color : 'text-cyan-400'}`}>
+                        {tech.icon}
+                      </span>
+                    )}
+                    {/* El texto mantiene el color del tema */}
+                    <span>{tech.name}</span>
+                  </span>
+                ))}
+              </div>
             </motion.div>
           ))}
         </div>
       </section>
+      {/* --- FIN DE LA SECCIÓN MODIFICADA --- */}
 
       {/* Educación y Certificaciones */}
       <section className="mb-16">
