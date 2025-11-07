@@ -13,7 +13,6 @@ import {
 
 const Home = () => {
 
-  // --- ESTRUCTURA DE SKILLS MODIFICADA CON COLORES DE MARCA ---
   const skills = [
     {
       category: "Desarrollo Frontend",
@@ -75,7 +74,6 @@ const Home = () => {
     }
   ];
 
-  // Animation variants for cards and sections
   const cardVariant = {
     hidden: { opacity: 0, y: 30 },
     visible: (i = 1) => ({
@@ -92,7 +90,6 @@ const Home = () => {
 
   return (
     <div className="relative max-w-5xl mx-auto p-4">
-      {/* Animated background */}
       <motion.div className="fixed inset-0 -z-20 overflow-hidden" aria-hidden="true">
         <ParallaxLayer speed={0.05} className="absolute inset-0">
           <div className="w-full h-full bg-gradient-to-tr from-[#061024] to-[#112240]" />
@@ -101,7 +98,6 @@ const Home = () => {
         <ParallaxLayer speed={0.12} className="absolute inset-0">
           <div className="pointer-events-none w-full h-full">
             <svg className="w-full h-full opacity-30" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-              {/* formas SVG aquí */}
             </svg>
           </div>
         </ParallaxLayer>
@@ -111,9 +107,7 @@ const Home = () => {
         </ParallaxLayer>
       </motion.div>
 
-      {/* Hero Section */}
       <section className="mb-16 relative flex flex-col items-center justify-center min-h-[350px]">
-        {/* Foto de perfil con borde animado (no spin) */}
         <motion.div
           className="relative z-10 mb-6"
           initial={{ opacity: 0, y: -30 }}
@@ -128,7 +122,6 @@ const Home = () => {
             />
           </div>
         </motion.div>
-        {/* Nombre y presentación animados */}
         <motion.h1
           className="text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-cyan-700 bg-clip-text text-transparent leading-relaxed z-10"
           initial={{ opacity: 0, y: 20 }}
@@ -155,7 +148,6 @@ const Home = () => {
         </motion.p>
       </section>
 
-      {/* Servicios */}
       <section className="mb-16">
         <motion.h2
           className="text-4xl font-bold mb-6 text-cyan-400"
@@ -201,7 +193,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Experiencia Profesional */}
       <section className="mb-16">
         <motion.h2
           className="text-4xl font-bold mb-6 text-cyan-400"
@@ -250,7 +241,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* --- SECCIÓN DE HABILIDADES MODIFICADA CON COLORES --- */}
       <section className="mb-16">
         <motion.h2
           className="text-4xl font-bold mb-6 text-cyan-400"
@@ -272,23 +262,19 @@ const Home = () => {
               viewport={{ once: true }}
               custom={index}
             >
-              {/* Título de la categoría */}
               <h3 className="text-2xl font-semibold mb-4 text-cyan-400 text-center">{skill.category}</h3>
               
-              {/* Contenedor de "pills" de tecnología */}
               <div className="flex flex-wrap justify-center gap-2">
                 {skill.technologies.map((tech) => (
                   <span
                     key={tech.name}
                     className="bg-cyan-900/80 text-cyan-300 text-sm font-medium px-3 py-1.5 rounded-full shadow-sm flex items-center gap-2"
                   >
-                    {/* Renderiza el ícono con su color de marca */}
                     {tech.icon && (
                       <span className={`text-lg ${tech.color ? tech.color : 'text-cyan-400'}`}>
                         {tech.icon}
                       </span>
                     )}
-                    {/* El texto mantiene el color del tema */}
                     <span>{tech.name}</span>
                   </span>
                 ))}
@@ -297,9 +283,7 @@ const Home = () => {
           ))}
         </div>
       </section>
-      {/* --- FIN DE LA SECCIÓN MODIFICADA --- */}
 
-      {/* Educación y Certificaciones */}
       <section className="mb-16">
         <motion.h2
           className="text-4xl font-bold mb-6 text-cyan-400"
@@ -326,7 +310,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Metodología de Trabajo */}
       <section className="mb-16">
         <motion.h2
           className="text-4xl font-bold mb-6 text-cyan-400"
@@ -371,7 +354,6 @@ const Home = () => {
         </motion.div>
       </section>
 
-      {/* Por qué trabajar conmigo */}
       <section className="mb-16">
         <motion.h2
           className="text-4xl font-bold mb-6 text-cyan-400"

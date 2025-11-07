@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import { getTechInfo } from '../utils/techData';
 
-// Improved ProjectCard with glassmorphism and dark palette
 const ProjectCard = styled(motion.div)`
   background: rgba(26, 35, 50, 0.92);
   backdrop-filter: blur(14px);
@@ -24,7 +23,6 @@ const ProjectCard = styled(motion.div)`
   }
 `;
 
-// Nuevo componente para las etiquetas de tecnologías
 const TechTag = styled.span`
   padding: 0.375rem 0.75rem;
   background: rgba(8, 145, 178, 0.2);
@@ -42,7 +40,6 @@ const TechTag = styled.span`
   }
 `;
 
-// Nuevo componente para los botones de navegación
 const NavButton = styled(motion.button)`
   background: rgba(30, 41, 59, 0.8);
   color: white;
@@ -215,7 +212,6 @@ const Projects = () => {
       github: 'https://github.com/IgnacioIbaigorria/grayola',
       live: 'https://grayola-eta.vercel.app/'
     }
-    // Más proyectos...
   ];
 
   const displayedProjects = isMobile ? projects : projects.slice(currentPage * projectsPerPage, (currentPage + 1) * projectsPerPage);
@@ -231,7 +227,7 @@ const Projects = () => {
   const openImageModal = (images) => {
     setModalImages(images);
     setCurrentModalImage(0);
-    document.body.style.overflow = 'hidden'; // Previene el scroll
+    document.body.style.overflow = 'hidden';
   };
 
   const closeImageModal = () => {
@@ -250,7 +246,6 @@ const Projects = () => {
 
   return (
     <div className="relative p-4 max-w-7xl mx-auto">
-      {/* Fondo animado mejorado */}
       <motion.div
         className="fixed inset-0 -z-10 bg-gradient-to-tr from-[#0a192f] via-[#112240] to-[#233554] opacity-80 blur-2xl"
         initial={{ opacity: 0 }}
@@ -258,7 +253,6 @@ const Projects = () => {
         transition={{ duration: 1.2 }}
       />
       
-      {/* Título con animación mejorada */}
       <motion.h1 
         className="text-4xl md:text-5xl font-bold mb-10 text-center bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-700 bg-clip-text text-transparent leading-relaxed py-1"
         initial={{ opacity: 0, y: -20 }}
@@ -268,7 +262,6 @@ const Projects = () => {
         Mis Proyectos
       </motion.h1>
       
-      {/* Descripción breve */}
       <motion.p
         className="text-lg text-center text-gray-300 mb-10 max-w-3xl mx-auto"
         initial={{ opacity: 0 }}
@@ -278,7 +271,6 @@ const Projects = () => {
         Explora mi portafolio de proyectos destacados, desde aplicaciones móviles hasta sitios web y sistemas de gestión.
       </motion.p>
       
-      {/* Grid de proyectos con animación mejorada */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {displayedProjects.map((project, projectIndex) => (
           <ProjectCard
@@ -288,7 +280,6 @@ const Projects = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: projectIndex * 0.15, duration: 0.7 }}
           >
-            {/* Imagen con galería mejorada */}
             <div 
               className="relative w-full h-56 overflow-hidden cursor-pointer group flex-shrink-0 rounded-xl mb-4"
               onClick={() => openImageModal(project.images)}
@@ -313,12 +304,10 @@ const Projects = () => {
               </div>
             </div>
             
-            {/* Contenido de la tarjeta mejorado */}
             <div className="flex flex-col flex-grow overflow-y-auto">
               <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-cyan-700 bg-clip-text text-transparent">{project.title}</h2>
               <p className="text-gray-300 mb-4">{project.description}</p>
               
-              {/* Etiquetas de tecnologías mejoradas */}
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.technologies.map((techName, i) => {
                   const tech = getTechInfo(techName);
@@ -327,19 +316,16 @@ const Projects = () => {
                       key={i}
                       className="bg-cyan-900/80 text-cyan-300 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm flex items-center gap-2"
                     >
-                      {/* Renderiza el ícono con su color de marca */}
                       {tech.icon && (
                         <span className="text-lg" style={{ color: tech.color }}>
                           {tech.icon}
                         </span>
                       )}
-                      {/* El texto mantiene el color del tema */}
                       <span>{tech.name}</span>
                     </span>
                   );
                 })}
               </div>              
-              {/* Enlaces mejorados */}
               <div className="flex flex-wrap gap-4 mt-auto pt-3 border-t border-[#233554]/60">
                 <a 
                   href={project.github} 
@@ -350,7 +336,6 @@ const Projects = () => {
                   <FaGithub /> Código
                 </a>
                 
-                {/* Mostrar enlace normal si existe */}
                 {project.live && (
                   <a 
                     href={project.live} 
@@ -362,7 +347,6 @@ const Projects = () => {
                   </a>
                 )}
                 
-                {/* Mostrar enlaces a tiendas si existen */}
                 {project.stores && (
                   <div className="flex gap-3">
                     {project.stores.android && (
@@ -404,7 +388,6 @@ const Projects = () => {
         ))}
       </div>
 
-      {/* Botones de navegación mejorados */}
       <div className="hidden md:block">
         {projects.length > projectsPerPage && (
           <>
@@ -441,7 +424,6 @@ const Projects = () => {
         )}
       </div>
 
-      {/* Modal de imágenes mejorado */}
       {modalImages && (
         <div 
           className="fixed inset-10 bg-black/90 backdrop-blur-md z-[999] flex items-center justify-center h-full"

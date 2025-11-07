@@ -1,4 +1,3 @@
-// --- Importa los íconos ---
 import {
   SiReact, SiNextdotjs, SiJavascript, SiTypescript, SiHtml5, SiCss3, SiTailwindcss,
   SiNodedotjs, SiExpress, SiSpringboot, SiPhp, SiPython, SiDjango, SiLaravel,
@@ -6,7 +5,6 @@ import {
   SiGit, SiDocker, SiAmazonwebservices as SiAmazonaws, SiGitlab, SiGithub, SiFigma, SiAdobe, SiJira, SiBootstrap, SiPhpmyadmin, SiSqlite, SiChartdotjs, SiI18Next, SiShadcnui, SiPrisma
 } from 'react-icons/si';
 
-// --- Crea un mapa de búsqueda ---
 export const techInfoMap = {
   'javascript': { icon: <SiJavascript />, color: "#F7DF1E" },
   'bootstrap': { icon: <SiBootstrap />, color: "#7952B3" },
@@ -23,7 +21,7 @@ export const techInfoMap = {
   'postgresql': { icon: <SiPostgresql />, color: "#4169E1" },
   'prisma': { icon: <SiPrisma />, color: "#2D3748" },
   'python': { icon: <SiPython />, color: "#3776AB" },
-  'pyqt6': { icon: null, color: "#44b78b" }, // Sin logo, pero con color
+  'pyqt6': { icon: null, color: "#44b78b" },
   'sqlite': { icon: <SiSqlite />, color: "#003B57" },
   'firebase database': { icon: <SiFirebase />, color: "#FFCA28" },
   'chart.js': { icon: <SiChartdotjs />, color: "#FF6384" },
@@ -47,11 +45,10 @@ export const techInfoMap = {
   'css3': { icon: <SiCss3 />, color: "#1572B6" },
 };
 
-// --- Función de ayuda para obtener la información ---
 export const getTechInfo = (techName) => {
   const info = techInfoMap[techName.toLowerCase()];
   if (!info) {
-    return { name: techName, icon: null, color: "#9ca3af" }; // Color gris por defecto
+    return { name: techName, icon: null, color: "#9ca3af" };
   }
   return { name: techName, ...info };
 };

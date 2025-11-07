@@ -3,10 +3,8 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import emailjs from '@emailjs/browser';
 import toast from 'react-hot-toast';
-// --- MEJORA: Importar iconos para los enlaces alternativos ---
 import { FaLinkedin, FaEnvelope } from 'react-icons/fa';
 
-// --- Inputs y Textarea (sin cambios) ---
 const FormInput = styled(motion.input)`
   width: 100%;
   padding: 1rem;
@@ -40,7 +38,6 @@ const FormTextarea = styled(motion.textarea)`
   }
 `;
 
-// --- MEJORA 4: Botón con styled-components para consistencia ---
 const FormButton = styled(motion.button)`
   width: 100%;
   padding: 0.75rem 1.5rem;
@@ -60,13 +57,12 @@ const FormButton = styled(motion.button)`
   }
 `;
 
-// --- MEJORA 5: Variantes de animación para las columnas ---
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2, // Anima los hijos con 0.2s de diferencia
+      staggerChildren: 0.2, 
     },
   },
 };
@@ -82,7 +78,6 @@ const Contact = () => {
   const [loading, setLoading] = useState(false);
 
   const sendEmail = async (e) => {
-    // ... tu función sendEmail (sin cambios) ...
     e.preventDefault();
     const formEl = form.current;
     const formData = new FormData(formEl);
@@ -114,9 +109,7 @@ const Contact = () => {
   };
 
   return (
-    // --- MEJORA 1: Aumentado el max-w para el layout de 2 columnas ---
     <div className="p-4 max-w-4xl mx-auto relative">
-      {/* Fondo animado (sin cambios) */}
       <motion.div
         className="fixed inset-0 -z-10 bg-gradient-to-tr from-[#0a192f] via-[#112240] to-[#233554] opacity-80 blur-2xl"
         initial={{ opacity: 0 }}
@@ -131,7 +124,6 @@ const Contact = () => {
         Contacto
       </motion.h1>
       
-      {/* --- MEJORA 3: Texto (CTA) más personal --- */}
       <motion.p 
         className="text-xl text-center mb-12 text-gray-300"
         initial={{ opacity: 0 }}
@@ -143,7 +135,6 @@ const Contact = () => {
         No dudes en escribirme.
       </motion.p>
       
-      {/* --- MEJORA 1 & 5: Contenedor de 2 columnas con animación "stagger" --- */}
       <motion.div 
         className="grid md:grid-cols-2 md:gap-16"
         variants={containerVariants}
@@ -151,12 +142,11 @@ const Contact = () => {
         animate="visible"
       >
         
-        {/* --- Columna Izquierda: El Formulario --- */}
         <motion.form 
           ref={form} 
           onSubmit={sendEmail}
           className="space-y-6"
-          variants={columnVariant} // Animación de hijo
+          variants={columnVariant}
         >
           <div>
             <FormInput 
@@ -185,7 +175,6 @@ const Contact = () => {
             />
           </div>
           
-          {/* --- MEJORA 4: Usando el botón de styled-components --- */}
           <FormButton
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -195,10 +184,9 @@ const Contact = () => {
           </FormButton>
         </motion.form>
 
-        {/* --- MEJORA 2: Columna Derecha: Contacto Alternativo --- */}
         <motion.div 
           className="mt-12 md:mt-0"
-          variants={columnVariant} // Animación de hijo
+          variants={columnVariant} 
         >
           <h2 className="text-3xl font-bold mb-6 text-cyan-400">
             Otras formas de conectar
