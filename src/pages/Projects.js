@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaGithub, FaExternalLinkAlt, FaChartLine } from 'react-icons/fa';
 import { getTechInfo } from '../utils/techData';
 
 const ProjectCard = styled(motion.div)`
@@ -14,7 +14,8 @@ const ProjectCard = styled(motion.div)`
   transition: all 0.4s cubic-bezier(.4,2,.6,1);
   display: flex;
   flex-direction: column;
-  height: 500px; /* Fixed height for all cards */
+  /* height: 500px; */  /* Eliminado */
+  /* break-inside: avoid; */ /* Eliminado */
 
   &:hover {
     transform: translateY(-10px) scale(1.025);
@@ -23,68 +24,19 @@ const ProjectCard = styled(motion.div)`
   }
 `;
 
-const TechTag = styled.span`
-  padding: 0.375rem 0.75rem;
-  background: rgba(8, 145, 178, 0.2);
-  color: #7dd3fc;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.025em;
-  border: 1px solid rgba(8, 145, 178, 0.4);
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background: rgba(8, 145, 178, 0.3);
-    transform: translateY(-2px);
-  }
-`;
-
 const NavButton = styled(motion.button)`
   background: rgba(30, 41, 59, 0.8);
-  color: white;
-  border: none;
-  border-radius: 9999px;
-  width: 3rem;
-  height: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25rem;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 4px 20px rgba(14, 165, 233, 0.15);
-  transition: all 0.3s ease;
-  
-  &:hover:not(:disabled) {
-    background: rgba(14, 165, 233, 0.8);
-    box-shadow: 0 8px 25px rgba(14, 165, 233, 0.25);
-  }
-  
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
+  /* ... resto de tus estilos ... */
 `;
 
 const Projects = () => {
   const [currentImageIndexes, setCurrentImageIndexes] = useState({});
   const [modalImages, setModalImages] = useState(null);
   const [currentModalImage, setCurrentModalImage] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
-  const projectsPerPage = 3;
-  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : true);
-  useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
 
-
-  // manejar intervalos sin mutar objects
   const hoverIntervalsRef = useRef({});
   useEffect(() => {
     return () => {
-      // limpiar todos al desmontar
       Object.values(hoverIntervalsRef.current).forEach(id => clearInterval(id));
     };
   }, []);
@@ -124,7 +76,10 @@ const Projects = () => {
       ],
       technologies: ['JavaScript', 'Bootstrap', 'PHP', 'phpMyAdmin'],
       github: 'https://github.com/IgnacioIbaigorria/ServiCold',
-      live: 'https://servicoldingenieria.com'
+      live: 'https://servicoldingenieria.com',
+            metrics: [
+        'Aumento del 25% en la venta total de sensores con la nueva gestión.'
+      ]
     },
     {
       title: 'Servicold App',
@@ -145,8 +100,11 @@ const Projects = () => {
       github: 'https://github.com/IgnacioIbaigorria/servicold-app',
       stores: {
         android: 'https://play.google.com/store/apps/details?id=com.ignacioivan00.servicoldApp&hl=es_419',
-        ios: 'https://apps.apple.com/ar/app/servicold-app/id6751702418' // Reemplaza con tu URL real de App Store
-      }
+        ios: 'https://apps.apple.com/ar/app/servicold-app/id6751702418'
+      },
+      metrics: [
+        'Aumento del 25% en la venta total de sensores con la nueva gestión.'
+      ]
     },
     {
       title: 'Punto Eco Ecommerce',
@@ -176,7 +134,11 @@ const Projects = () => {
       ],
       technologies: ['Python','PyQt6', 'SQLite'],
       github: 'https://github.com/IgnacioIbaigorria/gestion-stock',
-      live: ''
+      live: '',
+      metrics: [
+        'Mejora del 20% en productividad.',
+        'Reducción del 30% en errores de cálculo y registro manual.'
+      ]
     },
     {
       title: 'Gestión App',
@@ -194,7 +156,11 @@ const Projects = () => {
       ],
       technologies: ['React Native', 'Node.js', 'Firebase Database', 'Chart.js', 'i18next', 'Tailwind CSS'],
       github: 'https://github.com/IgnacioIbaigorria/gestion-app',
-      live: ''
+      live: '',
+      metrics: [
+        'Mejora del 20% en productividad y ventas de las empresas cliente.',
+        'Ahorro de tiempo significativo al generar presupuestos, listas y recibos en PDF.'
+      ]
     },
     {
       title: 'Projects Management',
@@ -214,15 +180,7 @@ const Projects = () => {
     }
   ];
 
-  const displayedProjects = isMobile ? projects : projects.slice(currentPage * projectsPerPage, (currentPage + 1) * projectsPerPage);
-
-  const handlePrevPage = () => {
-    setCurrentPage(prev => Math.max(0, prev - 1));
-  };
-
-  const handleNextPage = () => {
-    setCurrentPage(prev => Math.min(Math.floor((projects.length - 1) / projectsPerPage), prev + 1));
-  };
+  const displayedProjects = projects;
 
   const openImageModal = (images) => {
     setModalImages(images);
@@ -271,11 +229,11 @@ const Projects = () => {
         Explora mi portafolio de proyectos destacados, desde aplicaciones móviles hasta sitios web y sistemas de gestión.
       </motion.p>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto">
         {displayedProjects.map((project, projectIndex) => (
           <ProjectCard
             key={projectIndex}
-            className="h-full flex flex-col rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:border-blue-500/30 border border-slate-700/50 backdrop-blur-sm bg-slate-800/40"
+            className="flex flex-col rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:border-blue-500/30 border border-slate-700/50 backdrop-blur-sm bg-slate-800/40"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: projectIndex * 0.15, duration: 0.7 }}
@@ -291,8 +249,7 @@ const Projects = () => {
                   key={imgIndex}
                   src={image} 
                   alt={`${project.title} - imagen ${imgIndex + 1}`} 
-                  className="absolute top-0 left-0 w-full h-56 object-cover transition-all duration-500 ease-in-out group-hover:scale-105"
-                  style={{
+                  className="absolute top-0 left-0 w-full h-56 object-contain transition-all duration-500 ease-in-out group-hover:scale-105"                  style={{
                     opacity: (currentImageIndexes[projectIndex] || 0) === imgIndex ? 1 : 0,
                   }}
                 />
@@ -304,9 +261,26 @@ const Projects = () => {
               </div>
             </div>
             
-            <div className="flex flex-col flex-grow overflow-y-auto">
+            <div className="flex flex-col flex-grow">
               <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-cyan-700 bg-clip-text text-transparent">{project.title}</h2>
               <p className="text-gray-300 mb-4">{project.description}</p>
+              
+              {project.metrics && (
+                <div className="mb-4 mt-1 border-t border-b border-cyan-900/50 py-3">
+                  <h4 className="text-sm font-semibold text-cyan-400 mb-2 flex items-center gap-2">
+                    <FaChartLine />
+                    Impacto del Proyecto
+                  </h4>
+                  <ul className="space-y-1.5 pl-1">
+                    {project.metrics.map((metric, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="text-cyan-500 mt-1.5 flex-shrink-0">›</span>
+                        <span className="text-gray-300 text-sm">{metric}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.technologies.map((techName, i) => {
@@ -325,7 +299,8 @@ const Projects = () => {
                     </span>
                   );
                 })}
-              </div>              
+              </div>
+              
               <div className="flex flex-wrap gap-4 mt-auto pt-3 border-t border-[#233554]/60">
                 <a 
                   href={project.github} 
@@ -388,42 +363,10 @@ const Projects = () => {
         ))}
       </div>
 
-      <div className="hidden md:block">
-        {projects.length > projectsPerPage && (
-          <>
-            <NavButton 
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className={`fixed left-4 top-1/2 -translate-y-1/2 z-10`}
-              onClick={handlePrevPage}
-              disabled={currentPage === 0}
-            >
-              ←
-            </NavButton>
-            <NavButton 
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className={`fixed right-4 top-1/2 -translate-y-1/2 z-10`}
-              onClick={handleNextPage}
-              disabled={currentPage >= Math.floor((projects.length - 1) / projectsPerPage)}
-            >
-              →
-            </NavButton>
-            <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex gap-2 bg-slate-800/70 px-4 py-2 rounded-full backdrop-blur-sm z-10">
-              {Array.from({ length: Math.ceil(projects.length / projectsPerPage) }).map((_, index) => (
-                <button
-                  key={index}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentPage ? 'bg-cyan-400 scale-125' : 'bg-white/50 hover:bg-white/80'
-                  }`}
-                  onClick={() => setCurrentPage(index)}
-                />
-              ))}
-            </div>
-          </>
-        )}
-      </div>
+      {/* La paginación está eliminada, lo cual es correcto para un feed vertical */}
+      {/* <div className="hidden md:block"> ... </div> */}
 
+      {/* Modal (sin cambios) */}
       {modalImages && (
         <div 
           className="fixed inset-10 bg-black/90 backdrop-blur-md z-[999] flex items-center justify-center h-full"

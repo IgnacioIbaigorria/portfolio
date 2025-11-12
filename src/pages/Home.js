@@ -136,11 +136,14 @@ const Home = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.7 }}
         >
-          Ingeniero en Sistemas de Información en formación y desarrollador Full Stack apasionado 
-          por crear experiencias digitales excepcionales. Con más de 3 años transformando ideas 
-          en soluciones tecnológicas innovadoras, combino creatividad y expertise técnico para 
-          desarrollar aplicaciones web y móviles que marcan la diferencia.
-          <br />
+            Ingeniero en Sistemas de Información en formación y desarrollador Full Stack. 
+            Más que solo crear software, me especializo en <strong>construir soluciones tecnológicas que resuelven problemas de negocio reales</strong>. 
+            Con más de 3 años de experiencia, transformo ideas en aplicaciones web y móviles eficientes 
+            que generan un impacto medible para mis clientes.
+            <span className="mt-4 block">
+              Además de crear sitios web y apps, diseño sistemas que <strong>resuelven problemas reales</strong> de las empresas: optimizo procesos, automatizo tareas y entrego soluciones que generan ahorros 
+              y mejoras medibles en la operación.
+            </span>
           <span className="mt-4 block">
             Cuando no estoy programando, dedico mi tiempo a mis dos grandes pasiones: 
             el cuidado de animales y la exploración musical.
@@ -174,6 +177,11 @@ const Home = () => {
               icon: <FaDatabase className="text-3xl text-cyan-400 mb-4" />,
               title: "Desarrollo y mantenimiento de bases de datos",
               desc: "Diseño e implemento arquitecturas de datos robustas y escalables. Especializado en soluciones SQL y NoSQL, optimizo el rendimiento y garantizo la seguridad de los datos, construyendo los cimientos sólidos que tu aplicación necesita para crecer."
+            },
+            {
+              icon: <FaCode className="text-3xl text-cyan-400 mb-4" />,
+              title: "Soluciones para problemas empresariales",
+              desc: "Analizo los retos de tu empresa y entrego sistemas a medida que automatizan procesos, reducen errores y mejoran resultados operativos."
             }
           ].map((serv, i) => (
             <motion.div
@@ -209,9 +217,9 @@ const Home = () => {
               title: "Desarrollador Independiente",
               company: "Freelance | Enero 2022 - Presente",
               items: [
-                "Servicold App: app gestión de datos de sensores con permisos y roles, visualización de datos en vivo, exportación de datos a excel y notificaciones por correo, desarrollado en React con TypeScript y AG Grid para visualización.",
+                "Servicold App: app gestión de datos de sensores con permisos y roles, visualización de datos en vivo, exportación de datos a excel y notificaciones por correo, desarrollado en React con TypeScript y AG Grid para visualización. Aumentando un 25% la venta de sensores de la empresa.",
                 "Punto Eco Ecommerce: Desarrollo de plataforma de comercio electrónico para tienda de productos eco-friendly, implementando catálogo de productos, carrito de compras y sistema de pagos con React, Next.js y PostgreSQL.",
-                "Gestión Punto Eco: Creación de sistema completo de gestión para inventario, ventas y análisis financiero con funcionalidades avanzadas como etiquetado de productos, actualización masiva de precios, estadísticas de ventas y control de caja. Implementación de tema oscuro/claro y soporte multiidioma.",
+                "Gestión App: Creación de sistema completo de gestión para inventario, ventas y análisis financiero con funcionalidades avanzadas como etiquetado de productos, actualización masiva de precios, estadísticas de ventas y control de caja. Mejorando un 15% la productividad y ventas de las empresas cliente, debido al ahorro de tiempo al generar presupuestos, listas y recibos en PDF.",
                 "Sistema de Gestión de Stock: Desarrollo de aplicación de escritorio para pequeños y medianos negocios con Python y PyQt6, facilitando la gestión de inventario, ventas, caja y clientes con una interfaz intuitiva y eficiente.",
                 "Desarrollo de aplicación web para la gestión de números de lotería, con funciones de autenticación, roles, compras y gestión de números utilizando Next.js, Java Spring Boot y PostgreSQL.",
                 "Consultoría técnica y optimización de bases de datos para diversos clientes, mejorando el rendimiento y la seguridad de sus sistemas existentes.",
@@ -400,10 +408,10 @@ const Home = () => {
                 <span className="w-8 h-8 bg-blue-400/20 rounded-full flex items-center justify-center mr-2">
                   <span className="text-cyan-400">✓</span>
                 </span>
-                Soluciones a medida
+                Resolución de problemas
               </h3>
               <p className="text-gray-300 ml-10 text-lg">
-                Desarrollo soluciones personalizadas que se adaptan perfectamente a tus necesidades específicas.
+                No solo entrego código; diseño sistemas que atacan y solucionan los problemas de raíz en la operación de mis clientes.
               </p>
             </div>
             <div>
