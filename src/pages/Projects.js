@@ -24,10 +24,6 @@ const ProjectCard = styled(motion.div)`
   }
 `;
 
-const NavButton = styled(motion.button)`
-  background: rgba(30, 41, 59, 0.8);
-  /* ... resto de tus estilos ... */
-`;
 
 const Projects = () => {
   const [currentImageIndexes, setCurrentImageIndexes] = useState({});
@@ -37,6 +33,7 @@ const Projects = () => {
   const hoverIntervalsRef = useRef({});
   useEffect(() => {
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       Object.values(hoverIntervalsRef.current).forEach(id => clearInterval(id));
     };
   }, []);
