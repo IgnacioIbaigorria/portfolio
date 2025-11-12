@@ -264,14 +264,14 @@ const Projects = () => {
               
               {project.metrics && (
                 <div className="mb-4 mt-1 border-t border-b border-cyan-900/50 py-3">
-                  <h4 className="text-sm font-semibold text-cyan-400 mb-2 flex items-center gap-2">
-                    <FaChartLine />
-                    Impacto del Proyecto
+                  <h4 className="text-sm font-semibold text-cyan-400 mb-2 inline-flex items-center gap-2">
+                    <FaChartLine className="w-4 h-4 flex-shrink-0" />
+                    <span>Impacto del Proyecto</span>
                   </h4>
                   <ul className="space-y-1.5 pl-1">
                     {project.metrics.map((metric, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-cyan-500 mt-1.5 flex-shrink-0">›</span>
+                      <li key={i} className="flex items-center gap-2">
+                        <span className="text-cyan-500 flex-shrink-0">›</span>
                         <span className="text-gray-300 text-sm">{metric}</span>
                       </li>
                     ))}
