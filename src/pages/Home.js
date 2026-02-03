@@ -1,13 +1,13 @@
 import React from 'react';
 import { FaCode, FaMobile, FaDatabase } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import ParallaxLayer from '../components/ParallaxLayer';
+// import ParallaxLayer from '../components/ParallaxLayer'; // Eliminado en refactor
 import {
   SiReact, SiNextdotjs, SiJavascript, SiTypescript, SiHtml5, SiCss3, SiTailwindcss,
   SiNodedotjs, SiExpress, SiSpringboot, SiPhp, SiPython,
   SiPostgresql, SiMysql, SiMongodb, SiFirebase, SiSupabase, SiFlutter, SiExpo,
   SiGit, SiDocker, SiAmazonwebservices as SiAmazonaws, SiGitlab, SiFigma, SiJira,
-  SiGithub
+  SiGithub, SiGo, SiGin
 } from 'react-icons/si';
 
 
@@ -30,6 +30,8 @@ const Home = () => {
       category: "Desarrollo Backend",
       technologies: [
         { name: "Node.js", icon: <SiNodedotjs />, color: "text-[#5FA04E]" },
+        { name: "Go", icon: <SiGo />, color: "text-[#4DD0E1]" },
+        { name: "Gin", icon: <SiGin />, color: "text-[#4DD0E1]" },
         { name: "Express", icon: <SiExpress />, color: "text-gray-400" }, // Logo simple
         { name: "Spring Boot", icon: <SiSpringboot />, color: "text-[#6DB33F]" },
         { name: "PHP", icon: <SiPhp />, color: "text-[#777BB4]" },
@@ -90,22 +92,10 @@ const Home = () => {
 
   return (
     <div className="relative max-w-5xl mx-auto p-4">
-      <motion.div className="fixed inset-0 -z-20 overflow-hidden" aria-hidden="true">
-        <ParallaxLayer speed={0.05} className="absolute inset-0">
-          <div className="w-full h-full bg-gradient-to-tr from-[#061024] to-[#112240]" />
-        </ParallaxLayer>
-
-        <ParallaxLayer speed={0.12} className="absolute inset-0">
-          <div className="pointer-events-none w-full h-full">
-            <svg className="w-full h-full opacity-30" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            </svg>
-          </div>
-        </ParallaxLayer>
-
-        <ParallaxLayer speed={0.25} className="absolute inset-0 flex items-center justify-center">
-          <div className="w-96 h-96 rounded-full bg-cyan-700/10 blur-lg" />
-        </ParallaxLayer>
-      </motion.div>
+      <div className="fixed inset-0 -z-20 overflow-hidden bg-slate-950" aria-hidden="true">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-sky-900/40 via-slate-950/50 to-slate-950 opacity-100" />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
+      </div>
 
       <section className="mb-16 relative flex flex-col items-center justify-center min-h-[350px]">
         <motion.div
@@ -114,16 +104,16 @@ const Home = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.8 }}
         >
-          <div className="w-48 h-48 rounded-full bg-gradient-to-tr from-[#233554] to-[#0a192f] p-1 shadow-xl">
+          <div className="w-48 h-48 rounded-full bg-gradient-to-tr from-sky-900 to-zinc-900 p-1 shadow-lg ring-1 ring-zinc-800">
             <img
               src="/images/profile.png"
               alt="Ignacio Ibaigorria"
-              className="w-full h-full object-cover rounded-full border-4 border-[#0a192f]"
+              className="w-full h-full object-cover rounded-full border-4 border-zinc-900"
             />
           </div>
         </motion.div>
         <motion.h1
-          className="text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-cyan-700 bg-clip-text text-transparent leading-relaxed z-10"
+          className="text-5xl font-bold mb-4 text-zinc-100 leading-relaxed z-10"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.7 }}
@@ -131,21 +121,21 @@ const Home = () => {
           Ignacio Ibaigorria
         </motion.h1>
         <motion.p
-          className="text-lg text-gray-200 leading-relaxed text-justify max-w-2xl z-10"
+          className="text-lg text-zinc-400 leading-relaxed text-justify max-w-2xl z-10"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.7 }}
         >
-            Ingeniero en Sistemas de Información en formación y desarrollador Full Stack. 
-            Más que solo crear software, me especializo en <strong>construir soluciones tecnológicas que resuelven problemas de negocio reales</strong>. 
-            Con más de 3 años de experiencia, transformo ideas en aplicaciones web y móviles eficientes 
-            que generan un impacto medible para mis clientes.
-            <span className="mt-4 block">
-              Además de crear sitios web y apps, diseño sistemas que <strong>resuelven problemas reales</strong> de las empresas: optimizo procesos, automatizo tareas y entrego soluciones que generan ahorros 
-              y mejoras medibles en la operación.
-            </span>
+          Ingeniero en Sistemas de Información en formación y desarrollador Full Stack.
+          Más que solo crear software, me especializo en <strong>construir soluciones tecnológicas que resuelven problemas de negocio reales</strong>.
+          Con más de 3 años de experiencia, transformo ideas en aplicaciones web y móviles eficientes
+          que generan un impacto medible para mis clientes.
           <span className="mt-4 block">
-            Cuando no estoy programando, dedico mi tiempo a mis dos grandes pasiones: 
+            Además de crear sitios web y apps, diseño sistemas que <strong>resuelven problemas reales</strong> de las empresas: optimizo procesos, automatizo tareas y entrego soluciones que generan ahorros
+            y mejoras medibles en la operación.
+          </span>
+          <span className="mt-4 block">
+            Cuando no estoy programando, dedico mi tiempo a mis dos grandes pasiones:
             el cuidado de animales y la exploración musical.
           </span>
         </motion.p>
@@ -153,7 +143,7 @@ const Home = () => {
 
       <section className="mb-16">
         <motion.h2
-          className="text-4xl font-bold mb-6 text-cyan-400"
+          className="text-4xl font-bold mb-6 text-zinc-100"
           variants={sectionTitleVariant}
           initial="hidden"
           whileInView="visible"
@@ -186,16 +176,16 @@ const Home = () => {
           ].map((serv, i) => (
             <motion.div
               key={serv.title}
-              className="bg-[#1a2332]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#233554]/50 p-8 transition-transform hover:scale-105 hover:shadow-cyan-700/30 flex flex-col"
+              className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl shadow-sm border border-zinc-800 p-8 transition-all hover:scale-[1.02] hover:shadow-lg hover:border-sky-500/30 flex flex-col"
               variants={cardVariant}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               custom={i}
             >
-              {serv.icon}
-              <h3 className="text-2xl font-semibold mb-2 text-cyan-400">{serv.title}</h3>
-              <p className="text-gray-300 text-lg">{serv.desc}</p>
+              <div className="text-sky-400">{serv.icon}</div>
+              <h3 className="text-2xl font-semibold mb-2 text-zinc-100">{serv.title}</h3>
+              <p className="text-zinc-400 text-lg">{serv.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -203,7 +193,7 @@ const Home = () => {
 
       <section className="mb-16">
         <motion.h2
-          className="text-4xl font-bold mb-6 text-cyan-400"
+          className="text-4xl font-bold mb-6 text-zinc-100"
           variants={sectionTitleVariant}
           initial="hidden"
           whileInView="visible"
@@ -226,20 +216,20 @@ const Home = () => {
                 "Diseño e implementación de soluciones personalizadas según las necesidades específicas de cada cliente, priorizando la usabilidad y la experiencia del usuario final."
               ]
             },
-        
+
           ].map((exp, i) => (
             <motion.div
               key={exp.title}
-              className="bg-[#1a2332]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#233554]/50 p-8 transition-transform hover:scale-105 hover:shadow-cyan-700/30"
+              className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl shadow-sm border border-zinc-800 p-8 transition-all hover:scale-[1.01] hover:shadow-lg hover:border-sky-500/30"
               variants={cardVariant}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               custom={i}
             >
-              <h3 className="text-2xl font-semibold mb-2 text-cyan-400">{exp.title}</h3>
-              <p className="text-cyan-600 text-xl mb-4">{exp.company}</p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2 text-lg">
+              <h3 className="text-2xl font-semibold mb-2 text-zinc-100">{exp.title}</h3>
+              <p className="text-sky-400 text-xl mb-4 font-medium">{exp.company}</p>
+              <ul className="list-disc list-inside text-zinc-400 space-y-2 text-lg">
                 {exp.items.map((item, idx) => (
                   <li key={idx}>{item}</li>
                 ))}
@@ -263,23 +253,23 @@ const Home = () => {
           {skills.map((skill, index) => (
             <motion.div
               key={index}
-              className="bg-[#1a2332]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#233554]/50 p-8 transition-transform hover:scale-105 hover:shadow-cyan-700/30 flex flex-col items-center"
+              className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl shadow-sm border border-zinc-800 p-8 transition-all hover:scale-[1.02] hover:shadow-lg hover:border-sky-500/30 flex flex-col items-center"
               variants={cardVariant}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               custom={index}
             >
-              <h3 className="text-2xl font-semibold mb-4 text-cyan-400 text-center">{skill.category}</h3>
-              
+              <h3 className="text-2xl font-semibold mb-4 text-zinc-100 text-center">{skill.category}</h3>
+
               <div className="flex flex-wrap justify-center gap-2">
                 {skill.technologies.map((tech) => (
                   <span
                     key={tech.name}
-                    className="bg-cyan-900/80 text-cyan-300 text-sm font-medium px-3 py-1.5 rounded-full shadow-sm flex items-center gap-2"
+                    className="bg-zinc-800 text-zinc-300 text-sm font-medium px-3 py-1.5 rounded-full border border-zinc-700 flex items-center gap-2"
                   >
                     {tech.icon && (
-                      <span className={`text-lg ${tech.color ? tech.color : 'text-cyan-400'}`}>
+                      <span className={`text-lg ${tech.color ? tech.color : 'text-sky-400'}`}>
                         {tech.icon}
                       </span>
                     )}
@@ -294,7 +284,7 @@ const Home = () => {
 
       <section className="mb-16">
         <motion.h2
-          className="text-4xl font-bold mb-6 text-cyan-400"
+          className="text-4xl font-bold mb-6 text-zinc-100"
           variants={sectionTitleVariant}
           initial="hidden"
           whileInView="visible"
@@ -304,23 +294,23 @@ const Home = () => {
         </motion.h2>
         <div className="flex flex-col gap-6">
           <motion.div
-            className="bg-[#1a2332]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#233554]/50 p-8 transition-transform hover:scale-105 hover:shadow-cyan-700/30"
+            className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl shadow-sm border border-zinc-800 p-8 transition-all hover:scale-[1.01] hover:shadow-lg hover:border-sky-500/30"
             variants={cardVariant}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             custom={0}
           >
-            <h3 className="text-2xl font-semibold mb-2 text-cyan-400">Ingeniería en Sistemas de Información</h3>
-            <p className="text-cyan-600 mb-2">Universidad Tecnológica Nacional | 2019 - Presente</p>
-            <p className="text-gray-300 text-lg">Formación integral en desarrollo de software, bases de datos, redes y gestión de proyectos tecnológicos.</p>
+            <h3 className="text-2xl font-semibold mb-2 text-zinc-100">Ingeniería en Sistemas de Información</h3>
+            <p className="text-sky-400 mb-2 font-medium">Universidad Tecnológica Nacional | 2019 - Presente</p>
+            <p className="text-zinc-400 text-lg">Formación integral en desarrollo de software, bases de datos, redes y gestión de proyectos tecnológicos.</p>
           </motion.div>
         </div>
       </section>
 
       <section className="mb-16">
         <motion.h2
-          className="text-4xl font-bold mb-6 text-cyan-400"
+          className="text-4xl font-bold mb-6 text-zinc-100"
           variants={sectionTitleVariant}
           initial="hidden"
           whileInView="visible"
@@ -329,7 +319,7 @@ const Home = () => {
           Mi metodología
         </motion.h2>
         <motion.div
-          className="bg-[#1a2332]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#233554]/50 p-8 hover:scale-105 hover:shadow-cyan-700/30"
+          className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl shadow-sm border border-zinc-800 p-8 hover:scale-[1.02] hover:shadow-lg hover:border-sky-500/30"
           variants={cardVariant}
           initial="hidden"
           whileInView="visible"
@@ -338,25 +328,25 @@ const Home = () => {
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
-              <div className="w-16 h-16 bg-cyan-700/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-cyan-400">1</span>
+              <div className="w-16 h-16 bg-sky-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-sky-400">1</span>
               </div>
-              <h3 className="text-2xl font-semibold mb-2 text-cyan-400">Descubrimiento</h3>
-              <p className="text-gray-300 text-lg">Entiendo a fondo tus necesidades y objetivos para diseñar la solución perfecta.</p>
+              <h3 className="text-2xl font-semibold mb-2 text-sky-400">Descubrimiento</h3>
+              <p className="text-zinc-400 text-lg">Entiendo a fondo tus necesidades y objetivos para diseñar la solución perfecta.</p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-cyan-700/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-cyan-400">2</span>
+              <div className="w-16 h-16 bg-sky-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-sky-400">2</span>
               </div>
-              <h3 className="text-2xl font-semibold mb-2 text-cyan-400">Desarrollo iterativo</h3>
-              <p className="text-gray-300 text-lg">Trabajo en ciclos cortos con feedback constante para asegurar que el producto evolucione según tus expectativas.</p>
+              <h3 className="text-2xl font-semibold mb-2 text-sky-400">Desarrollo iterativo</h3>
+              <p className="text-zinc-400 text-lg">Trabajo en ciclos cortos con feedback constante para asegurar que el producto evolucione según tus expectativas.</p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-cyan-700/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-cyan-400">3</span>
+              <div className="w-16 h-16 bg-sky-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-sky-400">3</span>
               </div>
-              <h3 className="text-2xl font-semibold mb-2 text-cyan-400">Entrega y soporte</h3>
-              <p className="text-gray-300 text-lg">Implementación cuidadosa y soporte continuo para garantizar el éxito a largo plazo de tu proyecto.</p>
+              <h3 className="text-2xl font-semibold mb-2 text-sky-400">Entrega y soporte</h3>
+              <p className="text-zinc-400 text-lg">Implementación cuidadosa y soporte continuo para garantizar el éxito a largo plazo de tu proyecto.</p>
             </div>
           </div>
         </motion.div>
@@ -364,7 +354,7 @@ const Home = () => {
 
       <section className="mb-16">
         <motion.h2
-          className="text-4xl font-bold mb-6 text-cyan-400"
+          className="text-4xl font-bold mb-6 text-zinc-100"
           variants={sectionTitleVariant}
           initial="hidden"
           whileInView="visible"
@@ -373,7 +363,7 @@ const Home = () => {
           ¿Por qué trabajar conmigo?
         </motion.h2>
         <motion.div
-          className="bg-[#1a2332]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#233554]/50 p-8 hover:scale-105 hover:shadow-cyan-700/30"
+          className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl shadow-sm border border-zinc-800 p-8 hover:scale-[1.02] hover:shadow-lg hover:border-sky-500/30"
           variants={cardVariant}
           initial="hidden"
           whileInView="visible"
@@ -382,46 +372,46 @@ const Home = () => {
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h3 className="text-2xl text-cyan-400 font-semibold mb-2 flex items-center">
-                <span className="w-8 h-8 bg-blue-400/20 rounded-full flex items-center justify-center mr-2">
-                  <span className="text-cyan-400">✓</span>
+              <h3 className="text-2xl text-sky-400 font-semibold mb-2 flex items-center">
+                <span className="w-8 h-8 bg-sky-900/30 rounded-full flex items-center justify-center mr-2">
+                  <span className="text-sky-400">✓</span>
                 </span>
                 Compromiso con la calidad
               </h3>
-              <p className="text-gray-300 ml-10 text-lg">
+              <p className="text-zinc-400 ml-10 text-lg">
                 Cada línea de código que escribo refleja mi dedicación a la excelencia y a las mejores prácticas de la industria.
               </p>
             </div>
             <div>
-              <h3 className="text-2xl text-cyan-400 font-semibold mb-2 flex items-center">
-                <span className="w-8 h-8 bg-blue-400/20 rounded-full flex items-center justify-center mr-2">
-                  <span className="text-cyan-400">✓</span>
+              <h3 className="text-2xl text-sky-400 font-semibold mb-2 flex items-center">
+                <span className="w-8 h-8 bg-sky-900/30 rounded-full flex items-center justify-center mr-2">
+                  <span className="text-sky-400">✓</span>
                 </span>
                 Comunicación transparente
               </h3>
-              <p className="text-gray-300 ml-10 text-lg">
+              <p className="text-zinc-400 ml-10 text-lg">
                 Mantengo una comunicación clara y constante durante todo el proceso de desarrollo.
               </p>
             </div>
             <div>
-              <h3 className="text-2xl text-cyan-400 font-semibold mb-2 flex items-center">
-                <span className="w-8 h-8 bg-blue-400/20 rounded-full flex items-center justify-center mr-2">
-                  <span className="text-cyan-400">✓</span>
+              <h3 className="text-2xl text-sky-400 font-semibold mb-2 flex items-center">
+                <span className="w-8 h-8 bg-sky-900/30 rounded-full flex items-center justify-center mr-2">
+                  <span className="text-sky-400">✓</span>
                 </span>
                 Resolución de problemas
               </h3>
-              <p className="text-gray-300 ml-10 text-lg">
+              <p className="text-zinc-400 ml-10 text-lg">
                 No solo entrego código; diseño sistemas que atacan y solucionan los problemas de raíz en la operación de mis clientes.
               </p>
             </div>
             <div>
-              <h3 className="text-2xl text-cyan-400 font-semibold mb-2 flex items-center">
-                <span className="w-8 h-8 bg-blue-400/20 rounded-full flex items-center justify-center mr-2">
-                  <span className="text-cyan-400">✓</span>
+              <h3 className="text-2xl text-sky-400 font-semibold mb-2 flex items-center">
+                <span className="w-8 h-8 bg-sky-900/30 rounded-full flex items-center justify-center mr-2">
+                  <span className="text-sky-400">✓</span>
                 </span>
                 Enfoque en resultados
               </h3>
-              <p className="text-gray-300 ml-10 text-lg">
+              <p className="text-zinc-400 ml-10 text-lg">
                 Me centro en crear soluciones que generen un impacto real y medible en tu negocio.
               </p>
             </div>

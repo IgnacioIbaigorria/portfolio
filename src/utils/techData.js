@@ -2,7 +2,7 @@ import {
   SiReact, SiNextdotjs, SiJavascript, SiTypescript, SiHtml5, SiCss3, SiTailwindcss,
   SiNodedotjs, SiExpress, SiSpringboot, SiPhp, SiPython, SiDjango, SiLaravel,
   SiPostgresql, SiMysql, SiMongodb, SiFirebase, SiSupabase, SiFlutter, SiExpo,
-  SiGit, SiDocker, SiAmazonwebservices as SiAmazonaws, SiGitlab, SiGithub, SiFigma, SiBootstrap, SiPhpmyadmin, SiSqlite, SiChartdotjs, SiI18Next, SiShadcnui, SiPrisma
+  SiGit, SiDocker, SiAmazonwebservices as SiAmazonaws, SiGitlab, SiGithub, SiFigma, SiBootstrap, SiPhpmyadmin, SiSqlite, SiChartdotjs, SiI18Next, SiShadcnui, SiPrisma, SiGo, SiGin
 } from 'react-icons/si';
 
 export const techInfoMap = {
@@ -43,6 +43,8 @@ export const techInfoMap = {
   'figma': { icon: <SiFigma />, color: "#F24E1E" },
   'html5': { icon: <SiHtml5 />, color: "#E34F26" },
   'css3': { icon: <SiCss3 />, color: "#1572B6" },
+  'go': { icon: <SiGo />, color: "#4DD0E1" },
+  'gin': { icon: <SiGin />, color: "#4DD0E1" },
 };
 
 export const getTechInfo = (techName) => {

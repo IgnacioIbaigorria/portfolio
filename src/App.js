@@ -1,4 +1,4 @@
-import './portfolio-dark.css';
+// import './portfolio-dark.css';
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
@@ -17,7 +17,7 @@ function App() {
     setVH();
     window.addEventListener('resize', setVH);
     window.addEventListener('orientationchange', setVH);
-    
+
     return () => {
       window.removeEventListener('resize', setVH);
       window.removeEventListener('orientationchange', setVH);

@@ -5,22 +5,19 @@ import { FaGithub, FaExternalLinkAlt, FaChartLine } from 'react-icons/fa';
 import { getTechInfo } from '../utils/techData';
 
 const ProjectCard = styled(motion.div)`
-  background: rgba(26, 35, 50, 0.92);
-  backdrop-filter: blur(14px);
-  border-radius: 1.25rem;
+  background: #18181b; /* Zinc 900 */
+  border-radius: 1rem;
   padding: 1.5rem;
-  border: 1.5px solid #233554;
-  box-shadow: 0 8px 32px 0 rgba(56, 189, 248, 0.10);
-  transition: all 0.4s cubic-bezier(.4,2,.6,1);
+  border: 1px solid #27272a; /* Zinc 800 */
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
-  /* height: 500px; */  /* Eliminado */
-  /* break-inside: avoid; */ /* Eliminado */
 
   &:hover {
-    transform: translateY(-10px) scale(1.025);
-    box-shadow: 0 16px 40px 0 rgba(56, 189, 248, 0.18);
-    border-color: #38bdf8;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    border-color: #0ea5e9; // Sky 500
   }
 `;
 
@@ -59,6 +56,27 @@ const Projects = () => {
 
   const projects = [
     {
+      title: 'TaskFlow',
+      description: 'Plataforma colaborativa de gestión de tareas full-stack. Incluye sincronización en tiempo real vía WebSockets, modo offline, autenticación biométrica y arquitectura escalable basada en microservicios.',
+      images: [
+        '/images/projects/taskflow/banner.png',
+        '/images/projects/taskflow/taskflow1.jpeg',
+        '/images/projects/taskflow/taskflow2.jpeg',
+        '/images/projects/taskflow/taskflow3.jpeg',
+        '/images/projects/taskflow/taskflow4.jpeg',
+        '/images/projects/taskflow/taskflow5.jpeg',
+        '/images/projects/taskflow/taskflow6.jpeg',
+        '/images/projects/taskflow/taskflow7.jpeg',
+      ],
+      technologies: ['Go', 'Gin', 'PostgreSQL', 'Docker', 'React Native', 'Expo', 'WebSockets', 'MVVM'],
+      github: 'https://github.com/IgnacioIbaigorria/taskflow',
+      live: '',
+      metrics: [
+        'Sincronización en tiempo real con latencia <100ms.',
+        'Soporte offline completo con sincronización automática.',
+      ]
+    },
+    {
       title: 'Servicold Web',
       description: 'Sitio web para la empresa Servicold SAS, landing page y sistema de gestión de usuarios y sensores.',
       images: [
@@ -74,7 +92,7 @@ const Projects = () => {
       technologies: ['JavaScript', 'Bootstrap', 'PHP', 'phpMyAdmin'],
       github: 'https://github.com/IgnacioIbaigorria/ServiCold',
       live: 'https://servicoldingenieria.com',
-            metrics: [
+      metrics: [
         'Aumento del 25% en la venta total de sensores con la nueva gestión.'
       ]
     },
@@ -129,7 +147,7 @@ const Projects = () => {
         '/images/projects/gestion-stock/gestion-stock3.jpg',
         '/images/projects/gestion-stock/gestion-stock4.jpg',
       ],
-      technologies: ['Python','PyQt6', 'SQLite'],
+      technologies: ['Python', 'PyQt6', 'SQLite'],
       github: 'https://github.com/IgnacioIbaigorria/gestion-stock',
       live: '',
       metrics: [
@@ -201,52 +219,50 @@ const Projects = () => {
 
   return (
     <div className="relative p-4 max-w-7xl mx-auto">
-      <motion.div
-        className="fixed inset-0 -z-10 bg-gradient-to-tr from-[#0a192f] via-[#112240] to-[#233554] opacity-80 blur-2xl"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.2 }}
-      />
-      
-      <motion.h1 
-        className="text-4xl md:text-5xl font-bold mb-10 text-center bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-700 bg-clip-text text-transparent leading-relaxed py-1"
+      <div className="fixed inset-0 -z-20 overflow-hidden bg-slate-950" aria-hidden="true">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-sky-900/40 via-slate-950/50 to-slate-950 opacity-100" />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
+      </div>
+
+      <motion.h1
+        className="text-4xl md:text-5xl font-bold mb-10 text-center text-zinc-100 leading-relaxed py-1"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         Mis Proyectos
       </motion.h1>
-      
+
       <motion.p
-        className="text-lg text-center text-gray-300 mb-10 max-w-3xl mx-auto"
+        className="text-lg text-center text-zinc-400 mb-10 max-w-3xl mx-auto"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3, duration: 0.8 }}
       >
         Explora mi portafolio de proyectos destacados, desde aplicaciones móviles hasta sitios web y sistemas de gestión.
       </motion.p>
-      
+
       <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto">
         {displayedProjects.map((project, projectIndex) => (
           <ProjectCard
             key={projectIndex}
-            className="flex flex-col rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:border-blue-500/30 border border-slate-700/50 backdrop-blur-sm bg-slate-800/40"
+            className="flex flex-col rounded-xl overflow-hidden transition-all duration-300 bg-zinc-900 border border-zinc-800"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: projectIndex * 0.15, duration: 0.7 }}
           >
-            <div 
+            <div
               className="relative w-full h-56 overflow-hidden cursor-pointer group flex-shrink-0 rounded-xl mb-4"
               onClick={() => openImageModal(project.images)}
               onMouseEnter={() => onMouseEnterProject(projectIndex, project.images.length)}
               onMouseLeave={() => onMouseLeaveProject(projectIndex)}
             >
               {project.images.map((image, imgIndex) => (
-                <img 
+                <img
                   key={imgIndex}
-                  src={image} 
-                  alt={`${project.title} - imagen ${imgIndex + 1}`} 
-                  className="absolute top-0 left-0 w-full h-56 object-contain transition-all duration-500 ease-in-out group-hover:scale-105"                  style={{
+                  src={image}
+                  alt={`${project.title} - imagen ${imgIndex + 1}`}
+                  className="absolute top-0 left-0 w-full h-56 object-contain transition-all duration-500 ease-in-out group-hover:scale-105" style={{
                     opacity: (currentImageIndexes[projectIndex] || 0) === imgIndex ? 1 : 0,
                   }}
                 />
@@ -257,35 +273,35 @@ const Projects = () => {
                 </p>
               </div>
             </div>
-            
+
             <div className="flex flex-col flex-grow">
-              <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-cyan-700 bg-clip-text text-transparent">{project.title}</h2>
-              <p className="text-gray-300 mb-4">{project.description}</p>
-              
+              <h2 className="text-2xl font-bold mb-2 text-zinc-100">{project.title}</h2>
+              <p className="text-zinc-400 mb-4">{project.description}</p>
+
               {project.metrics && (
-                <div className="mb-4 mt-1 border-t border-b border-cyan-900/50 py-3">
-                  <h4 className="text-sm font-semibold text-cyan-400 mb-2 inline-flex items-center gap-2">
+                <div className="mb-4 mt-1 border-t border-zinc-800 py-3">
+                  <h4 className="text-sm font-semibold text-sky-400 mb-2 inline-flex items-center gap-2">
                     <FaChartLine className="w-4 h-4 flex-shrink-0" />
                     <span>Impacto del Proyecto</span>
                   </h4>
                   <ul className="space-y-1.5 pl-1">
                     {project.metrics.map((metric, i) => (
                       <li key={i} className="flex items-center gap-2">
-                        <span className="text-cyan-500 flex-shrink-0">›</span>
-                        <span className="text-gray-300 text-sm">{metric}</span>
+                        <span className="text-sky-500 flex-shrink-0">›</span>
+                        <span className="text-zinc-400 text-sm">{metric}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
-              
+
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.technologies.map((techName, i) => {
                   const tech = getTechInfo(techName);
                   return (
                     <span
                       key={i}
-                      className="bg-cyan-900/80 text-cyan-300 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm flex items-center gap-2"
+                      className="bg-zinc-800 text-zinc-300 text-xs font-medium px-3 py-1.5 rounded-full border border-zinc-700 flex items-center gap-2"
                     >
                       {tech.icon && (
                         <span className="text-lg" style={{ color: tech.color }}>
@@ -297,57 +313,57 @@ const Projects = () => {
                   );
                 })}
               </div>
-              
-              <div className="flex flex-wrap gap-4 mt-auto pt-3 border-t border-[#233554]/60">
-                <a 
-                  href={project.github} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors duration-300"
+
+              <div className="flex flex-wrap gap-4 mt-auto pt-3 border-t border-zinc-800">
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sky-400 hover:text-sky-300 transition-colors duration-300"
                 >
                   <FaGithub /> Código
                 </a>
-                
+
                 {project.live && (
-                  <a 
-                    href={project.live} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors duration-300"
+                  <a
+                    href={project.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-sky-400 hover:text-sky-300 transition-colors duration-300"
                   >
                     <FaExternalLinkAlt /> Demo
                   </a>
                 )}
-                
+
                 {project.stores && (
                   <div className="flex gap-3">
                     {project.stores.android && (
-                      <a 
-                        href={project.stores.android} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 transition-colors duration-300"
+                      <a
+                        href={project.stores.android}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-sky-400 hover:text-sky-300 transition-colors duration-300"
                         title="Google Play"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M3.609 1.814L13.792 12 3.609 22.186c-.181.181-.29.423-.29.684v.065c0 .36.186.687.491.873l.457.228c.306.153.661.153.967 0l10.384-5.192L3.6 1.814H3.61zm17.011 9.293l-3.827-2.209-3.142 3.102 3.142 3.102 3.827-2.209c.392-.226.589-.636.589-1.044s-.198-.816-.589-1.044v.002z"/>
-                          <path d="M.306 1.071C.116 1.34 0 1.648 0 2v20c0 .352.116.66.306.929l11.434-10.857L.306 1.071z"/>
-                          <path d="M15.992 14.184L13.298 12l-3.828 3.828 6.521 6.521c.15.15.339.247.551.247.212 0 .401-.098.551-.247.3-.3.3-.784 0-1.084l-1.101-1.101v.02z"/>
+                          <path d="M3.609 1.814L13.792 12 3.609 22.186c-.181.181-.29.423-.29.684v.065c0 .36.186.687.491.873l.457.228c.306.153.661.153.967 0l10.384-5.192L3.6 1.814H3.61zm17.011 9.293l-3.827-2.209-3.142 3.102 3.142 3.102 3.827-2.209c.392-.226.589-.636.589-1.044s-.198-.816-.589-1.044v.002z" />
+                          <path d="M.306 1.071C.116 1.34 0 1.648 0 2v20c0 .352.116.66.306.929l11.434-10.857L.306 1.071z" />
+                          <path d="M15.992 14.184L13.298 12l-3.828 3.828 6.521 6.521c.15.15.339.247.551.247.212 0 .401-.098.551-.247.3-.3.3-.784 0-1.084l-1.101-1.101v.02z" />
                         </svg>
                         Android
                       </a>
                     )}
                     {project.stores.ios && (
-                      <a 
-                        href={project.stores.ios} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 transition-colors duration-300"
+                      <a
+                        href={project.stores.ios}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-sky-400 hover:text-sky-300 transition-colors duration-300"
                         title="App Store"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M16.289 3.713c1.69 0 3.434 1.847 3.434 3.434 0 0-.13 1.95-1.95 3.434-1.736 1.302-3.434 1.084-3.434 1.084s-.217-1.736 1.517-3.434c1.084-1.084 1.95-1.084 1.95-1.084s-1.517-3.434-1.517-3.434z"/>
-                          <path d="M12.855 5.663c.65 0 2.6.217 4.334 1.95 0 0 1.517 1.517 1.517 4.334 0 2.6-1.95 4.334-1.95 4.334-.867 1.084-2.167 2.6-4.334 2.6-1.95 0-3.434-1.3-3.434-1.3s-1.95.433-3.434.433c-1.3 0-2.6-1.95-2.6-1.95-1.517-1.95-2.817-4.984-1.3-7.801.867-1.517 2.6-2.6 4.334-2.6 1.517 0 3.434 1.3 3.434 1.3s1.95-1.3 3.434-1.3z"/>
+                          <path d="M16.289 3.713c1.69 0 3.434 1.847 3.434 3.434 0 0-.13 1.95-1.95 3.434-1.736 1.302-3.434 1.084-3.434 1.084s-.217-1.736 1.517-3.434c1.084-1.084 1.95-1.084 1.95-1.084s-1.517-3.434-1.517-3.434z" />
+                          <path d="M12.855 5.663c.65 0 2.6.217 4.334 1.95 0 0 1.517 1.517 1.517 4.334 0 2.6-1.95 4.334-1.95 4.334-.867 1.084-2.167 2.6-4.334 2.6-1.95 0-3.434-1.3-3.434-1.3s-1.95.433-3.434.433c-1.3 0-2.6-1.95-2.6-1.95-1.517-1.95-2.817-4.984-1.3-7.801.867-1.517 2.6-2.6 4.334-2.6 1.517 0 3.434 1.3 3.434 1.3s1.95-1.3 3.434-1.3z" />
                         </svg>
                         iOS
                       </a>
@@ -365,36 +381,36 @@ const Projects = () => {
 
       {/* Modal (sin cambios) */}
       {modalImages && (
-        <div 
+        <div
           className="fixed inset-10 bg-black/90 backdrop-blur-md z-[999] flex items-center justify-center h-full"
           onClick={closeImageModal}
         >
-          <div 
+          <div
             className="relative max-w-5xl w-full mx-4 h-[90vh] flex items-center"
             onClick={e => e.stopPropagation()}
           >
-            <button 
+            <button
               className="absolute top-4 right-4 text-white text-3xl hover:text-cyan-300 transition-colors z-[1000] bg-slate-800/70 rounded-full w-10 h-10 flex items-center justify-center backdrop-blur-sm"
               onClick={closeImageModal}
             >
               ×
             </button>
-            <motion.img 
+            <motion.img
               key={currentModalImage}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3 }}
-              src={modalImages[currentModalImage]} 
-              alt="Project preview" 
+              src={modalImages[currentModalImage]}
+              alt="Project preview"
               className="w-full h-auto max-h-[90vh] object-contain rounded-lg shadow-2xl"
             />
-            <button 
+            <button
               className="absolute left-4 top-1/2 -translate-y-1/2 bg-slate-800/70 hover:bg-cyan-700/70 p-3 text-xl rounded-full transition-all duration-300 backdrop-blur-sm"
               onClick={prevImage}
             >
               ←
             </button>
-            <button 
+            <button
               className="absolute right-4 top-1/2 -translate-y-1/2 bg-slate-800/70 hover:bg-cyan-700/70 p-3 text-xl rounded-full transition-all duration-300 backdrop-blur-sm"
               onClick={nextImage}
             >
@@ -404,9 +420,8 @@ const Projects = () => {
               {modalImages.map((_, index) => (
                 <button
                   key={index}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentModalImage ? 'bg-cyan-400 scale-125' : 'bg-white/50 hover:bg-white/80'
-                  }`}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentModalImage ? 'bg-cyan-400 scale-125' : 'bg-white/50 hover:bg-white/80'
+                    }`}
                   onClick={() => setCurrentModalImage(index)}
                 />
               ))}

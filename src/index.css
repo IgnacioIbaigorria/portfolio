@@ -4,7 +4,8 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -12,8 +13,9 @@ html, body {
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #ffffff;
-  background-color: #1e293b; /* Color de fondo de respaldo */
+  color: #fafafa;
+  background-color: #020617;
+  line-height: 1.6;
 }
 
 #root {
@@ -27,14 +29,9 @@ a {
   color: #4a90e2;
 }
 
-input, textarea {
+input,
+textarea {
   background-color: #333333;
   color: #ffffff;
   border: 1px solid #4a90e2;
 }
-
-button {
-  /* Eliminar esta regla o hacerla más específica */
-  /* color: #ffffff; */
-}
-

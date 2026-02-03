@@ -11,20 +11,20 @@ const navLinks = [
 
 // Iconos sociales con colores de marca
 const socialLinks = [
-  { 
-    icon: FaLinkedin, 
+  {
+    icon: FaLinkedin,
     href: 'https://www.linkedin.com/in/ignacio-ibaigorria-08a9a9298/',
     color: '#0A66C2' // Color de LinkedIn
   },
-  { 
-    icon: FaGithub, 
+  {
+    icon: FaGithub,
     href: 'https://github.com/IgnacioIbaigorria',
     color: '#FFFFFF' // Color de GitHub (blanco)
   },
-  { 
-    icon: FaEnvelope, 
+  {
+    icon: FaEnvelope,
     href: 'mailto:ignacioibaigorria@gmail.com',
-    color: '#22d3ee' // Usamos el cyan de tu tema
+    color: '#0284c7' // Cyan/Sky 600
   }
 ];
 
@@ -48,8 +48,8 @@ const mobileMenuVariants = {
 
 const mobileMenuItemVariants = {
   hidden: { opacity: 0, x: 50 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     x: 0,
     transition: { type: "spring", stiffness: 120 }
   }
@@ -99,7 +99,7 @@ const Header = () => {
 
   return (
     <>
-      <AnimatedMenuButton 
+      <AnimatedMenuButton
         isOpen={isMenuOpen}
         onClick={() => setIsMenuOpen(!isMenuOpen)}
       />
@@ -108,9 +108,9 @@ const Header = () => {
       <motion.header
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
-        className="fixed w-full top-0 z-[45] bg-[#0a192f]/80 backdrop-blur-xl border-b border-cyan-700/30 shadow-lg"
+        className="fixed w-full top-0 z-[45] bg-slate-950/80 backdrop-blur-xl border-b border-zinc-800 shadow-sm"
         style={{
-          boxShadow: '0 4px 32px 0 rgba(56,189,248,0.10)'
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.3)'
         }}
       >
         <div className="max-w-7xl mx-auto flex justify-between items-center px-4 md:px-8 py-3">
@@ -119,11 +119,11 @@ const Header = () => {
             <motion.div
               whileHover={{ rotate: 180, scale: 1.1 }}
               transition={{ duration: 0.4, type: "spring" }}
-              className="p-2 rounded-full bg-gradient-to-tr from-cyan-700 to-cyan-400 shadow-lg"
+              className="p-2 rounded-full bg-gradient-to-tr from-sky-600 to-sky-400 shadow-lg"
             >
               <FaCode className="text-xl md:text-2xl text-white" />
             </motion.div>
-            <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-cyan-700 bg-clip-text text-transparent hidden sm:block">
+            <span className="text-xl md:text-2xl font-bold text-zinc-100 hidden sm:block">
               Ignacio Ibaigorria
             </span>
           </Link>
@@ -140,7 +140,7 @@ const Header = () => {
                 <Link
                   to={path}
                   className={`text-lg font-medium px-2 py-1 transition-all duration-300
-                    ${location.pathname === path ? 'text-cyan-400' : 'text-white hover:text-cyan-400'}`}
+                    ${location.pathname === path ? 'text-sky-400' : 'text-zinc-400 hover:text-sky-400'}`}
                 >
                   {label}
                   <span
@@ -164,37 +164,36 @@ const Header = () => {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ 
-                  scale: 1.18, 
-                  y: -2, 
+                whileHover={{
+                  scale: 1.18,
+                  y: -2,
                   color: item.color, // Color de marca en hover
                   filter: `drop-shadow(0 0 6px ${item.color})`,
                   transition: { duration: 0.2 } // Añade transición suave de framer-motion
                 }}
                 whileTap={{ scale: 0.92 }}
-                // --- SE ELIMINÓ "transition-colors" Y "duration-300" ---
-                className="text-2xl text-cyan-200" 
+                className="text-2xl text-zinc-500 hover:text-sky-400"
               >
                 <item.icon />
               </motion.a>
             ))}
           </div>
         </div>
-      </motion.header>
+      </motion.header >
 
       {/* Menú móvil mejorado */}
-      <AnimatePresence>
+      < AnimatePresence >
         {isMenuOpen && (
           <motion.div
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed top-0 right-0 bottom-0 w-64 bg-[#0a192f]/95 backdrop-blur-xl
-              flex flex-col items-center pt-24 px-4 border-l border-cyan-700/30 shadow-xl z-[200] md:hidden"
+            className="fixed top-0 right-0 bottom-0 w-64 bg-slate-950/95 backdrop-blur-xl
+              flex flex-col items-center pt-24 px-4 border-l border-zinc-800 shadow-xl z-[200] md:hidden"
           >
             {/* Navegación móvil con animación 'stagger' */}
-            <motion.nav 
+            <motion.nav
               className="flex flex-col items-center w-full space-y-6 p-4"
               variants={mobileMenuVariants}
               initial="hidden"
@@ -206,14 +205,14 @@ const Header = () => {
                     to={path}
                     onClick={() => setIsMenuOpen(false)}
                     className={`text-xl font-medium transition-all duration-300 w-full text-center py-2
-                      ${location.pathname === path ? 'text-cyan-400' : 'text-white hover:text-cyan-400'}`}
+                      ${location.pathname === path ? 'text-sky-400' : 'text-zinc-300 hover:text-sky-400'}`}
                   >
                     {label}
                   </Link>
                 </motion.div>
               ))}
             </motion.nav>
-            
+
             {/* --- CORRECCIÓN AQUÍ (móvil) --- */}
             <div className="flex justify-center space-x-8 w-full p-4 mt-8 border-t border-cyan-700/30">
               {socialLinks.map((item, idx) => (
@@ -223,21 +222,22 @@ const Header = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   whileTap={{ scale: 0.9 }}
-                  whileHover={{ 
+                  whileHover={{
                     color: item.color,
                     filter: `drop-shadow(0 0 6px ${item.color})`,
                     transition: { duration: 0.2 }
                   }}
                   // --- SE ELIMINÓ "transition-colors" Y "duration-300" ---
-                  className="text-2xl text-cyan-200"
+                  className="text-2xl text-gray-500"
                 >
                   <item.icon />
                 </motion.a>
               ))}
             </div>
           </motion.div>
-        )}
-      </AnimatePresence>
+        )
+        }
+      </AnimatePresence >
     </>
   );
 };
