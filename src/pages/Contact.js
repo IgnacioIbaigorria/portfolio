@@ -112,7 +112,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="p-4 max-w-4xl mx-auto relative pt-12 md:pt-20">
+    <div className="p-4 max-w-4xl mx-auto relative pt-2 md:pt-2">
       <div className="fixed inset-0 -z-20 overflow-hidden bg-slate-950" aria-hidden="true">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-sky-900/40 via-slate-950/50 to-slate-950 opacity-100" />
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
