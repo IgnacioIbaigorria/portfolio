@@ -56,6 +56,36 @@ const Projects = () => {
 
   const projects = [
     {
+      title: 'FaltaUno',
+      description: 'Plataforma backend para organización de partidos de fútbol, permitiendo la creación, gestión y reserva de partidos con sistema de usuarios, autenticación y asignación de cupos en tiempo real.',
+      images: [
+        '/images/projects/faltauno/faltauno1.jpg',
+      ],
+      technologies: ['Java', 'Spring Boot', 'PostgreSQL', 'JWT', 'Docker'],
+      github: 'https://github.com/IgnacioIbaigorria/faltauno-api',
+      live: '',
+      metrics: [
+        'Diseño de API REST escalable con Spring Boot.',
+        'Implementación de autenticación segura con JWT.',
+        'Gestión de concurrencia para reserva de cupos en partidos.'
+      ]
+    },
+    {
+      title: 'Sistema de Gestión de Loterías',
+      description: 'Aplicación full-stack para la gestión de números de lotería, incluyendo compra, asignación de números, control de usuarios y sistema de roles con lógica de validación y persistencia de datos.',
+      images: [
+        '/images/projects/loteria/loteria1.jpg',
+      ],
+      technologies: ['Java', 'Spring Boot', 'Next.js', 'PostgreSQL', 'JPA', 'Hibernate'],
+      github: 'https://github.com/IgnacioIbaigorria/lottery',
+      live: '',
+      metrics: [
+        'Desarrollo de API REST con manejo de reglas de negocio complejas.',
+        'Implementación de sistema de roles y permisos.',
+        'Persistencia de datos con JPA/Hibernate optimizada.'
+      ]
+    },
+    {
       title: 'TaskFlow',
       description: 'Plataforma colaborativa de gestión de tareas full-stack. Incluye sincronización en tiempo real vía WebSockets, modo offline, autenticación biométrica y arquitectura escalable basada en microservicios.',
       images: [
@@ -76,7 +106,7 @@ const Projects = () => {
         'Soporte offline completo con sincronización automática.',
       ]
     },
-    
+
     {
       title: 'Servicold Web',
       description: 'Sitio web para la empresa Servicold SAS, landing page y sistema de gestión de usuarios y sensores.',
