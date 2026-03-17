@@ -76,6 +76,7 @@ const Projects = () => {
         'Soporte offline completo con sincronización automática.',
       ]
     },
+    
     {
       title: 'Servicold Web',
       description: 'Sitio web para la empresa Servicold SAS, landing page y sistema de gestión de usuarios y sensores.',

@@ -112,31 +112,31 @@ const Home = () => {
             />
           </div>
         </motion.div>
+
         <motion.h1
-          className="text-5xl font-bold mb-4 text-zinc-100 leading-relaxed z-10"
+          className="text-5xl font-bold mb-4 text-zinc-100 leading-relaxed z-10 text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.7 }}
         >
           Ignacio Ibaigorria
         </motion.h1>
+
         <motion.p
           className="text-lg text-zinc-400 leading-relaxed text-justify max-w-2xl z-10"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.7 }}
         >
-          Ingeniero en Sistemas de Información en formación y desarrollador Full Stack.
-          Más que solo crear software, me especializo en <strong>construir soluciones tecnológicas que resuelven problemas de negocio reales</strong>.
-          Con más de 3 años de experiencia, transformo ideas en aplicaciones web y móviles eficientes
-          que generan un impacto medible para mis clientes.
+          Ingeniería en Sistemas de Información (en curso) y FullStack Developer con más de <strong>4 años</strong> construyendo aplicaciones web y móviles
+          enfocadas en <strong>backend robusto</strong> (Java, Spring Boot) y frontend con React y React Native (Expo). Creo APIs REST escalables, diseño modelos de datos relacionales y NoSQL,
+          y despliego soluciones reproducibles con Docker y pipelines CI/CD.
           <span className="mt-4 block">
-            Además de crear sitios web y apps, diseño sistemas que <strong>resuelven problemas reales</strong> de las empresas: optimizo procesos, automatizo tareas y entrego soluciones que generan ahorros
-            y mejoras medibles en la operación.
+            Me especializo en transformar requisitos de negocio en soluciones técnicas que mejoran la operación: optimizo procesos, automatizo tareas y entrego resultados medibles
+            (monitoring, auditoría y seguridad con JWT / OAuth2 y Spring Security).
           </span>
           <span className="mt-4 block">
-            Cuando no estoy programando, dedico mi tiempo a mis dos grandes pasiones:
-            el cuidado de animales y la exploración musical.
+            Cuando no estoy programando, me apasiona el cuidado de animales y la exploración musical.
           </span>
         </motion.p>
       </section>
@@ -207,13 +207,25 @@ const Home = () => {
               title: "Desarrollador Independiente",
               company: "Freelance | Enero 2022 - Presente",
               items: [
-                "Servicold App: app gestión de datos de sensores con permisos y roles, visualización de datos en vivo, exportación de datos a excel y notificaciones por correo, desarrollado en React con TypeScript y AG Grid para visualización. Aumentando un 25% la venta de sensores de la empresa.",
-                "Punto Eco Ecommerce: Desarrollo de plataforma de comercio electrónico para tienda de productos eco-friendly, implementando catálogo de productos, carrito de compras y sistema de pagos con React, Next.js y PostgreSQL.",
-                "Gestión App: Creación de sistema completo de gestión para inventario, ventas y análisis financiero con funcionalidades avanzadas como etiquetado de productos, actualización masiva de precios, estadísticas de ventas y control de caja. Mejorando un 15% la productividad y ventas de las empresas cliente, debido al ahorro de tiempo al generar presupuestos, listas y recibos en PDF.",
-                "Sistema de Gestión de Stock: Desarrollo de aplicación de escritorio para pequeños y medianos negocios con Python y PyQt6, facilitando la gestión de inventario, ventas, caja y clientes con una interfaz intuitiva y eficiente.",
-                "Desarrollo de aplicación web para la gestión de números de lotería, con funciones de autenticación, roles, compras y gestión de números utilizando Next.js, Java Spring Boot y PostgreSQL.",
-                "Consultoría técnica y optimización de bases de datos para diversos clientes, mejorando el rendimiento y la seguridad de sus sistemas existentes.",
-                "Diseño e implementación de soluciones personalizadas según las necesidades específicas de cada cliente, priorizando la usabilidad y la experiencia del usuario final."
+                "Desarrollo de APIs REST escalables con Spring Boot y Express.js, incluyendo validación, manejo centralizado de errores y diseño de endpoints.",
+
+                "Servicold: Plataforma de gestión de sensores con visualización en tiempo real, roles y permisos, exportación a Excel y notificaciones. Contribuyó a un aumento del 25% en ventas de sensores.",
+
+                "Punto Eco: Desarrollo de e-commerce completo con catálogo, carrito y sistema de pagos. Optimización de base de datos y seguridad en endpoints.",
+
+                "Gestión App: Sistema integral para inventario, ventas y análisis financiero con generación automática de PDFs, control de caja y procesos masivos. Mejora del 15% en productividad.",
+
+                "Sistema de gestión de stock de escritorio para PYMEs, enfocado en usabilidad y eficiencia operativa (Python, PyQt6).",
+
+                "Plataforma de gestión de loterías con autenticación, roles y operaciones transaccionales utilizando Spring Boot, Next.js y PostgreSQL.",
+
+                "Implementación de autenticación y autorización con JWT y OAuth2, incluyendo control de acceso con Spring Security.",
+
+                "Contenerización de aplicaciones con Docker y configuración de entornos reproducibles con Docker Compose.",
+
+                "Consultoría técnica y optimización de bases de datos, mejorando rendimiento, seguridad y escalabilidad.",
+
+                "Diseño de soluciones backend orientadas a negocio, priorizando mantenibilidad, performance y experiencia de usuario."
               ]
             },
 
@@ -301,9 +313,33 @@ const Home = () => {
             viewport={{ once: true }}
             custom={0}
           >
-            <h3 className="text-2xl font-semibold mb-2 text-zinc-100">Ingeniería en Sistemas de Información</h3>
-            <p className="text-sky-400 mb-2 font-medium">Universidad Tecnológica Nacional | 2019 - Presente</p>
-            <p className="text-zinc-400 text-lg">Formación integral en desarrollo de software, bases de datos, redes y gestión de proyectos tecnológicos.</p>
+            <h3 className="text-2xl font-semibold mb-2 text-zinc-100">
+              Ingeniería en Sistemas de Información
+            </h3>
+            <p className="text-sky-400 mb-4 font-medium">
+              Universidad Tecnológica Nacional | 2019 - Presente
+            </p>
+
+            <ul className="list-disc list-inside text-zinc-400 space-y-2 text-lg">
+              <li>
+                Formación en diseño de arquitecturas de software, desarrollo backend y construcción de APIs orientadas a servicios.
+              </li>
+              <li>
+                Modelado y diseño de bases de datos relacionales y NoSQL, incluyendo normalización, optimización de consultas e integridad de datos.
+              </li>
+              <li>
+                Aplicación de programación orientada a objetos, estructuras de datos y patrones de diseño (clean code, principios SOLID).
+              </li>
+              <li>
+                Análisis de requerimientos y diseño de sistemas escalables enfocados en resolver problemas de negocio.
+              </li>
+              <li>
+                Fundamentos de redes, sistemas operativos y arquitectura de computadoras.
+              </li>
+              <li>
+                Introducción a metodologías ágiles (Scrum) y trabajo colaborativo en equipos de desarrollo.
+              </li>
+            </ul>
           </motion.div>
         </div>
       </section>
