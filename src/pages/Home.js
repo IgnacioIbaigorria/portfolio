@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaCode, FaMobile, FaDatabase, FaArrowRight, FaDownload } from 'react-icons/fa';
+import { FaCode, FaMobile, FaDatabase, FaArrowRight } from 'react-icons/fa';
 import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
 import {
   SiReact, SiNextdotjs, SiJavascript, SiTypescript, SiHtml5, SiCss3, SiTailwindcss,
