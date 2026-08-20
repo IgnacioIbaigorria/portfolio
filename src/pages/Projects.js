@@ -1,28 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import styled from 'styled-components';
-import { FaGithub, FaExternalLinkAlt, FaChartLine } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaGithub, FaExternalLinkAlt, FaChartLine, FaTimes, FaChevronLeft, FaChevronRight, FaApple } from 'react-icons/fa';
+import { SiGoogleplay } from 'react-icons/si';
 import { getTechInfo } from '../utils/techData';
 
-const ProjectCard = styled(motion.div)`
-  background: #18181b; /* Zinc 900 */
-  border-radius: 1rem;
-  padding: 1.5rem;
-  border: 1px solid #27272a; /* Zinc 800 */
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  flex-direction: column;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-    border-color: #0ea5e9; // Sky 500
-  }
-`;
-
+const CATEGORIES = ['Todos', 'Web', 'Móvil', 'Backend', 'Desktop'];
 
 const Projects = () => {
+  const [activeFilter, setActiveFilter] = useState('Todos');
   const [currentImageIndexes, setCurrentImageIndexes] = useState({});
   const [modalImages, setModalImages] = useState(null);
   const [currentModalImage, setCurrentModalImage] = useState(0);
@@ -36,12 +21,13 @@ const Projects = () => {
   }, []);
 
   const onMouseEnterProject = (projectIndex, length) => {
+    if (length <= 1) return;
     const id = setInterval(() => {
       setCurrentImageIndexes(prev => ({
         ...prev,
         [projectIndex]: ((prev[projectIndex] || 0) + 1) % length
       }));
-    }, 3000);
+    }, 2000);
     hoverIntervalsRef.current[projectIndex] = id;
   };
 
@@ -56,38 +42,8 @@ const Projects = () => {
 
   const projects = [
     {
-      title: 'FaltaUno',
-      description: 'Plataforma backend para organización de partidos de fútbol, permitiendo la creación, gestión y reserva de partidos con sistema de usuarios, autenticación y asignación de cupos en tiempo real.',
-      images: [
-        '/images/projects/faltauno/faltauno1.jpg',
-      ],
-      technologies: ['Java', 'Spring Boot', 'PostgreSQL', 'JWT', 'Docker'],
-      github: 'https://github.com/IgnacioIbaigorria/faltauno-api',
-      live: '',
-      metrics: [
-        'Diseño de API REST escalable con Spring Boot.',
-        'Implementación de autenticación segura con JWT.',
-        'Gestión de concurrencia para reserva de cupos en partidos.'
-      ]
-    },
-    {
-      title: 'Sistema de Gestión de Loterías',
-      description: 'Aplicación full-stack para la gestión de números de lotería, incluyendo compra, asignación de números, control de usuarios y sistema de roles con lógica de validación y persistencia de datos.',
-      images: [
-        '/images/projects/loteria/loteria1.jpg',
-      ],
-      technologies: ['Java', 'Spring Boot', 'Next.js', 'PostgreSQL', 'JPA', 'Hibernate'],
-      github: 'https://github.com/IgnacioIbaigorria/lottery',
-      live: '',
-      metrics: [
-        'Desarrollo de API REST con manejo de reglas de negocio complejas.',
-        'Implementación de sistema de roles y permisos.',
-        'Persistencia de datos con JPA/Hibernate optimizada.'
-      ]
-    },
-    {
       title: 'TaskFlow',
-      description: 'Plataforma colaborativa de gestión de tareas full-stack. Incluye sincronización en tiempo real vía WebSockets, modo offline, autenticación biométrica y arquitectura escalable basada en microservicios.',
+      description: 'Plataforma colaborativa de gestión de tareas full-stack. Sincronización en tiempo real vía WebSockets, modo offline, autenticación biométrica y arquitectura basada en microservicios con Go.',
       images: [
         '/images/projects/taskflow/banner.png',
         '/images/projects/taskflow/taskflow1.jpeg',
@@ -98,38 +54,19 @@ const Projects = () => {
         '/images/projects/taskflow/taskflow6.jpeg',
         '/images/projects/taskflow/taskflow7.jpeg',
       ],
-      technologies: ['Go', 'Gin', 'PostgreSQL', 'Docker', 'React Native', 'Expo', 'WebSockets', 'MVVM'],
+      technologies: ['Go', 'Gin', 'PostgreSQL', 'Docker', 'React Native', 'Expo', 'WebSockets'],
       github: 'https://github.com/IgnacioIbaigorria/taskflow',
       live: '',
+      categories: ['Móvil', 'Backend'],
+      featured: true,
       metrics: [
         'Sincronización en tiempo real con latencia <100ms.',
         'Soporte offline completo con sincronización automática.',
       ]
     },
-
-    {
-      title: 'Servicold Web',
-      description: 'Sitio web para la empresa Servicold SAS, landing page y sistema de gestión de usuarios y sensores.',
-      images: [
-        '/images/projects/servicold-web/servicold-web1.jpg',
-        '/images/projects/servicold-web/servicold-web2.jpg',
-        '/images/projects/servicold-web/servicold-web3.jpg',
-        '/images/projects/servicold-web/servicold-web4.jpg',
-        '/images/projects/servicold-web/servicold-web5.jpg',
-        '/images/projects/servicold-web/servicold-web6.jpg',
-        '/images/projects/servicold-web/servicold-web7.jpg',
-
-      ],
-      technologies: ['JavaScript', 'Bootstrap', 'PHP', 'phpMyAdmin'],
-      github: 'https://github.com/IgnacioIbaigorria/ServiCold',
-      live: 'https://servicoldingenieria.com',
-      metrics: [
-        'Aumento del 25% en la venta total de sensores con la nueva gestión.'
-      ]
-    },
     {
       title: 'Servicold App',
-      description: 'App para la empresa Servicold SAS, para la gestión de usuarios y sensores, compatible con iOS y Android.',
+      description: 'App para la empresa Servicold SAS — gestión de usuarios y sensores IoT en tiempo real, compatible con iOS y Android.',
       images: [
         '/images/projects/servicold-app/servicold_app1.jpg',
         '/images/projects/servicold-app/servicold_app2.jpg',
@@ -148,13 +85,55 @@ const Projects = () => {
         android: 'https://play.google.com/store/apps/details?id=com.ignacioivan00.servicoldApp&hl=es_419',
         ios: 'https://apps.apple.com/ar/app/servicold-app/id6751702418'
       },
+      categories: ['Móvil'],
+      isLive: true,
       metrics: [
-        'Aumento del 25% en la venta total de sensores con la nueva gestión.'
+        'Publicada en Google Play y App Store.',
+        'Aumento del 25% en ventas de sensores.',
       ]
     },
     {
+      title: 'Servicold Web',
+      description: 'Sitio web corporativo y sistema de gestión de sensores para Servicold SAS. Landing page + dashboard de administración.',
+      images: [
+        '/images/projects/servicold-web/servicold-web1.jpg',
+        '/images/projects/servicold-web/servicold-web2.jpg',
+        '/images/projects/servicold-web/servicold-web3.jpg',
+        '/images/projects/servicold-web/servicold-web4.jpg',
+        '/images/projects/servicold-web/servicold-web5.jpg',
+        '/images/projects/servicold-web/servicold-web6.jpg',
+        '/images/projects/servicold-web/servicold-web7.jpg',
+      ],
+      technologies: ['JavaScript', 'Bootstrap', 'PHP', 'phpMyAdmin'],
+      github: 'https://github.com/IgnacioIbaigorria/ServiCold',
+      live: 'https://servicoldingenieria.com',
+      categories: ['Web'],
+      isLive: true,
+      metrics: [
+        'Aumento del 25% en ventas de sensores.',
+      ]
+    },
+    {
+      title: 'Projects Management',
+      description: 'Plataforma de gestión de proyectos de diseño con sistema de roles — cliente, diseñador, project manager — con gestión de archivos integrada.',
+      images: [
+        '/images/projects/design-management/design-management1.jpg',
+        '/images/projects/design-management/design-management2.jpg',
+        '/images/projects/design-management/design-management3.jpg',
+        '/images/projects/design-management/design-management4.jpg',
+        '/images/projects/design-management/design-management5.jpg',
+        '/images/projects/design-management/design-management6.jpg',
+        '/images/projects/design-management/design-management7.jpg',
+      ],
+      technologies: ['Next.js', 'TypeScript', 'Node.js', 'Supabase', 'Tailwind CSS', 'Shadcn UI'],
+      github: 'https://github.com/IgnacioIbaigorria/grayola',
+      live: 'https://grayola-eta.vercel.app/',
+      categories: ['Web'],
+      isLive: true,
+    },
+    {
       title: 'Punto Eco Ecommerce',
-      description: 'Ecommerce para la tienda Punto Eco, venta de productos eco-friendly de limpieza y cuidado personal.',
+      description: 'E-commerce completo para tienda eco-friendly: catálogo, carrito de compras y sistema de pagos. Optimización de base de datos y seguridad en endpoints.',
       images: [
         '/images/projects/punto-eco/punto-eco1.jpg',
         '/images/projects/punto-eco/punto-eco2.jpg',
@@ -167,28 +146,12 @@ const Projects = () => {
       ],
       technologies: ['React', 'Tailwind CSS', 'Node.js', 'Next.js', 'PostgreSQL', 'Prisma'],
       github: 'https://github.com/IgnacioIbaigorria/PuntoEco',
-      live: ''
-    },
-    {
-      title: 'Gestión de Stock',
-      description: 'Sistema de gestión de stock para pequeños y medianos negocios, con interfaz gráfica y funcionalidades para gestión de inventario, ventas, caja y clientes.',
-      images: [
-        '/images/projects/gestion-stock/gestion-stock1.jpg',
-        '/images/projects/gestion-stock/gestion-stock2.jpg',
-        '/images/projects/gestion-stock/gestion-stock3.jpg',
-        '/images/projects/gestion-stock/gestion-stock4.jpg',
-      ],
-      technologies: ['Python', 'PyQt6', 'SQLite'],
-      github: 'https://github.com/IgnacioIbaigorria/gestion-stock',
       live: '',
-      metrics: [
-        'Mejora del 20% en productividad.',
-        'Reducción del 30% en errores de cálculo y registro manual.'
-      ]
+      categories: ['Web'],
     },
     {
       title: 'Gestión App',
-      description: 'App móvil de sistema avanzado de gestión para pequeñas y medianas empresas, con funcionalidades de inventario, ventas y análisis financiero. Incluye gestión de productos con etiquetas y categorías, actualización de precios por categoría, estadísticas de ventas, control de caja, y análisis de valor de inventario. Cuenta con tema oscuro/claro y soporte multiidioma.',
+      description: 'App móvil de gestión para PyMEs: inventario, ventas, análisis financiero, generación de PDFs, control de caja y estadísticas. Tema oscuro/claro y multiidioma.',
       images: [
         '/images/projects/gestion-punto-eco/gestion-punto-eco1.jpg',
         '/images/projects/gestion-punto-eco/gestion-punto-eco2.jpg',
@@ -200,33 +163,64 @@ const Projects = () => {
         '/images/projects/gestion-punto-eco/gestion-punto-eco8.jpg',
         '/images/projects/gestion-punto-eco/gestion-punto-eco9.jpg',
       ],
-      technologies: ['React Native', 'Node.js', 'Firebase Database', 'Chart.js', 'i18next', 'Tailwind CSS'],
+      technologies: ['React Native', 'Node.js', 'Firebase Database', 'Chart.js', 'i18next'],
       github: 'https://github.com/IgnacioIbaigorria/gestion-app',
       live: '',
+      categories: ['Móvil'],
       metrics: [
-        'Mejora del 20% en productividad y ventas de las empresas cliente.',
-        'Ahorro de tiempo significativo al generar presupuestos, listas y recibos en PDF.'
+        'Mejora del 20% en productividad y ventas.',
+        'Ahorro significativo en generación de PDFs automáticos.',
       ]
     },
     {
-      title: 'Projects Management',
-      description: 'Plataforma de gestión de proyectos de diseño con sistema de roles (cliente, diseñador, project manager) que permite solicitar, asignar y entregar proyectos con gestión de archivos integrada.',
+      title: 'FaltaUno',
+      description: 'API backend para organización de partidos de fútbol — creación, gestión y reserva de cupos con autenticación JWT y concurrencia controlada.',
       images: [
-        '/images/projects/design-management/design-management1.jpg',
-        '/images/projects/design-management/design-management2.jpg',
-        '/images/projects/design-management/design-management3.jpg',
-        '/images/projects/design-management/design-management4.jpg',
-        '/images/projects/design-management/design-management5.jpg',
-        '/images/projects/design-management/design-management6.jpg',
-        '/images/projects/design-management/design-management7.jpg',
+        '/images/projects/faltauno/faltauno1.jpg',
       ],
-      technologies: ['Next.js', 'TypeScript', 'Node.js', 'Supabase', 'Tailwind CSS', 'Shadcn UI'],
-      github: 'https://github.com/IgnacioIbaigorria/grayola',
-      live: 'https://grayola-eta.vercel.app/'
-    }
+      technologies: ['Java', 'Spring Boot', 'PostgreSQL', 'JWT', 'Docker'],
+      github: 'https://github.com/IgnacioIbaigorria/faltauno-api',
+      live: '',
+      categories: ['Backend'],
+      metrics: [
+        'API REST escalable con manejo de concurrencia.',
+        'Autenticación segura con JWT.',
+      ]
+    },
+    {
+      title: 'Sistema de Gestión de Loterías',
+      description: 'Aplicación full-stack para gestión de loterías: compra de números, control de usuarios, sistema de roles y lógica de validación con persistencia JPA/Hibernate.',
+      images: [
+        '/images/projects/loteria/loteria1.jpg',
+      ],
+      technologies: ['Java', 'Spring Boot', 'Next.js', 'PostgreSQL', 'JPA', 'Hibernate'],
+      github: 'https://github.com/IgnacioIbaigorria/lottery',
+      live: '',
+      categories: ['Web', 'Backend'],
+    },
+    {
+      title: 'Gestión de Stock',
+      description: 'Sistema de escritorio para gestión de stock en PyMEs: inventario, ventas, caja y clientes. Interfaz gráfica nativa con PyQt6.',
+      images: [
+        '/images/projects/gestion-stock/gestion-stock1.jpg',
+        '/images/projects/gestion-stock/gestion-stock2.jpg',
+        '/images/projects/gestion-stock/gestion-stock3.jpg',
+        '/images/projects/gestion-stock/gestion-stock4.jpg',
+      ],
+      technologies: ['Python', 'PyQt6', 'SQLite'],
+      github: 'https://github.com/IgnacioIbaigorria/gestion-stock',
+      live: '',
+      categories: ['Desktop'],
+      metrics: [
+        'Mejora del 20% en productividad.',
+        'Reducción del 30% en errores de registro.',
+      ]
+    },
   ];
 
-  const displayedProjects = projects;
+  const filtered = activeFilter === 'Todos'
+    ? projects
+    : projects.filter(p => p.categories.includes(activeFilter));
 
   const openImageModal = (images) => {
     setModalImages(images);
@@ -239,229 +233,393 @@ const Projects = () => {
     document.body.style.overflow = 'unset';
   };
 
-  const nextImage = () => {
-    setCurrentModalImage((prev) => (prev + 1) % modalImages.length);
-  };
+  const nextImage = () => setCurrentModalImage(prev => (prev + 1) % modalImages.length);
+  const prevImage = () => setCurrentModalImage(prev => (prev - 1 + modalImages.length) % modalImages.length);
 
-  const prevImage = () => {
-    setCurrentModalImage((prev) => (prev - 1 + modalImages.length) % modalImages.length);
-  };
+  // Handle keyboard navigation in modal
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (!modalImages) return;
+      if (e.key === 'ArrowRight') nextImage();
+      if (e.key === 'ArrowLeft') prevImage();
+      if (e.key === 'Escape') closeImageModal();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalImages, currentModalImage]);
 
+  const featuredProject = filtered.find(p => p.featured);
+  const regularProjects = filtered.filter(p => !p.featured || activeFilter !== 'Todos');
 
   return (
     <div className="relative p-4 max-w-7xl mx-auto">
+      {/* Background */}
       <div className="fixed inset-0 -z-20 overflow-hidden bg-slate-950" aria-hidden="true">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-sky-900/40 via-slate-950/50 to-slate-950 opacity-100" />
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
       </div>
 
+      {/* Header */}
       <motion.h1
-        className="text-4xl md:text-5xl font-bold mb-10 text-center text-zinc-100 leading-relaxed py-1"
+        className="text-4xl md:text-5xl font-bold mb-3 text-center text-zinc-100 leading-relaxed py-1"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
       >
         Mis Proyectos
       </motion.h1>
-
       <motion.p
-        className="text-lg text-center text-zinc-400 mb-10 max-w-3xl mx-auto"
+        className="text-lg text-center text-zinc-400 mb-8 max-w-3xl mx-auto"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3, duration: 0.8 }}
       >
-        Explora mi portafolio de proyectos destacados, desde aplicaciones móviles hasta sitios web y sistemas de gestión.
+        Desde APIs backend hasta apps móviles publicadas en stores — aquí están los proyectos que construí.
       </motion.p>
 
-      <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto">
-        {displayedProjects.map((project, projectIndex) => (
-          <ProjectCard
-            key={projectIndex}
-            className="flex flex-col rounded-xl overflow-hidden transition-all duration-300 bg-zinc-900 border border-zinc-800"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: projectIndex * 0.15, duration: 0.7 }}
+      {/* Filter tabs */}
+      <motion.div
+        className="flex flex-wrap justify-center gap-2 mb-10"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.6 }}
+      >
+        {CATEGORIES.map(cat => (
+          <button
+            key={cat}
+            onClick={() => setActiveFilter(cat)}
+            className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 border
+              ${activeFilter === cat
+                ? 'bg-sky-500 text-white border-sky-500 shadow-lg shadow-sky-500/20'
+                : 'bg-zinc-900/60 text-zinc-400 border-zinc-700 hover:border-sky-500/50 hover:text-sky-400'
+              }`}
           >
-            <div
-              className="relative w-full h-56 overflow-hidden cursor-pointer group flex-shrink-0 rounded-xl mb-4"
-              onClick={() => openImageModal(project.images)}
-              onMouseEnter={() => onMouseEnterProject(projectIndex, project.images.length)}
-              onMouseLeave={() => onMouseLeaveProject(projectIndex)}
-            >
-              {project.images.map((image, imgIndex) => (
-                <img
-                  key={imgIndex}
-                  src={image}
-                  alt={`${project.title} - imagen ${imgIndex + 1}`}
-                  className="absolute top-0 left-0 w-full h-56 object-contain transition-all duration-500 ease-in-out group-hover:scale-105" style={{
-                    opacity: (currentImageIndexes[projectIndex] || 0) === imgIndex ? 1 : 0,
-                  }}
-                />
-              ))}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
-                <p className="text-white text-sm mb-3 px-3 py-1 bg-cyan-700/50 backdrop-blur-sm rounded-full">
-                  Click para ver galería ({project.images.length} imágenes)
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-col flex-grow">
-              <h2 className="text-2xl font-bold mb-2 text-zinc-100">{project.title}</h2>
-              <p className="text-zinc-400 mb-4">{project.description}</p>
-
-              {project.metrics && (
-                <div className="mb-4 mt-1 border-t border-zinc-800 py-3">
-                  <h4 className="text-sm font-semibold text-sky-400 mb-2 inline-flex items-center gap-2">
-                    <FaChartLine className="w-4 h-4 flex-shrink-0" />
-                    <span>Impacto del Proyecto</span>
-                  </h4>
-                  <ul className="space-y-1.5 pl-1">
-                    {project.metrics.map((metric, i) => (
-                      <li key={i} className="flex items-center gap-2">
-                        <span className="text-sky-500 flex-shrink-0">›</span>
-                        <span className="text-zinc-400 text-sm">{metric}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              <div className="flex flex-wrap gap-2 mb-4">
-                {project.technologies.map((techName, i) => {
-                  const tech = getTechInfo(techName);
-                  return (
-                    <span
-                      key={i}
-                      className="bg-zinc-800 text-zinc-300 text-xs font-medium px-3 py-1.5 rounded-full border border-zinc-700 flex items-center gap-2"
-                    >
-                      {tech.icon && (
-                        <span className="text-lg" style={{ color: tech.color }}>
-                          {tech.icon}
-                        </span>
-                      )}
-                      <span>{tech.name}</span>
-                    </span>
-                  );
-                })}
-              </div>
-
-              <div className="flex flex-wrap gap-4 mt-auto pt-3 border-t border-zinc-800">
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sky-400 hover:text-sky-300 transition-colors duration-300"
-                >
-                  <FaGithub /> Código
-                </a>
-
-                {project.live && (
-                  <a
-                    href={project.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sky-400 hover:text-sky-300 transition-colors duration-300"
-                  >
-                    <FaExternalLinkAlt /> Demo
-                  </a>
-                )}
-
-                {project.stores && (
-                  <div className="flex gap-3">
-                    {project.stores.android && (
-                      <a
-                        href={project.stores.android}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-sky-400 hover:text-sky-300 transition-colors duration-300"
-                        title="Google Play"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M3.609 1.814L13.792 12 3.609 22.186c-.181.181-.29.423-.29.684v.065c0 .36.186.687.491.873l.457.228c.306.153.661.153.967 0l10.384-5.192L3.6 1.814H3.61zm17.011 9.293l-3.827-2.209-3.142 3.102 3.142 3.102 3.827-2.209c.392-.226.589-.636.589-1.044s-.198-.816-.589-1.044v.002z" />
-                          <path d="M.306 1.071C.116 1.34 0 1.648 0 2v20c0 .352.116.66.306.929l11.434-10.857L.306 1.071z" />
-                          <path d="M15.992 14.184L13.298 12l-3.828 3.828 6.521 6.521c.15.15.339.247.551.247.212 0 .401-.098.551-.247.3-.3.3-.784 0-1.084l-1.101-1.101v.02z" />
-                        </svg>
-                        Android
-                      </a>
-                    )}
-                    {project.stores.ios && (
-                      <a
-                        href={project.stores.ios}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-sky-400 hover:text-sky-300 transition-colors duration-300"
-                        title="App Store"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M16.289 3.713c1.69 0 3.434 1.847 3.434 3.434 0 0-.13 1.95-1.95 3.434-1.736 1.302-3.434 1.084-3.434 1.084s-.217-1.736 1.517-3.434c1.084-1.084 1.95-1.084 1.95-1.084s-1.517-3.434-1.517-3.434z" />
-                          <path d="M12.855 5.663c.65 0 2.6.217 4.334 1.95 0 0 1.517 1.517 1.517 4.334 0 2.6-1.95 4.334-1.95 4.334-.867 1.084-2.167 2.6-4.334 2.6-1.95 0-3.434-1.3-3.434-1.3s-1.95.433-3.434.433c-1.3 0-2.6-1.95-2.6-1.95-1.517-1.95-2.817-4.984-1.3-7.801.867-1.517 2.6-2.6 4.334-2.6 1.517 0 3.434 1.3 3.434 1.3s1.95-1.3 3.434-1.3z" />
-                        </svg>
-                        iOS
-                      </a>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-          </ProjectCard>
+            {cat}
+          </button>
         ))}
-      </div>
+      </motion.div>
 
-      {/* La paginación está eliminada, lo cual es correcto para un feed vertical */}
-      {/* <div className="hidden md:block"> ... </div> */}
-
-      {/* Modal (sin cambios) */}
-      {modalImages && (
-        <div
-          className="fixed inset-10 bg-black/90 backdrop-blur-md z-[999] flex items-center justify-center h-full"
-          onClick={closeImageModal}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeFilter}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.35 }}
         >
-          <div
-            className="relative max-w-5xl w-full mx-4 h-[90vh] flex items-center"
-            onClick={e => e.stopPropagation()}
-          >
-            <button
-              className="absolute top-4 right-4 text-white text-3xl hover:text-cyan-300 transition-colors z-[1000] bg-slate-800/70 rounded-full w-10 h-10 flex items-center justify-center backdrop-blur-sm"
-              onClick={closeImageModal}
-            >
-              ×
-            </button>
-            <motion.img
-              key={currentModalImage}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
-              src={modalImages[currentModalImage]}
-              alt="Project preview"
-              className="w-full h-auto max-h-[90vh] object-contain rounded-lg shadow-2xl"
+          {/* Featured Project — full width */}
+          {activeFilter === 'Todos' && featuredProject && (
+            <FeaturedCard
+              project={featuredProject}
+              projectIndex={0}
+              currentImageIndex={currentImageIndexes[0] || 0}
+              onMouseEnter={() => onMouseEnterProject(0, featuredProject.images.length)}
+              onMouseLeave={() => onMouseLeaveProject(0)}
+              onOpenModal={() => openImageModal(featuredProject.images)}
             />
-            <button
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-slate-800/70 hover:bg-cyan-700/70 p-3 text-xl rounded-full transition-all duration-300 backdrop-blur-sm"
-              onClick={prevImage}
-            >
-              ←
-            </button>
-            <button
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-slate-800/70 hover:bg-cyan-700/70 p-3 text-xl rounded-full transition-all duration-300 backdrop-blur-sm"
-              onClick={nextImage}
-            >
-              →
-            </button>
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 bg-slate-800/70 px-4 py-2 rounded-full backdrop-blur-sm">
-              {modalImages.map((_, index) => (
-                <button
-                  key={index}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentModalImage ? 'bg-cyan-400 scale-125' : 'bg-white/50 hover:bg-white/80'
-                    }`}
-                  onClick={() => setCurrentModalImage(index)}
+          )}
+
+          {/* Regular grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+            {(activeFilter === 'Todos' ? regularProjects : filtered).map((project, idx) => {
+              const projectIndex = activeFilter === 'Todos' ? idx + 1 : idx;
+              return (
+                <ProjectCard
+                  key={project.title}
+                  project={project}
+                  projectIndex={projectIndex}
+                  currentImageIndex={currentImageIndexes[projectIndex] || 0}
+                  onMouseEnter={() => onMouseEnterProject(projectIndex, project.images.length)}
+                  onMouseLeave={() => onMouseLeaveProject(projectIndex)}
+                  onOpenModal={() => openImageModal(project.images)}
+                  animDelay={idx * 0.08}
                 />
-              ))}
-            </div>
+              );
+            })}
           </div>
-        </div>
-      )}
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Image Modal */}
+      <AnimatePresence>
+        {modalImages && (
+          <motion.div
+            className="fixed inset-0 bg-black/95 backdrop-blur-md z-[999] flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeImageModal}
+          >
+            <motion.div
+              className="relative max-w-5xl w-full mx-4 flex items-center justify-center"
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.95 }}
+              onClick={e => e.stopPropagation()}
+            >
+              <button
+                className="absolute top-4 right-4 text-white z-[1000] bg-slate-800/80 rounded-full w-10 h-10 flex items-center justify-center hover:bg-sky-600 transition-colors backdrop-blur-sm"
+                onClick={closeImageModal}
+              >
+                <FaTimes />
+              </button>
+
+              <motion.img
+                key={currentModalImage}
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.25 }}
+                src={modalImages[currentModalImage]}
+                alt="Project preview"
+                className="w-full h-auto max-h-[85vh] object-contain rounded-xl shadow-2xl"
+              />
+
+              {modalImages.length > 1 && (
+                <>
+                  <button
+                    className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-slate-800/80 hover:bg-sky-600 p-3 text-xl rounded-full transition-all duration-300 backdrop-blur-sm text-white"
+                    onClick={prevImage}
+                  >
+                    <FaChevronLeft />
+                  </button>
+                  <button
+                    className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-slate-800/80 hover:bg-sky-600 p-3 text-xl rounded-full transition-all duration-300 backdrop-blur-sm text-white"
+                    onClick={nextImage}
+                  >
+                    <FaChevronRight />
+                  </button>
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 bg-slate-800/70 px-4 py-2 rounded-full backdrop-blur-sm">
+                    {modalImages.map((_, index) => (
+                      <button
+                        key={index}
+                        className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === currentModalImage ? 'bg-sky-400 scale-125' : 'bg-white/40 hover:bg-white/70'}`}
+                        onClick={() => setCurrentModalImage(index)}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
+
+/* ── Featured Card ── */
+const FeaturedCard = ({ project, projectIndex, currentImageIndex, onMouseEnter, onMouseLeave, onOpenModal }) => (
+  <motion.div
+    className="relative rounded-2xl overflow-hidden border border-zinc-700 bg-zinc-900/60 backdrop-blur-sm mb-2 group"
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.7 }}
+    style={{ boxShadow: '0 0 40px rgba(14,165,233,0.06)' }}
+  >
+    {/* Featured badge */}
+    <div className="absolute top-4 left-4 z-20 flex gap-2">
+      <span className="bg-gradient-to-r from-sky-500 to-cyan-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+        ⭐ Destacado
+      </span>
+    </div>
+
+    <div className="grid md:grid-cols-2 gap-0">
+      {/* Image side */}
+      <div
+        className="relative h-64 md:h-full min-h-[280px] cursor-pointer overflow-hidden"
+        onClick={onOpenModal}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      >
+        {project.images.map((image, imgIndex) => (
+          <img
+            key={imgIndex}
+            src={image}
+            alt={`${project.title} - ${imgIndex + 1}`}
+            className="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out group-hover:scale-105"
+            style={{ opacity: currentImageIndex === imgIndex ? 1 : 0 }}
+          />
+        ))}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-zinc-900/60 opacity-0 md:opacity-100" />
+        <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+          <p className="text-white text-sm mb-3 px-3 py-1 bg-sky-600/50 backdrop-blur-sm rounded-full">
+            Ver galería ({project.images.length} imágenes)
+          </p>
+        </div>
+      </div>
+
+      {/* Content side */}
+      <div className="p-8 flex flex-col justify-between">
+        <div>
+          <h2 className="text-3xl font-bold mb-3 text-zinc-100">{project.title}</h2>
+          <p className="text-zinc-400 text-base leading-relaxed mb-5">{project.description}</p>
+
+          {project.metrics && (
+            <div className="mb-5 p-4 bg-sky-950/30 border border-sky-800/30 rounded-xl">
+              <h4 className="text-xs font-bold text-sky-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                <FaChartLine /> Impacto
+              </h4>
+              <ul className="space-y-1.5">
+                {project.metrics.map((m, i) => (
+                  <li key={i} className="flex items-start gap-2 text-zinc-300 text-sm">
+                    <span className="text-sky-400 mt-0.5">›</span> {m}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div className="flex flex-wrap gap-2 mb-6">
+            <TechBadges technologies={project.technologies} />
+          </div>
+        </div>
+
+        <ProjectLinks project={project} />
+      </div>
+    </div>
+  </motion.div>
+);
+
+/* ── Regular Project Card ── */
+const ProjectCard = ({ project, projectIndex, currentImageIndex, onMouseEnter, onMouseLeave, onOpenModal, animDelay }) => (
+  <motion.div
+    className="flex flex-col rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900/60 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-sky-500/40 hover:shadow-xl hover:shadow-sky-900/10"
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: animDelay, duration: 0.6 }}
+  >
+    {/* Image */}
+    <div
+      className="relative w-full h-52 overflow-hidden cursor-pointer group flex-shrink-0"
+      onClick={onOpenModal}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      {project.images.map((image, imgIndex) => (
+        <img
+          key={imgIndex}
+          src={image}
+          alt={`${project.title} - ${imgIndex + 1}`}
+          className="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out group-hover:scale-105"
+          style={{ opacity: currentImageIndex === imgIndex ? 1 : 0 }}
+        />
+      ))}
+      {/* Badges overlay */}
+      <div className="absolute top-3 left-3 flex gap-2 z-10">
+        {project.isLive && (
+          <span className="bg-emerald-500/90 text-white text-xs font-bold px-2.5 py-1 rounded-full backdrop-blur-sm flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse inline-block" />
+            En producción
+          </span>
+        )}
+        {project.stores && (
+          <span className="bg-sky-500/90 text-white text-xs font-bold px-2.5 py-1 rounded-full backdrop-blur-sm">
+            En stores
+          </span>
+        )}
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+        <p className="text-white text-xs mb-3 px-3 py-1 bg-sky-600/50 backdrop-blur-sm rounded-full">
+          {project.images.length > 1 ? `Ver galería (${project.images.length} imgs)` : 'Ver imagen'}
+        </p>
+      </div>
+    </div>
+
+    {/* Content */}
+    <div className="flex flex-col flex-grow p-5">
+      <h2 className="text-xl font-bold mb-2 text-zinc-100">{project.title}</h2>
+      <p className="text-zinc-400 text-sm leading-relaxed mb-4 flex-grow">{project.description}</p>
+
+      {project.metrics && (
+        <div className="mb-4 p-3 bg-sky-950/20 border border-sky-900/30 rounded-lg">
+          <h4 className="text-xs font-bold text-sky-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <FaChartLine className="w-3 h-3" /> Impacto
+          </h4>
+          <ul className="space-y-1">
+            {project.metrics.map((m, i) => (
+              <li key={i} className="flex items-start gap-1.5 text-zinc-400 text-xs">
+                <span className="text-sky-500 mt-0.5 flex-shrink-0">›</span> {m}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className="flex flex-wrap gap-1.5 mb-4">
+        <TechBadges technologies={project.technologies} small />
+      </div>
+
+      <div className="pt-3 border-t border-zinc-800">
+        <ProjectLinks project={project} small />
+      </div>
+    </div>
+  </motion.div>
+);
+
+/* ── Tech Badges ── */
+const TechBadges = ({ technologies, small }) =>
+  technologies.map((techName, i) => {
+    const tech = getTechInfo(techName);
+    return (
+      <span
+        key={i}
+        className={`bg-zinc-800/80 text-zinc-300 font-medium rounded-full border border-zinc-700/60 flex items-center gap-1.5 ${small ? 'text-xs px-2 py-1' : 'text-xs px-2.5 py-1.5'}`}
+      >
+        {tech.icon && (
+          <span className="text-base flex-shrink-0" style={{ color: tech.color }}>
+            {tech.icon}
+          </span>
+        )}
+        {tech.name}
+      </span>
+    );
+  });
+
+/* ── Project Links ── */
+const ProjectLinks = ({ project, small }) => (
+  <div className={`flex flex-wrap gap-3 ${small ? 'text-sm' : ''}`}>
+    {project.github && (
+      <a
+        href={project.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-1.5 text-zinc-400 hover:text-sky-400 transition-colors duration-200 font-medium"
+      >
+        <FaGithub /> Código
+      </a>
+    )}
+    {project.live && (
+      <a
+        href={project.live}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 transition-colors duration-200 font-medium"
+      >
+        <FaExternalLinkAlt className="text-xs" /> Demo live
+      </a>
+    )}
+    {project.stores?.android && (
+      <a
+        href={project.stores.android}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-1.5 text-zinc-400 hover:text-sky-400 transition-colors duration-200 font-medium"
+      >
+        <SiGoogleplay /> Android
+      </a>
+    )}
+    {project.stores?.ios && (
+      <a
+        href={project.stores.ios}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-1.5 text-zinc-400 hover:text-sky-400 transition-colors duration-200 font-medium"
+      >
+        <FaApple /> iOS
+      </a>
+    )}
+  </div>
+);
 
 export default Projects;
