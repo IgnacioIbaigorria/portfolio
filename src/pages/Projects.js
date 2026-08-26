@@ -66,20 +66,17 @@ const Projects = () => {
     },
     {
       title: 'Servicold App',
-      description: 'App para la empresa Servicold SAS — gestión de usuarios y sensores IoT en tiempo real, compatible con iOS y Android.',
+      description: 'App móvil para monitoreo remoto de sensores IoT de temperatura y combustible. Permite visualizar datos en tiempo real, consultar históricos con gráficos, descargar reportes en Excel, recibir alertas push ante valores críticos y gestionar el acceso mediante un modelo de suscripciones.',
       images: [
-        '/images/projects/servicold-app/servicold_app1.jpg',
-        '/images/projects/servicold-app/servicold_app2.jpg',
-        '/images/projects/servicold-app/servicold_app3.jpg',
-        '/images/projects/servicold-app/servicold_app4.jpg',
-        '/images/projects/servicold-app/servicold_app5.jpg',
-        '/images/projects/servicold-app/servicold-app7.jpg',
-        '/images/projects/servicold-app/IMG_0006.PNG',
-        '/images/projects/servicold-app/IMG_0007.PNG',
-        '/images/projects/servicold-app/IMG_0008.PNG',
-        '/images/projects/servicold-app/IMG_0009.PNG',
+        '/images/projects/servicold-app/servicold_app1.jpeg',
+        '/images/projects/servicold-app/servicold_app2.jpeg',
+        '/images/projects/servicold-app/servicold_app3.jpeg',
+        '/images/projects/servicold-app/servicold_app4.jpeg',
+        '/images/projects/servicold-app/servicold_app5.jpeg',
+        '/images/projects/servicold-app/servicold_app6.jpeg',
+        '/images/projects/servicold-app/servicold_app7.jpeg'
       ],
-      technologies: ['React Native', 'Expo', 'Firebase', 'TypeScript'],
+      technologies: ['React Native', 'Expo', 'TypeScript', 'PHP', 'MySQL', 'Arduino'],
       github: 'https://github.com/IgnacioIbaigorria/servicold-app',
       stores: {
         android: 'https://play.google.com/store/apps/details?id=com.ignacioivan00.servicoldApp&hl=es_419',
@@ -89,12 +86,15 @@ const Projects = () => {
       isLive: true,
       metrics: [
         'Publicada en Google Play y App Store.',
-        'Aumento del 25% en ventas de sensores.',
+        'Monitoreo en tiempo real de sensores IoT vía Arduino + WiFi.',
+        'Alertas push, gráficos históricos y exportación a Excel.',
+        'Modelo de suscripciones por niveles de acceso.',
+        'Aumento del 25% en ventas de sensores para el cliente.',
       ]
     },
     {
       title: 'Servicold Web',
-      description: 'Sitio web corporativo y sistema de gestión de sensores para Servicold SAS. Landing page + dashboard de administración.',
+      description: 'Plataforma web de monitoreo de sensores IoT y sitio corporativo para Servicold SAS. Dashboard con gráficos en tiempo real, descarga de históricos en Excel y gestión de sensores y usuarios, complementado con una landing page corporativa.',
       images: [
         '/images/projects/servicold-web/servicold-web1.jpg',
         '/images/projects/servicold-web/servicold-web2.jpg',
@@ -104,12 +104,14 @@ const Projects = () => {
         '/images/projects/servicold-web/servicold-web6.jpg',
         '/images/projects/servicold-web/servicold-web7.jpg',
       ],
-      technologies: ['JavaScript', 'Bootstrap', 'PHP', 'phpMyAdmin'],
+      technologies: ['JavaScript', 'Bootstrap', 'PHP', 'MySQL', 'Hostinger'],
       github: 'https://github.com/IgnacioIbaigorria/ServiCold',
       live: 'https://servicoldingenieria.com',
       categories: ['Web'],
       isLive: true,
       metrics: [
+        'Dashboard compartido con la app móvil (misma API PHP).',
+        'Exportación de datos históricos a Excel por rango de fechas.',
         'Aumento del 25% en ventas de sensores.',
       ]
     },
@@ -246,7 +248,7 @@ const Projects = () => {
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalImages, currentModalImage]);
 
   const featuredProject = filtered.find(p => p.featured);
