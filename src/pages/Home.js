@@ -150,7 +150,7 @@ const Home = () => {
 
   const experience = [
     {
-      period: 'Ene 2022 – Presente',
+      period: 'Ene 2021 – Presente',
       title: 'Desarrollador Independiente',
       company: 'Freelance',
       highlights: [
