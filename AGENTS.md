@@ -40,12 +40,14 @@ Dark only. The whole palette is in `tailwind.config.js` and it is small on purpo
 Tailwind drops an unknown utility silently — no error, no warning, it simply renders nothing. When you use a token or variant you aren't sure about, confirm it reached `build/static/css/main.*.css` before you go looking for a markup bug.
 
 - Structure comes from 1px `border-line` rules and space. Rounded cards are the failure mode here — don't reintroduce them.
+- The 12-column composition is a **desktop-only** layout: grids are `grid-cols-1 ... lg:grid-cols-12`, and the split always happens at `lg`, never `md`. Two rules follow, and breaking either one reintroduces horizontal overflow: the `col-span-*` on a child must use the **same** breakpoint as the grid's `lg:grid-cols-12` (a `md:col-span-6` on a one-column grid creates implicit columns and blows the layout out), and no bare `grid-cols-12` may sit on a mobile-width container — 11 gaps alone can exceed the viewport.
 - Type: `font-display` (Bricolage Grotesque, variable) for headings and big statements only, `font-sans` (IBM Plex Sans) for everything else, `font-mono` **only** for real data and short functional tags (counters, periods, tech names, tags). Mono is not for decoration and there are no ALL-CAPS eyebrow labels above headings.
 - Weight and tracking live in the `fontSize` steps in `tailwind.config.js`, not in JSX — so don't add `font-semibold` to a heading that already has a `text-*` step. Note `fontWeight` in those option objects works, but `fontVariationSettings` is silently dropped; the display face's width axis is set in `index.css` on `h1`/`h2`/`h3` instead.
 - One accent, spent once per page: the hero statement, the Projects preview pane, the form focus underline.
 - Motion lives in `src/components/Reveal.js`: `Wipe` (clip wipe, headings), `Blur` (blur+opacity, content), `RuleReveal` (the single load-in rule). All three collapse to plain elements under `prefers-reduced-motion`, and `index.css` also kills CSS animation globally. Ambient motion is only the background glow. Never put a fade-and-slide-up on every block.
 - `AnimatedBackground` owns the page background (grid, glow, grain). The pages used to each carry their own copy of it — don't re-add per-page background blocks.
 - Fonts are loaded via `<link>` in `public/index.html` only; there is no `@import` in `index.css`.
+- `Contact` owns its validation: the form is `noValidate` on purpose, because the browser's own bubble is unstyled, in the browser's language, and fires before `submit` so our Spanish field-level messages would never run. The email pattern is `EMAIL_PATTERN` in `Contact.js` — pragmatic RFC-ish, TLD required, empty dot-segments impossible. Keep `noValidate`, and keep validation in front of the `emailjs.sendForm` call.
 - Overlays (mobile drawer, project gallery) must keep their Escape handler, body scroll lock, and `useFocusTrap` from `src/utils/useFocusTrap.js`.
 
 ## Deploy

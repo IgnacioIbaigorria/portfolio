@@ -23,6 +23,9 @@ module.exports = {
           dim: '#7A5F2C',
         },
         live: '#6FCF97',
+        // Functional only: form validation. Never decorative — reusing `signal`
+        // for errors would make a wrong field look like a focused one.
+        danger: '#E5484D',
       },
       fontFamily: {
         // Variable: opsz is set automatically by the browser per size, wdth is
@@ -35,13 +38,13 @@ module.exports = {
         // NB: the width axis of the display face is set in index.css, not here —
         // Tailwind silently ignores unknown keys in these option objects.
         display: ["clamp(2.6rem, 8.6vw, 5.75rem)", { lineHeight: "0.94", letterSpacing: "-0.04em", fontWeight: "600" }],
-        headline: ["clamp(1.8rem, 4vw, 2.75rem)", { lineHeight: "1.06", letterSpacing: "-0.035em", fontWeight: "600" }],
-        title: ["1.375rem", { lineHeight: "1.24", letterSpacing: "-0.02em", fontWeight: "500" }],
-        lead: ["clamp(1.0625rem, 1.3vw, 1.1875rem)", { lineHeight: "1.6" }],
-        body: ["0.9688rem", { lineHeight: "1.65" }],
-        small: ["0.875rem", { lineHeight: "1.6" }],
+        headline: ["clamp(1.875rem, 4.2vw, 3rem)", { lineHeight: "1.06", letterSpacing: "-0.035em", fontWeight: "600" }],
+        title: ["1.5rem", { lineHeight: "1.24", letterSpacing: "-0.02em", fontWeight: "500" }],
+        lead: ["clamp(1.125rem, 1.4vw, 1.3125rem)", { lineHeight: "1.6" }],
+        body: ["1.0625rem", { lineHeight: "1.65" }],
+        small: ["0.9375rem", { lineHeight: "1.6" }],
         // Only for real machine data and short functional tags — never as decoration.
-        micro: ["0.75rem", { lineHeight: "1.15", letterSpacing: "0.12em" }],
+        micro: ["0.8125rem", { lineHeight: "1.2", letterSpacing: "0.1em" }],
       },
       maxWidth: {
         measure: "68ch",

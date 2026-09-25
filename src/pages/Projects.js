@@ -178,9 +178,9 @@ const TechList = ({ technologies }) => (
     {technologies.map((name) => {
       const tech = getTechInfo(name);
       return (
-        <li key={name} className="flex items-center gap-1.5 font-mono text-[0.75rem] text-muted">
+        <li key={name} className="flex items-center gap-1.5 font-mono text-[0.8125rem] text-muted">
           {tech.icon && (
-            <span className="text-[0.85rem] leading-none" style={{ color: tech.color }} aria-hidden="true">
+            <span className="text-[0.95rem] leading-none" style={{ color: tech.color }} aria-hidden="true">
               {tech.icon}
             </span>
           )}
@@ -194,26 +194,26 @@ const TechList = ({ technologies }) => (
 const ProjectLinks = ({ project, onOpenGallery }) => (
   <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
     {project.github && (
-      <a href={project.github} target="_blank" rel="noopener noreferrer" className="link flex items-center gap-1.5 font-mono text-[0.75rem]">
+      <a href={project.github} target="_blank" rel="noopener noreferrer" className="link flex items-center gap-1.5 font-mono text-[0.8125rem]">
         <FaGithub aria-hidden="true" /> Código
       </a>
     )}
     {project.live && (
-      <a href={project.live} target="_blank" rel="noopener noreferrer" className="link flex items-center gap-1.5 font-mono text-[0.75rem]">
+      <a href={project.live} target="_blank" rel="noopener noreferrer" className="link flex items-center gap-1.5 font-mono text-[0.8125rem]">
         <FaExternalLinkAlt aria-hidden="true" /> Demo
       </a>
     )}
     {project.stores?.android && (
-      <a href={project.stores.android} target="_blank" rel="noopener noreferrer" className="link flex items-center gap-1.5 font-mono text-[0.75rem]">
+      <a href={project.stores.android} target="_blank" rel="noopener noreferrer" className="link flex items-center gap-1.5 font-mono text-[0.8125rem]">
         <SiGoogleplay aria-hidden="true" /> Android
       </a>
     )}
     {project.stores?.ios && (
-      <a href={project.stores.ios} target="_blank" rel="noopener noreferrer" className="link flex items-center gap-1.5 font-mono text-[0.75rem]">
+      <a href={project.stores.ios} target="_blank" rel="noopener noreferrer" className="link flex items-center gap-1.5 font-mono text-[0.8125rem]">
         <FaApple aria-hidden="true" /> iOS
       </a>
     )}
-    <button type="button" onClick={onOpenGallery} className="link font-mono text-[0.75rem] text-signal">
+    <button type="button" onClick={onOpenGallery} className="link font-mono text-[0.8125rem] text-signal">
       {project.images.length > 1 ? `Galería (${project.images.length})` : 'Ver imagen'}
     </button>
   </div>
@@ -302,8 +302,8 @@ const Projects = () => {
       </div>
 
       {/* ── Index + preview ─────────────────────────────────────────── */}
-      <div className="mt-2 grid grid-cols-12 gap-x-10">
-        <ul className="col-span-12 lg:col-span-7 xl:col-span-8">
+      <div className="mt-2 grid grid-cols-1 gap-x-10 lg:grid-cols-12">
+        <ul className="lg:col-span-7 xl:col-span-8">
           {filtered.map((project) => {
             const isPreview = preview?.title === project.title;
             return (
@@ -377,7 +377,7 @@ const Projects = () => {
         </ul>
 
         {/* Sticky preview: the one place on this page allowed to be loud. */}
-        <div className="col-span-12 hidden lg:col-span-5 lg:block xl:col-span-4">
+        <div className="hidden lg:col-span-5 lg:block xl:col-span-4">
           <div className="sticky top-24 pt-8">
             <div className="border border-line bg-inset">
               <AnimatePresence mode="wait" initial={false}>

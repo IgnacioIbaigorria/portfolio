@@ -247,8 +247,8 @@ const Home = () => {
   return (
     <div>
       {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section className="grid grid-cols-12 items-end gap-x-6 gap-y-12 pt-6 md:pt-10">
-        <div className="col-span-12 lg:col-span-7">
+      <section className="grid grid-cols-1 items-end gap-x-6 gap-y-12 pt-6 md:pt-10 lg:grid-cols-12">
+        <div className="lg:col-span-7">
           <motion.p
             {...rise(0.05)}
             className="font-mono text-micro uppercase tracking-[0.14em] text-muted"
@@ -288,7 +288,7 @@ const Home = () => {
           </motion.div>
         </div>
 
-        <motion.div {...rise(0.3)} className="col-span-12 lg:col-span-5">
+        <motion.div {...rise(0.3)} className="lg:col-span-5">
           <figure className="relative">
             <div className="overflow-hidden border border-line bg-inset">
               <img
@@ -309,7 +309,7 @@ const Home = () => {
           </figure>
         </motion.div>
 
-        <div className="col-span-12 mt-4">
+        <div className="mt-4">
           <RuleReveal delay={0.5} />
         </div>
       </section>
@@ -348,17 +348,17 @@ const Home = () => {
       <section className="mt-20 md:mt-28">
         <SectionHead title="Experiencia" note="2022 — hoy" />
         {experience.map((exp) => (
-          <div key={exp.title} className="mt-12 grid grid-cols-12 gap-x-6">
-            <div className="col-span-12 md:col-span-4">
+          <div key={exp.title} className="mt-12 grid grid-cols-1 gap-x-6 lg:grid-cols-12">
+            <div className="lg:col-span-4">
               <Blur>
                 <h3 className="font-display text-title text-frost">{exp.title}</h3>
                 <p className="mt-1 text-small text-signal">{exp.company}</p>
-                <p className="mt-4 font-mono text-micro uppercase tracking-[0.14em] text-muted">
+                <p className="mt-4 font-mono text-micro uppercase text-muted">
                   {exp.period}
                 </p>
               </Blur>
             </div>
-            <div className="col-span-12 border-line-soft md:col-span-8 md:border-l md:pl-10">
+            <div className="border-line-soft lg:col-span-8 lg:border-l lg:pl-10">
               <Blur delay={0.08}>
                 <ul className="grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2">
                   {exp.highlights.map((h) => (
@@ -392,7 +392,7 @@ const Home = () => {
                           {tech.icon}
                         </span>
                       )}
-                      <span className="font-mono text-[0.8125rem]">{tech.name}</span>
+                      <span className="font-mono text-[0.875rem]">{tech.name}</span>
                     </li>
                   ))}
                 </ul>
@@ -407,12 +407,12 @@ const Home = () => {
         <SectionHead title="Formación" note="En curso" />
         {education.map((ed) => (
           <Blur key={ed.degree}>
-            <div className="mt-10 grid grid-cols-12 items-baseline gap-x-6 gap-y-3">
-              <h3 className="col-span-12 font-display text-headline text-frost md:col-span-6">
+            <div className="mt-10 grid grid-cols-1 items-baseline gap-x-6 gap-y-3 lg:grid-cols-12">
+              <h3 className="font-display text-headline text-frost lg:col-span-6">
                 {ed.degree}
               </h3>
-              <p className="col-span-12 text-small text-signal md:col-span-3">{ed.school}</p>
-              <p className="col-span-12 font-mono text-micro uppercase tracking-[0.14em] text-muted md:col-span-3 md:text-right">
+              <p className="text-small text-signal lg:col-span-3">{ed.school}</p>
+              <p className="font-mono text-micro uppercase text-muted lg:col-span-3 lg:text-right">
                 {ed.period}
               </p>
             </div>
@@ -458,7 +458,7 @@ const Home = () => {
           >
             Escribime
           </Link>
-          <a href="mailto:ignacioibaigorria@gmail.com" className="link font-mono text-[0.8125rem]">
+          <a href="mailto:ignacioibaigorria@gmail.com" className="link font-mono text-[0.875rem]">
             ignacioibaigorria@gmail.com
           </a>
         </Blur>
