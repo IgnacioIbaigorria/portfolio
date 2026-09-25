@@ -290,11 +290,10 @@ const Projects = () => {
               type="button"
               onClick={() => setActiveFilter(cat)}
               aria-pressed={isActive}
-              className={`relative -mb-px shrink-0 whitespace-nowrap border-b-2 px-4 py-3 text-small transition-colors duration-300 ${
-                isActive
+              className={`relative -mb-px shrink-0 whitespace-nowrap border-b-2 px-4 py-3 text-small transition-colors duration-300 ${isActive
                   ? 'border-signal text-frost'
                   : 'border-transparent text-muted hover:border-line hover:text-frost'
-              }`}
+                }`}
             >
               {cat}
             </button>
@@ -315,18 +314,16 @@ const Projects = () => {
                 className="group relative border-b border-line"
               >
                 <span
-                  className={`absolute left-0 top-8 h-9 w-px bg-signal transition-opacity duration-500 ease-out ${
-                    isPreview ? 'opacity-100' : 'opacity-0'
-                  }`}
+                  className={`absolute left-0 top-8 h-9 w-px bg-signal transition-opacity duration-500 ease-out ${isPreview ? 'opacity-100' : 'opacity-0'
+                    }`}
                   aria-hidden="true"
                 />
 
                 <div className="py-8 pl-5 lg:pl-6">
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
                     <h2
-                      className={`font-display text-title transition-colors duration-300 ${
-                        isPreview ? 'text-signal' : 'text-frost'
-                      }`}
+                      className={`font-display text-title transition-colors duration-300 ${isPreview ? 'text-signal' : 'text-frost'
+                        }`}
                     >
                       {project.title}
                     </h2>

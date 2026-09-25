@@ -71,11 +71,11 @@ const Header = () => {
   const panelMotion = reduce
     ? { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 } }
     : {
-        initial: { x: '100%' },
-        animate: { x: 0 },
-        exit: { x: '100%' },
-        transition: { type: 'spring', stiffness: 320, damping: 34 },
-      };
+      initial: { x: '100%' },
+      animate: { x: 0 },
+      exit: { x: '100%' },
+      transition: { type: 'spring', stiffness: 320, damping: 34 },
+    };
 
   return (
     <>
@@ -105,7 +105,7 @@ const Header = () => {
         <div className="mx-auto flex h-16 w-full max-w-shell items-center justify-between gap-6 px-5 md:px-8">
           <Link to="/" className="group flex items-center gap-3" aria-label="Ignacio Ibaigorria — inicio">
             <Mark />
-            <span className="text-[0.9375rem] font-medium tracking-tight text-frost transition-colors duration-300 group-hover:text-signal">
+            <span className="text-[1.2rem] font-medium tracking-tight text-frost transition-colors duration-300 group-hover:text-signal">
               Ignacio Ibaigorria
             </span>
           </Link>
@@ -115,7 +115,7 @@ const Header = () => {
               <Link
                 key={path}
                 to={path}
-                className="link text-small"
+                className="link text-body"
                 data-active={location.pathname === path}
                 aria-current={location.pathname === path ? 'page' : undefined}
               >
@@ -131,12 +131,14 @@ const Header = () => {
                 href={href}
                 aria-label={label}
                 {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                className="text-muted transition-colors duration-300 hover:text-signal"
+                className="text-[1.0625rem] text-muted transition-colors duration-300 hover:text-signal"
               >
                 <Icon aria-hidden="true" />
               </a>
             ))}
-            <span className="flex items-center gap-2 border-l border-line pl-5 font-mono text-micro uppercase tracking-[0.14em] text-muted">
+            {/* Only from lg up: at exactly 768px the enlarged bar would have had
+                roughly 15px of slack, which is not enough to trust. */}
+            <span className="hidden items-center gap-2 border-l border-line pl-5 font-mono text-micro uppercase tracking-[0.14em] text-muted lg:flex">
               <span className="h-1.5 w-1.5 animate-pulse-dot rounded-full bg-live" />
               Disponible
             </span>
@@ -156,9 +158,8 @@ const Header = () => {
                 <Link
                   key={path}
                   to={path}
-                  className={`border-b border-line py-5 text-title transition-colors duration-300 ${
-                    location.pathname === path ? 'text-signal' : 'text-frost'
-                  }`}
+                  className={`border-b border-line py-5 text-title transition-colors duration-300 ${location.pathname === path ? 'text-signal' : 'text-frost'
+                    }`}
                   aria-current={location.pathname === path ? 'page' : undefined}
                 >
                   {label}
@@ -172,9 +173,9 @@ const Header = () => {
                   key={label}
                   href={href}
                   {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  className="flex items-center gap-3 text-small text-muted transition-colors duration-300 hover:text-signal"
+                  className="flex items-center gap-3 text-body text-muted transition-colors duration-300 hover:text-signal"
                 >
-                  <Icon aria-hidden="true" className="text-signal" />
+                  <Icon aria-hidden="true" className="text-[1.0625rem] text-signal" />
                   {label}
                 </a>
               ))}

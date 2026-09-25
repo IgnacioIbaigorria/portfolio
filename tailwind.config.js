@@ -41,7 +41,7 @@ module.exports = {
         body: ["0.9688rem", { lineHeight: "1.65" }],
         small: ["0.875rem", { lineHeight: "1.6" }],
         // Only for real machine data and short functional tags — never as decoration.
-        micro: ["0.6875rem", { lineHeight: "1.1", letterSpacing: "0.14em" }],
+        micro: ["0.75rem", { lineHeight: "1.15", letterSpacing: "0.12em" }],
       },
       maxWidth: {
         measure: "68ch",
