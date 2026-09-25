@@ -1,7 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaCode, FaMobile, FaDatabase, FaArrowRight } from 'react-icons/fa';
-import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
 import {
   SiReact, SiNextdotjs, SiJavascript, SiTypescript, SiHtml5, SiCss3, SiTailwindcss,
   SiNodedotjs, SiExpress, SiSpringboot, SiPhp, SiPython,
@@ -9,516 +7,461 @@ import {
   SiGit, SiDocker, SiAmazonwebservices as SiAmazonaws, SiGitlab, SiFigma,
   SiGithub, SiGo, SiGin
 } from 'react-icons/si';
+import { FaCode, FaMobile, FaDatabase, FaBoxes } from 'react-icons/fa';
+import { motion, useInView, useMotionValue, useSpring, useReducedMotion } from 'framer-motion';
+import { Wipe, Blur, RuleReveal } from '../components/Reveal';
 
-/* ─── Animated Counter ─────────────────────────────────────── */
-const AnimatedCounter = ({ target, suffix = '', duration = 2 }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+/* ─── Measured value. Counts once, when it is first seen. ─────────────── */
+const Counter = ({ target, suffix = '', prefix = '' }) => {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-15% 0px' });
   const motionVal = useMotionValue(0);
-  const spring = useSpring(motionVal, { duration: duration * 1000, bounce: 0 });
+  const spring = useSpring(motionVal, { duration: 1400, bounce: 0 });
   const [display, setDisplay] = useState(0);
+  const reduce = useReducedMotion();
 
   useEffect(() => {
-    if (isInView) motionVal.set(target);
-  }, [isInView, motionVal, target]);
-
-  useEffect(() => spring.on('change', v => setDisplay(Math.round(v))), [spring]);
-
-  return <span ref={ref}>{display}{suffix}</span>;
-};
-
-/* ─── Typing Effect ─────────────────────────────────────────── */
-const ROLES = ['FullStack Developer', 'Backend Engineer', 'Mobile Developer', 'Problem Solver'];
-const TypingText = () => {
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [displayed, setDisplayed] = useState('');
-  const [deleting, setDeleting] = useState(false);
-
-  useEffect(() => {
-    const target = ROLES[roleIndex];
-    let timeout;
-    if (!deleting && displayed.length < target.length) {
-      timeout = setTimeout(() => setDisplayed(target.slice(0, displayed.length + 1)), 70);
-    } else if (!deleting && displayed.length === target.length) {
-      timeout = setTimeout(() => setDeleting(true), 2000);
-    } else if (deleting && displayed.length > 0) {
-      timeout = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 40);
-    } else if (deleting && displayed.length === 0) {
-      setDeleting(false);
-      setRoleIndex(i => (i + 1) % ROLES.length);
+    if (reduce) {
+      setDisplay(target);
+      return undefined;
     }
-    return () => clearTimeout(timeout);
-  }, [displayed, deleting, roleIndex]);
+    if (inView) motionVal.set(target);
+    return undefined;
+  }, [inView, motionVal, target, reduce]);
+
+  useEffect(() => {
+    if (reduce) return undefined;
+    return spring.on('change', (v) => setDisplay(Math.round(v)));
+  }, [spring, reduce]);
 
   return (
-    <span className="text-sky-400 font-semibold">
-      {displayed}
-      <span className="animate-pulse">|</span>
+    <span ref={ref} className="tnum">
+      {prefix}
+      {display}
+      {suffix}
     </span>
   );
 };
 
-/* ─── Main Component ────────────────────────────────────────── */
-const Home = () => {
-  const sectionTitleVariant = {
-    hidden: { opacity: 0, x: -40 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
-  };
+/* ─── The role line types itself, then holds. ─────────────────────────── */
+const ROLES = ['Fullstack Developer', 'Backend Engineer', 'Mobile Developer'];
 
-  const cardVariant = {
-    hidden: { opacity: 0, y: 30 },
-    visible: (i = 1) => ({
-      opacity: 1, y: 0,
-      transition: { delay: i * 0.1, duration: 0.6, type: 'spring' }
-    })
-  };
+const TypingRole = () => {
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [typed, setTyped] = useState('');
+  const [deleting, setDeleting] = useState(false);
+  const reduce = useReducedMotion();
 
-  const skills = [
-    {
-      category: 'Frontend',
-      color: 'from-sky-500/10 to-cyan-500/5',
-      border: 'border-sky-500/20',
-      technologies: [
-        { name: 'React', icon: <SiReact />, color: '#61DAFB' },
-        { name: 'Next.js', icon: <SiNextdotjs />, color: '#FFFFFF' },
-        { name: 'TypeScript', icon: <SiTypescript />, color: '#3178C6' },
-        { name: 'JavaScript', icon: <SiJavascript />, color: '#F7DF1E' },
-        { name: 'HTML5', icon: <SiHtml5 />, color: '#E34F26' },
-        { name: 'CSS3', icon: <SiCss3 />, color: '#1572B6' },
-        { name: 'Tailwind', icon: <SiTailwindcss />, color: '#06B6D4' },
-      ]
-    },
-    {
-      category: 'Backend',
-      color: 'from-emerald-500/10 to-teal-500/5',
-      border: 'border-emerald-500/20',
-      technologies: [
-        { name: 'Spring Boot', icon: <SiSpringboot />, color: '#6DB33F' },
-        { name: 'Go', icon: <SiGo />, color: '#4DD0E1' },
-        { name: 'Gin', icon: <SiGin />, color: '#4DD0E1' },
-        { name: 'Node.js', icon: <SiNodedotjs />, color: '#5FA04E' },
-        { name: 'Express', icon: <SiExpress />, color: '#aaaaaa' },
-        { name: 'PHP', icon: <SiPhp />, color: '#777BB4' },
-        { name: 'Python', icon: <SiPython />, color: '#3776AB' },
-      ]
-    },
-    {
-      category: 'Bases de Datos',
-      color: 'from-violet-500/10 to-purple-500/5',
-      border: 'border-violet-500/20',
-      technologies: [
-        { name: 'PostgreSQL', icon: <SiPostgresql />, color: '#4169E1' },
-        { name: 'MySQL', icon: <SiMysql />, color: '#4479A1' },
-        { name: 'MongoDB', icon: <SiMongodb />, color: '#47A248' },
-        { name: 'Firebase', icon: <SiFirebase />, color: '#FFCA28' },
-        { name: 'Supabase', icon: <SiSupabase />, color: '#3ECF8E' },
-      ]
-    },
-    {
-      category: 'Móvil',
-      color: 'from-pink-500/10 to-rose-500/5',
-      border: 'border-pink-500/20',
-      technologies: [
-        { name: 'React Native', icon: <SiReact />, color: '#61DAFB' },
-        { name: 'Flutter', icon: <SiFlutter />, color: '#027DFD' },
-        { name: 'Expo', icon: <SiExpo />, color: '#aaaaaa' },
-      ]
-    },
-    {
-      category: 'DevOps & Cloud',
-      color: 'from-orange-500/10 to-amber-500/5',
-      border: 'border-orange-500/20',
-      technologies: [
-        { name: 'Docker', icon: <SiDocker />, color: '#2496ED' },
-        { name: 'AWS', icon: <SiAmazonaws />, color: '#FF9900' },
-        { name: 'Git', icon: <SiGit />, color: '#F05032' },
-        { name: 'GitHub', icon: <SiGithub />, color: '#cccccc' },
-        { name: 'GitLab', icon: <SiGitlab />, color: '#FCA121' },
-      ]
-    },
-    {
-      category: 'Diseño & Tools',
-      color: 'from-fuchsia-500/10 to-pink-500/5',
-      border: 'border-fuchsia-500/20',
-      technologies: [
-        { name: 'Figma', icon: <SiFigma />, color: '#F24E1E' },
-        { name: 'Responsive Design', icon: null, color: null },
-        { name: 'Metodologías Ágiles', icon: null, color: null },
-      ]
+  useEffect(() => {
+    if (reduce) {
+      setTyped(ROLES[0]);
+      return undefined;
     }
-  ];
-
-  const experience = [
-    {
-      period: 'Ene 2022 – Presente',
-      title: 'Desarrollador Independiente',
-      company: 'Freelance',
-      highlights: [
-        { name: 'Servicold', desc: 'Plataforma IoT de gestión de sensores con visualización en tiempo real — +25% en ventas.' },
-        { name: 'Gestión App', desc: 'App móvil para PyMEs con inventario, ventas, caja y generación de PDFs — +20% productividad.' },
-        { name: 'Punto Eco', desc: 'E-commerce completo con catálogo, carrito y sistema de pagos.' },
-        { name: 'TaskFlow', desc: 'App colaborativa con sincronización en tiempo real <100ms y soporte offline.' },
-        { name: 'Sistema de Loterías', desc: 'Plataforma full-stack con roles, validaciones y operaciones transaccionales.' },
-        { name: 'Consultoría', desc: 'Optimización de BDs, contenerización con Docker, CI/CD y seguridad con JWT/OAuth2.' },
-      ]
+    const target = ROLES[roleIndex];
+    let timeout;
+    if (!deleting && typed.length < target.length) {
+      timeout = setTimeout(() => setTyped(target.slice(0, typed.length + 1)), 65);
+    } else if (!deleting && typed.length === target.length) {
+      timeout = setTimeout(() => setDeleting(true), 2200);
+    } else if (deleting && typed.length > 0) {
+      timeout = setTimeout(() => setTyped(typed.slice(0, -1)), 35);
+    } else {
+      setDeleting(false);
+      setRoleIndex((i) => (i + 1) % ROLES.length);
     }
-  ];
+    return () => clearTimeout(timeout);
+  }, [typed, deleting, roleIndex, reduce]);
 
   return (
-    <div className="relative max-w-5xl mx-auto p-4">
-      {/* Background */}
-      <div className="fixed inset-0 -z-20 overflow-hidden bg-slate-950" aria-hidden="true">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-sky-900/40 via-slate-950/50 to-slate-950 opacity-100" />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
-      </div>
+    <span className="text-signal">
+      {typed}
+      {!reduce && <span className="animate-pulse-dot">|</span>}
+    </span>
+  );
+};
 
-      {/* ── HERO ── */}
-      <section className="mb-16 relative flex flex-col items-center justify-center min-h-[380px] text-center">
-        <motion.div
-          className="relative z-10 mb-6"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.1, duration: 0.7, type: 'spring' }}
-        >
-          <div className="w-36 h-36 md:w-44 md:h-44 rounded-full bg-gradient-to-tr from-sky-800 to-zinc-900 p-1 shadow-2xl ring-2 ring-sky-500/20">
-            <img
-              src="/images/profile.png"
-              alt="Ignacio Ibaigorria"
-              className="w-full h-full object-cover rounded-full"
-            />
-          </div>
-          <div className="absolute -bottom-1 -right-1 bg-emerald-500 rounded-full w-5 h-5 border-2 border-slate-950 shadow-lg" title="Disponible" />
-        </motion.div>
+/* ─── Section heading: hairline, display title, and a real fact. ──────── */
+const SectionHead = ({ title, note }) => (
+  <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 border-t border-line pt-6">
+    <Wipe>
+      <h2 className="font-display text-headline text-frost">{title}</h2>
+    </Wipe>
+    {note && <span className="font-mono text-micro uppercase tracking-[0.14em] text-muted">{note}</span>}
+  </div>
+);
 
-        <motion.h1
-          className="text-4xl md:text-5xl font-bold mb-2 text-zinc-100 leading-tight z-10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-        >
-          Ignacio Ibaigorria
-        </motion.h1>
+const stats = [
+  { value: 4, suffix: '+', label: 'Años construyendo software' },
+  { value: 9, suffix: '+', label: 'Proyectos entregados' },
+  { value: 2, suffix: '', label: 'Apps publicadas en stores' },
+  { value: 25, suffix: '%', prefix: '+', label: 'Impacto en ventas de un cliente' },
+];
 
-        <motion.p
-          className="text-xl md:text-2xl text-zinc-400 mb-2 z-10 h-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          <TypingText />
-        </motion.p>
+const services = [
+  {
+    icon: <FaCode aria-hidden="true" />,
+    title: 'Desarrollo web',
+    desc: 'Sitios y aplicaciones con React y Tailwind, desde una landing hasta un sistema con autenticación, roles y APIs REST. Responsive de verdad, no un desktop comprimido.',
+  },
+  {
+    icon: <FaDatabase aria-hidden="true" />,
+    title: 'Backend y APIs',
+    desc: 'Servicios REST con Spring Boot, Go o Node.js. Modelado de datos, seguridad con JWT y despliegue en Docker. Diseñados para aguantar carga, no para la demo.',
+  },
+  {
+    icon: <FaMobile aria-hidden="true" />,
+    title: 'Apps móviles',
+    desc: 'React Native con Expo, publicadas en Google Play y App Store. Con soporte offline, sincronización en tiempo real y alertas push.',
+  },
+  {
+    icon: <FaBoxes aria-hidden="true" />,
+    title: 'Automatización y sistemas',
+    desc: 'Software a medida que elimina tareas repetitivas: inventario, punto de venta, PDFs automáticos y control de caja. Menos errores, más tiempo para lo importante.',
+  },
+];
 
-        <motion.p
-          className="text-base text-zinc-500 mb-8 max-w-xl z-10"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7, duration: 0.6 }}
-        >
-          Ingeniería en Sistemas de Información · Construyo aplicaciones web y móviles que generan impacto real en los negocios.
-        </motion.p>
+const skills = [
+  {
+    category: 'Frontend',
+    technologies: [
+      { name: 'React', icon: <SiReact />, color: '#61DAFB' },
+      { name: 'Next.js', icon: <SiNextdotjs />, color: '#FFFFFF' },
+      { name: 'TypeScript', icon: <SiTypescript />, color: '#3178C6' },
+      { name: 'JavaScript', icon: <SiJavascript />, color: '#F7DF1E' },
+      { name: 'Tailwind', icon: <SiTailwindcss />, color: '#06B6D4' },
+      { name: 'HTML5', icon: <SiHtml5 />, color: '#E34F26' },
+      { name: 'CSS3', icon: <SiCss3 />, color: '#1572B6' },
+    ],
+  },
+  {
+    category: 'Backend',
+    technologies: [
+      { name: 'Spring Boot', icon: <SiSpringboot />, color: '#6DB33F' },
+      { name: 'Go', icon: <SiGo />, color: '#4DD0E1' },
+      { name: 'Gin', icon: <SiGin />, color: '#4DD0E1' },
+      { name: 'Node.js', icon: <SiNodedotjs />, color: '#5FA04E' },
+      { name: 'Express', icon: <SiExpress />, color: '#AAAAAA' },
+      { name: 'PHP', icon: <SiPhp />, color: '#777BB4' },
+      { name: 'Python', icon: <SiPython />, color: '#3776AB' },
+    ],
+  },
+  {
+    category: 'Datos',
+    technologies: [
+      { name: 'PostgreSQL', icon: <SiPostgresql />, color: '#4169E1' },
+      { name: 'MySQL', icon: <SiMysql />, color: '#4479A1' },
+      { name: 'MongoDB', icon: <SiMongodb />, color: '#47A248' },
+      { name: 'Firebase', icon: <SiFirebase />, color: '#FFCA28' },
+      { name: 'Supabase', icon: <SiSupabase />, color: '#3ECF8E' },
+    ],
+  },
+  {
+    category: 'Móvil',
+    technologies: [
+      { name: 'React Native', icon: <SiReact />, color: '#61DAFB' },
+      { name: 'Expo', icon: <SiExpo />, color: '#AAAAAA' },
+      { name: 'Flutter', icon: <SiFlutter />, color: '#027DFD' },
+    ],
+  },
+  {
+    category: 'DevOps',
+    technologies: [
+      { name: 'Docker', icon: <SiDocker />, color: '#2496ED' },
+      { name: 'AWS', icon: <SiAmazonaws />, color: '#FF9900' },
+      { name: 'Git', icon: <SiGit />, color: '#F05032' },
+      { name: 'GitHub', icon: <SiGithub />, color: '#CCCCCC' },
+      { name: 'GitLab', icon: <SiGitlab />, color: '#FCA121' },
+    ],
+  },
+  {
+    category: 'Diseño',
+    technologies: [
+      { name: 'Figma', icon: <SiFigma />, color: '#F24E1E' },
+      { name: 'Responsive design', icon: null, color: null },
+      { name: 'Metodologías ágiles', icon: null, color: null },
+    ],
+  },
+];
 
-        {/* CTAs */}
-        <motion.div
-          className="flex flex-wrap justify-center gap-4 z-10"
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9, duration: 0.5 }}
-        >
-          <Link
-            to="/projects"
-            className="flex items-center gap-2 bg-sky-500 hover:bg-sky-400 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200 shadow-lg shadow-sky-500/20 hover:shadow-sky-400/30 hover:-translate-y-0.5"
+const experience = [
+  {
+    period: '2022 — hoy',
+    title: 'Desarrollador independiente',
+    company: 'Freelance',
+    highlights: [
+      { name: 'Servicold', desc: 'Plataforma IoT de gestión de sensores con visualización en tiempo real. +25% en ventas.' },
+      { name: 'Gestión App', desc: 'App móvil para PyMEs: inventario, ventas, caja y PDFs automáticos. +20% en productividad.' },
+      { name: 'Punto Eco', desc: 'E-commerce completo con catálogo, carrito, pagos y endpoints seguros.' },
+      { name: 'TaskFlow', desc: 'App colaborativa con sincronización en tiempo real por debajo de 100 ms y soporte offline.' },
+      { name: 'Loterías', desc: 'Plataforma full-stack con roles, validaciones y operaciones transaccionales.' },
+      { name: 'Consultoría', desc: 'Optimización de bases de datos, contenerización con Docker, CI/CD y seguridad con JWT.' },
+    ],
+  },
+];
+
+const education = [
+  {
+    degree: 'Ingeniería en Sistemas de Información',
+    school: 'Universidad Tecnológica Nacional',
+    period: '2019 — hoy',
+    topics: [
+      'Arquitecturas de software y diseño de APIs',
+      'Modelado relacional y NoSQL',
+      'POO, estructuras de datos y patrones SOLID',
+      'Redes, sistemas operativos y arquitectura',
+      'Metodologías ágiles y trabajo en equipo',
+    ],
+  },
+];
+
+const method = [
+  {
+    step: '01',
+    title: 'Entender',
+    desc: 'Antes de escribir código necesito saber qué se mide hoy, qué está roto y qué debería pasar después. Salgo de esa conversación con un alcance escrito.',
+  },
+  {
+    step: '02',
+    title: 'Construir',
+    desc: 'Ciclos cortos, cambios chicos y algo funcionando en cada uno. Vas a ver el avance, no un relatório de avance.',
+  },
+  {
+    step: '03',
+    title: 'Entregar',
+    desc: 'Despliegue, documentación y acompañamiento. Si algo falla el día 30, seguimos hablando.',
+  },
+];
+
+const Home = () => {
+  const reduce = useReducedMotion();
+
+  const rise = (delay) =>
+    reduce
+      ? {}
+      : {
+        initial: { opacity: 0, y: 18 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] },
+      };
+
+  return (
+    <div>
+      {/* ── HERO ─────────────────────────────────────────────────────── */}
+      <section className="grid grid-cols-12 items-end gap-x-6 gap-y-12 pt-6 md:pt-10">
+        <div className="col-span-12 lg:col-span-7">
+          <motion.p
+            {...rise(0.05)}
+            className="font-mono text-micro uppercase tracking-[0.14em] text-muted"
           >
-            Ver proyectos <FaArrowRight className="text-sm" />
-          </Link>
-          <Link
-            to="/contact"
-            className="flex items-center gap-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 font-semibold px-6 py-3 rounded-xl transition-all duration-200 border border-zinc-700 hover:border-zinc-500 hover:-translate-y-0.5"
+            Argentina
+          </motion.p>
+
+          <motion.h1
+            {...rise(0.12)}
+            className="mt-6 font-display text-display text-frost"
           >
-            Contactame
-          </Link>
-        </motion.div>
-      </section>
+            Ignacio
+            <br />
+            Ibaigorria
+          </motion.h1>
 
-      {/* ── STATS ── */}
-      <section className="mb-16">
-        <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-4"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          {[
-            { value: 4, suffix: '+', label: 'Años de experiencia' },
-            { value: 9, suffix: '+', label: 'Proyectos entregados' },
-            { value: 2, suffix: '', label: 'Apps en stores' },
-            { value: 25, suffix: '%', label: 'Impacto en ventas' },
-          ].map((stat, i) => (
-            <motion.div
-              key={i}
-              className="bg-zinc-900/60 backdrop-blur-sm rounded-2xl border border-zinc-800 p-5 text-center hover:border-sky-500/30 transition-colors duration-300"
-              whileHover={{ scale: 1.03 }}
-            >
-              <div className="text-3xl md:text-4xl font-bold text-sky-400 mb-1">
-                <AnimatedCounter target={stat.value} suffix={stat.suffix} />
-              </div>
-              <div className="text-sm text-zinc-400">{stat.label}</div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
+          <motion.p {...rise(0.24)} className="mt-8 max-w-[46ch] font-display text-headline text-signal">
+            <TypingRole />
+          </motion.p>
 
-      {/* ── SERVICIOS ── */}
-      <section className="mb-16">
-        <motion.h2
-          className="text-3xl font-bold mb-6 text-zinc-100"
-          variants={sectionTitleVariant}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          Servicios
-        </motion.h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {[
-            {
-              icon: <FaCode className="text-2xl" />,
-              title: 'Desarrollo Web',
-              desc: 'Sitios y aplicaciones web modernas, responsivas y de alto rendimiento. Desde landing pages hasta sistemas complejos con autenticación, roles y APIs REST.'
-            },
-            {
-              icon: <FaMobile className="text-2xl" />,
-              title: 'Desarrollo Móvil',
-              desc: 'Apps iOS y Android con React Native y Expo. Publicadas en Google Play y App Store, con soporte offline y experiencias fluidas.'
-            },
-            {
-              icon: <FaDatabase className="text-2xl" />,
-              title: 'Backend & APIs',
-              desc: 'APIs REST escalables con Spring Boot, Go o Node.js. Diseño de bases de datos, seguridad con JWT/OAuth2 y despliegue con Docker.'
-            },
-            {
-              icon: <FaCode className="text-2xl" />,
-              title: 'Automatización & Sistemas',
-              desc: 'Sistemas a medida que automatizan procesos, reducen errores y mejoran resultados operativos con métricas measurables.'
-            }
-          ].map((serv, i) => (
-            <motion.div
-              key={serv.title}
-              className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-800 p-6 hover:border-sky-500/30 hover:shadow-lg transition-all duration-300 flex gap-4"
-              variants={cardVariant}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              custom={i}
+          <motion.p {...rise(0.32)} className="mt-6 max-w-measure text-lead text-muted">
+            Construyo software que se puede medir: backends con Spring Boot y Go, frontends con React
+            y apps móviles en las stores. Trabajo con empresas que necesitan resultados, no
+            maquetas.
+          </motion.p>
+
+          <motion.div {...rise(0.42)} className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+            <Link
+              to="/contact"
+              className="bg-signal px-7 py-3.5 text-small font-medium text-ink transition-colors duration-300 ease-out hover:bg-[#F0BC63]"
             >
-              <div className="flex-shrink-0 w-12 h-12 bg-sky-900/30 rounded-xl flex items-center justify-center text-sky-400">
-                {serv.icon}
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold mb-1 text-zinc-100">{serv.title}</h3>
-                <p className="text-zinc-400 text-sm leading-relaxed">{serv.desc}</p>
-              </div>
-            </motion.div>
-          ))}
+              Contame tu proyecto
+            </Link>
+            <Link to="/projects" className="link text-small">
+              Ver los proyectos
+            </Link>
+          </motion.div>
         </div>
-      </section>
 
-      {/* ── EXPERIENCIA — Timeline ── */}
-      <section className="mb-16">
-        <motion.h2
-          className="text-3xl font-bold mb-6 text-zinc-100"
-          variants={sectionTitleVariant}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          Experiencia profesional
-        </motion.h2>
-
-        <div className="relative pl-6 border-l-2 border-zinc-800 space-y-0">
-          {experience.map((exp, i) => (
-            <motion.div
-              key={i}
-              className="relative"
-              variants={cardVariant}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              custom={i}
-            >
-              {/* Timeline dot */}
-              <div className="absolute -left-[25px] top-0 w-4 h-4 rounded-full bg-sky-500 border-2 border-slate-950 shadow-lg shadow-sky-500/30" />
-
-              <div className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-800 p-6 mb-6 hover:border-sky-500/20 transition-colors duration-300 ml-4">
-                <div className="flex flex-wrap justify-between items-start gap-2 mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-zinc-100">{exp.title}</h3>
-                    <p className="text-sky-400 font-medium text-sm">{exp.company}</p>
-                  </div>
-                  <span className="text-xs text-zinc-500 bg-zinc-800 px-3 py-1 rounded-full whitespace-nowrap">
-                    {exp.period}
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {exp.highlights.map((h, j) => (
-                    <div key={j} className="flex gap-3 p-3 bg-zinc-800/40 rounded-xl border border-zinc-700/40 hover:border-sky-500/20 transition-colors">
-                      <span className="text-sky-400 font-bold text-sm flex-shrink-0 mt-0.5">›</span>
-                      <div>
-                        <span className="text-zinc-200 font-semibold text-sm">{h.name}: </span>
-                        <span className="text-zinc-400 text-sm">{h.desc}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── HABILIDADES ── */}
-      <section className="mb-16">
-        <motion.h2
-          className="text-3xl font-bold mb-6 text-zinc-100"
-          variants={sectionTitleVariant}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          Habilidades
-        </motion.h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {skills.map((skill, index) => (
-            <motion.div
-              key={index}
-              className={`bg-gradient-to-br ${skill.color} backdrop-blur-sm rounded-2xl border ${skill.border} p-5 hover:scale-[1.02] transition-all duration-300`}
-              variants={cardVariant}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              custom={index}
-            >
-              <h3 className="text-base font-bold mb-3 text-zinc-200">{skill.category}</h3>
-              <div className="flex flex-wrap gap-2">
-                {skill.technologies.map((tech) => (
-                  <span
-                    key={tech.name}
-                    className="bg-zinc-900/60 text-zinc-300 text-xs font-medium px-2.5 py-1.5 rounded-full border border-zinc-700/50 flex items-center gap-1.5 hover:border-sky-500/30 transition-colors"
-                  >
-                    {tech.icon && (
-                      <span className="text-base" style={{ color: tech.color }}>
-                        {tech.icon}
-                      </span>
-                    )}
-                    {tech.name}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── EDUCACIÓN ── */}
-      <section className="mb-16">
-        <motion.h2
-          className="text-3xl font-bold mb-6 text-zinc-100"
-          variants={sectionTitleVariant}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          Educación
-        </motion.h2>
-        <motion.div
-          className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-800 p-6 hover:border-sky-500/20 transition-colors duration-300"
-          variants={cardVariant}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          custom={0}
-        >
-          <div className="flex flex-wrap justify-between items-start gap-2 mb-4">
-            <div>
-              <h3 className="text-xl font-bold text-zinc-100">Ingeniería en Sistemas de Información</h3>
-              <p className="text-sky-400 font-medium text-sm">Universidad Tecnológica Nacional</p>
+        <motion.div {...rise(0.3)} className="col-span-12 lg:col-span-5">
+          <figure className="relative">
+            <div className="overflow-hidden border border-line bg-inset">
+              <img
+                src="/images/profile.png"
+                alt="Ignacio Ibaigorria"
+                width="640"
+                height="800"
+                className="aspect-[4/5] w-full object-cover grayscale-[0.15]"
+              />
             </div>
-            <span className="text-xs text-zinc-500 bg-zinc-800 px-3 py-1 rounded-full whitespace-nowrap">
-              2019 – Presente
-            </span>
-          </div>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-zinc-400 text-sm">
-            {[
-              'Arquitecturas de software, APIs y desarrollo backend',
-              'Modelado de bases de datos relacionales y NoSQL',
-              'POO, estructuras de datos y patrones SOLID',
-              'Análisis de requerimientos y sistemas escalables',
-              'Redes, sistemas operativos y arquitectura de computadoras',
-              'Metodologías ágiles (Scrum) y trabajo en equipo',
-            ].map((item, i) => (
-              <li key={i} className="flex items-start gap-2">
-                <span className="text-sky-400 mt-0.5">›</span> {item}
-              </li>
-            ))}
-          </ul>
+            <figcaption className="mt-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 font-mono text-micro uppercase tracking-[0.14em] text-muted">
+              <span>Desarrollador Fullstack</span>
+              <span className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-live" />
+                Disponible
+              </span>
+            </figcaption>
+          </figure>
         </motion.div>
+
+        <div className="col-span-12 mt-4">
+          <RuleReveal delay={0.5} />
+        </div>
       </section>
 
-      {/* ── METODOLOGÍA ── */}
-      <section className="mb-16">
-        <motion.h2
-          className="text-3xl font-bold mb-6 text-zinc-100"
-          variants={sectionTitleVariant}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          Mi metodología
-        </motion.h2>
-        <motion.div
-          className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-800 p-6"
-          variants={cardVariant}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { step: '01', title: 'Descubrimiento', desc: 'Entiendo a fondo tus necesidades y objetivos antes de escribir una sola línea de código.' },
-              { step: '02', title: 'Desarrollo iterativo', desc: 'Trabajo en ciclos cortos con feedback constante para asegurar que el producto evolucione correctamente.' },
-              { step: '03', title: 'Entrega y soporte', desc: 'Implementación cuidadosa y soporte continuo para garantizar el éxito a largo plazo.' },
-            ].map(({ step, title, desc }) => (
-              <div key={step} className="text-center">
-                <div className="w-14 h-14 bg-sky-900/30 border border-sky-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <span className="text-xl font-bold text-sky-400">{step}</span>
+      {/* ── MEASURED OUTCOMES ────────────────────────────────────────── */}
+      <section className="grid grid-cols-2 gap-x-6 gap-y-10 pt-10 md:grid-cols-4 md:pt-12">
+        {stats.map((stat, i) => (
+          <Blur key={stat.label} delay={i * 0.06}>
+            <div className="font-display text-[2.25rem] font-medium leading-none text-frost sm:text-[2.75rem]">
+              <Counter target={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
+            </div>
+            <p className="mt-3 max-w-[22ch] text-small text-muted">{stat.label}</p>
+          </Blur>
+        ))}
+      </section>
+
+      {/* ── SERVICIOS ────────────────────────────────────────────────── */}
+      <section className="mt-20 md:mt-28">
+        <SectionHead title="Qué hago" note="4 servicios" />
+        <ul className="mt-4 grid grid-cols-1 gap-x-16 border-b border-line md:grid-cols-2">
+          {services.map((service, i) => (
+            <Blur as="li" key={service.title} delay={i * 0.05}>
+              <div className="border-t border-line py-9 md:[&:nth-child(2n+1)]:pl-0 md:[&:nth-child(2n)]:border-l md:[&:nth-child(2n)]:border-line-soft md:[&:nth-child(2n)]:pl-16">
+                <div className="flex items-center gap-3 text-signal">
+                  <span className="text-lg leading-none">{service.icon}</span>
+                  <h3 className="font-display text-title text-frost">{service.title}</h3>
                 </div>
-                <h3 className="text-lg font-semibold mb-2 text-zinc-100">{title}</h3>
-                <p className="text-zinc-400 text-sm">{desc}</p>
+                <p className="mt-3 max-w-measure text-small text-muted">{service.desc}</p>
               </div>
-            ))}
-          </div>
-        </motion.div>
+            </Blur>
+          ))}
+        </ul>
       </section>
 
-      {/* ── CTA FINAL ── */}
-      <section className="mb-8">
-        <motion.div
-          className="bg-gradient-to-br from-sky-900/30 to-zinc-900/50 backdrop-blur-sm rounded-2xl border border-sky-500/20 p-8 text-center"
-          variants={cardVariant}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <h2 className="text-2xl md:text-3xl font-bold text-zinc-100 mb-3">¿Tenés un proyecto en mente?</h2>
-          <p className="text-zinc-400 mb-6 max-w-md mx-auto">Hablemos. Estoy disponible para proyectos freelance y oportunidades laborales.</p>
+      {/* ── EXPERIENCIA ──────────────────────────────────────────────── */}
+      <section className="mt-20 md:mt-28">
+        <SectionHead title="Experiencia" note="2022 — hoy" />
+        {experience.map((exp) => (
+          <div key={exp.title} className="mt-12 grid grid-cols-12 gap-x-6">
+            <div className="col-span-12 md:col-span-4">
+              <Blur>
+                <h3 className="font-display text-title text-frost">{exp.title}</h3>
+                <p className="mt-1 text-small text-signal">{exp.company}</p>
+                <p className="mt-4 font-mono text-micro uppercase tracking-[0.14em] text-muted">
+                  {exp.period}
+                </p>
+              </Blur>
+            </div>
+            <div className="col-span-12 border-line-soft md:col-span-8 md:border-l md:pl-10">
+              <Blur delay={0.08}>
+                <ul className="grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2">
+                  {exp.highlights.map((h) => (
+                    <li key={h.name} className="border-t border-line pt-3">
+                      <span className="text-small font-medium text-frost">{h.name}</span>
+                      <p className="mt-1 text-small text-muted">{h.desc}</p>
+                    </li>
+                  ))}
+                </ul>
+              </Blur>
+            </div>
+          </div>
+        ))}
+      </section>
+
+      {/* ── HABILIDADES ──────────────────────────────────────────────── */}
+      <section className="mt-20 md:mt-28">
+        <SectionHead title="Con qué trabajo" note="6 categorías" />
+        <div className="mt-10 grid grid-cols-1 gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+          {skills.map((group, i) => (
+            <Blur key={group.category} delay={i * 0.04}>
+              <div>
+                <h3 className="font-mono text-micro uppercase tracking-[0.14em] text-muted">
+                  {group.category}
+                </h3>
+                <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2.5">
+                  {group.technologies.map((tech) => (
+                    <li key={tech.name} className="flex items-center gap-1.5 text-small text-frost">
+                      {tech.icon && (
+                        <span className="text-[0.95rem] leading-none" style={{ color: tech.color }} aria-hidden="true">
+                          {tech.icon}
+                        </span>
+                      )}
+                      <span className="font-mono text-[0.8125rem]">{tech.name}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Blur>
+          ))}
+        </div>
+      </section>
+
+      {/* ── EDUCACIÓN ────────────────────────────────────────────────── */}
+      <section className="mt-20 md:mt-28">
+        <SectionHead title="Formación" note="En curso" />
+        {education.map((ed) => (
+          <Blur key={ed.degree}>
+            <div className="mt-10 grid grid-cols-12 items-baseline gap-x-6 gap-y-3">
+              <h3 className="col-span-12 font-display text-headline text-frost md:col-span-6">
+                {ed.degree}
+              </h3>
+              <p className="col-span-12 text-small text-signal md:col-span-3">{ed.school}</p>
+              <p className="col-span-12 font-mono text-micro uppercase tracking-[0.14em] text-muted md:col-span-3 md:text-right">
+                {ed.period}
+              </p>
+            </div>
+            <ul className="mt-6 grid grid-cols-1 gap-x-10 gap-y-2 border-t border-line pt-5 sm:grid-cols-2 lg:grid-cols-3">
+              {ed.topics.map((topic) => (
+                <li key={topic} className="text-small text-muted">
+                  {topic}
+                </li>
+              ))}
+            </ul>
+          </Blur>
+        ))}
+      </section>
+
+      {/* ── METODOLOGÍA ──────────────────────────────────────────────── */}
+      <section className="mt-20 md:mt-28">
+        <SectionHead title="Cómo trabajo" note="3 pasos" />
+        <ol className="mt-10 grid grid-cols-1 gap-x-16 md:grid-cols-3">
+          {method.map((m, i) => (
+            <Blur key={m.step} delay={i * 0.07} as="li">
+              <div className="border-t border-line pt-5">
+                <span className="font-mono text-micro tracking-[0.14em] text-signal">{m.step}</span>
+                <h3 className="mt-3 font-display text-title text-frost">{m.title}</h3>
+                <p className="mt-2 max-w-measure text-small text-muted">{m.desc}</p>
+              </div>
+            </Blur>
+          ))}
+        </ol>
+      </section>
+
+      {/* ── CIERRE ───────────────────────────────────────────────────── */}
+      <section className="mt-24 md:mt-32">
+        <RuleReveal />
+        <Wipe className="mt-10">
+          <h2 className="max-w-[18ch] font-display text-headline text-frost md:text-[3.5rem] md:leading-[1.05]">
+            ¿Tenés algo que necesita funcionar de verdad?
+          </h2>
+        </Wipe>
+        <Blur className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
           <Link
             to="/contact"
-            className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-400 text-white font-semibold px-8 py-3 rounded-xl transition-all duration-200 shadow-lg shadow-sky-500/20 hover:-translate-y-0.5"
+            className="bg-signal px-7 py-3.5 text-small font-medium text-ink transition-colors duration-300 ease-out hover:bg-[#F0BC63]"
           >
-            Contactame <FaArrowRight className="text-sm" />
+            Escribime
           </Link>
-        </motion.div>
+          <a href="mailto:ignacioibaigorria@gmail.com" className="link font-mono text-[0.8125rem]">
+            ignacioibaigorria@gmail.com
+          </a>
+        </Blur>
       </section>
     </div>
   );

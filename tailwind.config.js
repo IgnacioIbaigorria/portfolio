@@ -1,58 +1,83 @@
 /** @type {import('tailwindcss').Config} */
+
+// Dark-only. The palette is deliberately small: an ink ground, hairlines for
+// structure, one warm signal accent, and a status green reserved for a 6px dot.
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{js,jsx}"],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-      },
       colors: {
-        background: '#09090b', // Zinc 950
-        surface: '#18181b', // Zinc 900
-        primary: {
-          DEFAULT: '#0ea5e9', // Sky 500
-          hover: '#0284c7', // Sky 600
+        // Flat on purpose: nesting these under `ink` would make the classes
+        // `bg-ink-inset` / `bg-ink-raised`, which is easy to get wrong.
+        ink: '#0A0C0E',
+        raised: '#101416',
+        inset: '#161B1E',
+        line: {
+          DEFAULT: '#232B2F',
+          soft: '#1A2124',
         },
-        slate: {
-          800: '#18181b', // Zinc 900
-          900: '#09090b', // Zinc 950
+        frost: '#E9EDED',
+        muted: '#8A979B',
+        signal: {
+          DEFAULT: '#E3A94F',
+          dim: '#7A5F2C',
         },
-        zinc: {
-          50: '#fafafa',
-          100: '#f4f4f5',
-          200: '#e4e4e7',
-          300: '#d4d4d8',
-          400: '#a1a1aa',
-          500: '#71717a',
-          600: '#52525b',
-          700: '#3f3f46',
-          800: '#27272a',
-          900: '#18181b',
-          950: '#09090b',
-        }
+        live: '#6FCF97',
+      },
+      fontFamily: {
+        // Variable: opsz is set automatically by the browser per size, wdth is
+        // pulled in per type step below.
+        display: ['"Bricolage Grotesque"', "system-ui", "sans-serif"],
+        sans: ['"IBM Plex Sans"', "system-ui", "-apple-system", "sans-serif"],
+        mono: ['"IBM Plex Mono"', "ui-monospace", "SFMono-Regular", "monospace"],
       },
       fontSize: {
-        'lg': '1.125rem',
-        'xl': '1.25rem',
-        '2xl': '1.5rem',
-        '3xl': '1.875rem',
-        '4xl': '2.25rem',
+        // NB: the width axis of the display face is set in index.css, not here —
+        // Tailwind silently ignores unknown keys in these option objects.
+        display: ["clamp(2.6rem, 8.6vw, 5.75rem)", { lineHeight: "0.94", letterSpacing: "-0.04em", fontWeight: "600" }],
+        headline: ["clamp(1.8rem, 4vw, 2.75rem)", { lineHeight: "1.06", letterSpacing: "-0.035em", fontWeight: "600" }],
+        title: ["1.375rem", { lineHeight: "1.24", letterSpacing: "-0.02em", fontWeight: "500" }],
+        lead: ["clamp(1.0625rem, 1.3vw, 1.1875rem)", { lineHeight: "1.6" }],
+        body: ["0.9688rem", { lineHeight: "1.65" }],
+        small: ["0.875rem", { lineHeight: "1.6" }],
+        // Only for real machine data and short functional tags — never as decoration.
+        micro: ["0.6875rem", { lineHeight: "1.1", letterSpacing: "0.14em" }],
       },
-      animation: {
-        'fade-in': 'fadeIn 0.5s ease-out',
-        'slide-up': 'slideUp 0.5s ease-out',
+      maxWidth: {
+        measure: "68ch",
+        shell: "78rem",
+      },
+      borderRadius: {
+        sm: "2px",
+        DEFAULT: "3px",
+        md: "3px",
+        lg: "4px",
+        xl: "6px",
+        "2xl": "8px",
+      },
+      transitionTimingFunction: {
+        out: "cubic-bezier(0.16, 1, 0.3, 1)",
       },
       keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
+        "rule-draw": {
+          "0%": { transform: "scaleX(0)" },
+          "100%": { transform: "scaleX(1)" },
         },
-        slideUp: {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
+        glow: {
+          "0%, 100%": { opacity: "0.4" },
+          "50%": { opacity: "0.72" },
         },
+        "pulse-dot": {
+          "0%, 100%": { opacity: "1", transform: "scale(1)" },
+          "50%": { opacity: "0.3", transform: "scale(0.8)" },
+        },
+      },
+      animation: {
+        "rule-draw": "rule-draw 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        glow: "glow 28s ease-in-out infinite",
+        "pulse-dot": "pulse-dot 2.8s ease-in-out infinite",
       },
     },
   },
   plugins: [],
-}
+};

@@ -1,222 +1,196 @@
 import React, { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
 import toast from 'react-hot-toast';
 import { FaLinkedin, FaEnvelope, FaPaperPlane, FaGithub } from 'react-icons/fa';
+import { Wipe, Blur } from '../components/Reveal';
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-    },
+const channels = [
+  {
+    icon: FaEnvelope,
+    label: 'Email',
+    value: 'ignacioibaigorria@gmail.com',
+    href: 'mailto:ignacioibaigorria@gmail.com',
+    color: '#E3A94F',
   },
-};
+  {
+    icon: FaLinkedin,
+    label: 'LinkedIn',
+    value: 'ignacio-ibaigorria',
+    href: 'https://www.linkedin.com/in/ignacio-ibaigorria-08a9a9298/',
+    color: '#0A66C2',
+  },
+  {
+    icon: FaGithub,
+    label: 'GitHub',
+    value: 'IgnacioIbaigorria',
+    href: 'https://github.com/IgnacioIbaigorria',
+    color: '#E9EDED',
+  },
+];
 
-const itemVariant = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
+const fieldClass =
+  'w-full border-b border-line bg-transparent py-3 text-body text-frost placeholder:text-muted/80 transition-colors duration-300 focus:border-signal focus:outline-none';
 
 const Contact = () => {
-  const form = useRef();
+  const form = useRef(null);
   const [loading, setLoading] = useState(false);
 
   const sendEmail = async (e) => {
     e.preventDefault();
     const formEl = form.current;
     const formData = new FormData(formEl);
-    const name = formData.get("user_name")?.trim();
-    const email = formData.get("user_email")?.trim();
-    const message = formData.get("message")?.trim();
 
-    if (!name || !email || !message) {
-      toast.error("Por favor completa todos los campos obligatorios.");
+    if (!formData.get('user_name')?.trim() || !formData.get('user_email')?.trim() || !formData.get('message')?.trim()) {
+      toast.error('Completá los tres campos para enviar el mensaje.');
       return;
     }
 
     setLoading(true);
     try {
       await emailjs.sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE,
+        process.env.REACT_APP_EMAILJS_SERVICE,
+        process.env.REACT_APP_EMAILJS_TEMPLATE,
         formEl,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLICKEY
+        process.env.REACT_APP_EMAILJS_PUBLIC_KEY
       );
-      toast.success("¡Mensaje enviado con éxito!");
+      toast.success('Mensaje enviado. Te respondo dentro de las próximas 24 horas.');
       formEl.reset();
     } catch (err) {
       console.error(err);
-      toast.error("Hubo un problema al enviar el mensaje. Intenta otra vez.");
+      toast.error('No pude enviar el mensaje. Probá de nuevo o escribime directo por email.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="p-4 max-w-5xl mx-auto relative pt-2 md:pt-4">
-      {/* Background */}
-      <div className="fixed inset-0 -z-20 overflow-hidden bg-slate-950" aria-hidden="true">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-sky-900/40 via-slate-950/50 to-slate-950 opacity-100" />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
+    <div>
+      <header className="border-t border-line pt-6">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2">
+          <Wipe>
+            <h1 className="font-display text-headline text-frost">Contacto</h1>
+          </Wipe>
+          <span className="font-mono text-micro uppercase tracking-[0.14em] text-muted">
+            Respondo en menos de 24 h
+          </span>
+        </div>
+        <Blur className="mt-6 max-w-measure">
+          <p className="text-lead text-muted">
+            Contame qué necesitás construir y en qué plazo. Si tiene sentido, te digo cuánto cuesta
+            y cuándo lo tenés funcionando.
+          </p>
+        </Blur>
+      </header>
+
+      <div className="mt-14 grid grid-cols-12 gap-x-10 gap-y-16">
+        {/* ── Form ──────────────────────────────────────────────────── */}
+        <div className="col-span-12 lg:col-span-7">
+          <Blur>
+            <form ref={form} onSubmit={sendEmail} className="max-w-xl">
+              <div className="flex flex-col gap-8">
+                <div>
+                  <label htmlFor="user_name" className="font-mono text-micro uppercase tracking-[0.14em] text-muted">
+                    Nombre <span className="text-signal">*</span>
+                  </label>
+                  <input
+                    id="user_name"
+                    name="user_name"
+                    type="text"
+                    required
+                    autoComplete="name"
+                    placeholder="Tu nombre"
+                    className={fieldClass}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="user_email" className="font-mono text-micro uppercase tracking-[0.14em] text-muted">
+                    Email <span className="text-signal">*</span>
+                  </label>
+                  <input
+                    id="user_email"
+                    name="user_email"
+                    type="email"
+                    required
+                    autoComplete="email"
+                    placeholder="tu@email.com"
+                    className={fieldClass}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="font-mono text-micro uppercase tracking-[0.14em] text-muted">
+                    Mensaje <span className="text-signal">*</span>
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows={5}
+                    placeholder="¿Qué necesitás? Plazo, stack, lo que tengas."
+                    className={`${fieldClass} resize-y`}
+                  />
+                </div>
+
+                <div>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="inline-flex items-center gap-2.5 bg-signal px-7 py-3.5 text-small font-medium text-ink transition-colors duration-300 ease-out hover:bg-[#F0BC63] disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {loading ? 'Enviando' : 'Enviar mensaje'}
+                    {!loading && <FaPaperPlane aria-hidden="true" className="text-[0.8rem]" />}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </Blur>
+        </div>
+
+        {/* ── Direct channels ───────────────────────────────────────── */}
+        <div className="col-span-12 lg:col-span-5">
+          <div className="lg:sticky lg:top-24">
+            <Blur delay={0.1}>
+              <h2 className="font-mono text-micro uppercase tracking-[0.14em] text-muted">
+                O escribime directo
+              </h2>
+
+              <ul className="mt-4 border-t border-line">
+                {channels.map(({ icon: Icon, label, value, href, color }) => (
+                  <li key={label}>
+                    <a
+                      href={href}
+                      {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      className="group flex items-center gap-4 border-b border-line py-5 transition-colors duration-300 hover:bg-raised/60"
+                    >
+                      <span
+                        className="flex h-9 w-9 shrink-0 items-center justify-center border border-line text-[0.9rem] transition-colors duration-300 group-hover:border-signal"
+                        style={{ color }}
+                        aria-hidden="true"
+                      >
+                        <Icon />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block font-mono text-micro uppercase tracking-[0.14em] text-muted">
+                          {label}
+                        </span>
+                        <span className="mt-1 block truncate text-small text-frost transition-colors duration-300 group-hover:text-signal">
+                          {value}
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+
+              <p className="mt-6 flex items-center gap-2.5 text-small text-muted">
+                <span className="h-1.5 w-1.5 animate-pulse-dot rounded-full bg-live" />
+                Disponible para proyectos nuevos y soporte de los que ya están.
+              </p>
+            </Blur>
+          </div>
+        </div>
       </div>
-
-      <motion.div
-        className="text-center mb-8 md:mb-12"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 text-zinc-100 leading-tight">
-          Contacto
-        </h1>
-        <p className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto">
-          Tengo la bandeja de entrada abierta para nuevas oportunidades, colaboraciones o proyectos.
-        </p>
-      </motion.div>
-
-      <motion.div
-        className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* Formulario */}
-        <motion.div
-          className="lg:col-span-7 bg-zinc-900/60 backdrop-blur-sm p-5 sm:p-7 md:p-8 rounded-2xl border border-zinc-800 shadow-xl"
-          variants={itemVariant}
-        >
-          <h2 className="text-xl sm:text-2xl font-bold mb-5 text-zinc-100">
-            Enviame un mensaje
-          </h2>
-
-          <form ref={form} onSubmit={sendEmail} className="space-y-4 sm:space-y-5">
-            <div>
-              <label className="block text-xs sm:text-sm font-medium text-zinc-300 mb-1.5 ml-0.5">
-                Nombre completo <span className="text-sky-400">*</span>
-              </label>
-              <input
-                type="text"
-                placeholder="Tu nombre"
-                name="user_name"
-                required
-                className="w-full px-3.5 sm:px-4 py-3 bg-zinc-950/80 border border-zinc-700/80 rounded-xl text-base text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition-colors"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs sm:text-sm font-medium text-zinc-300 mb-1.5 ml-0.5">
-                Correo electrónico <span className="text-sky-400">*</span>
-              </label>
-              <input
-                type="email"
-                placeholder="tu@email.com"
-                name="user_email"
-                required
-                className="w-full px-3.5 sm:px-4 py-3 bg-zinc-950/80 border border-zinc-700/80 rounded-xl text-base text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition-colors"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs sm:text-sm font-medium text-zinc-300 mb-1.5 ml-0.5">
-                Mensaje <span className="text-sky-400">*</span>
-              </label>
-              <textarea
-                placeholder="¿En qué te puedo ayudar?"
-                name="message"
-                required
-                rows={5}
-                className="w-full px-3.5 sm:px-4 py-3 bg-zinc-950/80 border border-zinc-700/80 rounded-xl text-base text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition-colors resize-y min-h-[120px]"
-              />
-            </div>
-
-            <motion.button
-              type="submit"
-              disabled={loading}
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.99 }}
-              className="w-full py-3.5 px-6 bg-sky-500 hover:bg-sky-400 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-xl shadow-lg shadow-sky-500/20 hover:shadow-sky-500/30 transition-all flex items-center justify-center gap-2 text-base"
-            >
-              {loading ? (
-                <span>Enviando mensaje...</span>
-              ) : (
-                <>
-                  <span>Enviar Mensaje</span>
-                  <FaPaperPlane className="text-sm" />
-                </>
-              )}
-            </motion.button>
-          </form>
-        </motion.div>
-
-        {/* Canales directos */}
-        <motion.div
-          className="lg:col-span-5 bg-zinc-900/60 backdrop-blur-sm p-5 sm:p-7 md:p-8 rounded-2xl border border-zinc-800 flex flex-col justify-between"
-          variants={itemVariant}
-        >
-          <div>
-            <h2 className="text-xl sm:text-2xl font-bold mb-3 text-zinc-100">
-              Otras formas de conectar
-            </h2>
-            <p className="text-zinc-400 text-sm sm:text-base leading-relaxed mb-6">
-              Si preferís comunicarte directamente, podés escribirme a mi correo o agregarme en mis redes profesionales:
-            </p>
-
-            <div className="space-y-3">
-              <a
-                href="mailto:ignacioibaigorria@gmail.com"
-                className="flex items-center gap-3.5 p-3.5 sm:p-4 bg-zinc-950/60 border border-zinc-800 rounded-xl text-zinc-200 hover:text-sky-400 hover:border-sky-500/40 hover:bg-sky-950/20 transition-all group"
-              >
-                <div className="p-2.5 bg-zinc-900 rounded-lg text-sky-400 group-hover:scale-105 transition-transform flex-shrink-0">
-                  <FaEnvelope className="text-lg" />
-                </div>
-                <div className="overflow-hidden">
-                  <div className="text-xs text-zinc-500 uppercase tracking-wider font-medium">Email</div>
-                  <div className="font-medium text-sm sm:text-base truncate">ignacioibaigorria@gmail.com</div>
-                </div>
-              </a>
-
-              <a
-                href="https://www.linkedin.com/in/ignacio-ibaigorria-08a9a9298/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3.5 p-3.5 sm:p-4 bg-zinc-950/60 border border-zinc-800 rounded-xl text-zinc-200 hover:text-sky-400 hover:border-sky-500/40 hover:bg-sky-950/20 transition-all group"
-              >
-                <div className="p-2.5 bg-zinc-900 rounded-lg text-sky-400 group-hover:scale-105 transition-transform flex-shrink-0">
-                  <FaLinkedin className="text-lg" />
-                </div>
-                <div className="overflow-hidden">
-                  <div className="text-xs text-zinc-500 uppercase tracking-wider font-medium">LinkedIn</div>
-                  <div className="font-medium text-sm sm:text-base truncate">ignacio-ibaigorria</div>
-                </div>
-              </a>
-
-              <a
-                href="https://github.com/IgnacioIbaigorria"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3.5 p-3.5 sm:p-4 bg-zinc-950/60 border border-zinc-800 rounded-xl text-zinc-200 hover:text-sky-400 hover:border-sky-500/40 hover:bg-sky-950/20 transition-all group"
-              >
-                <div className="p-2.5 bg-zinc-900 rounded-lg text-sky-400 group-hover:scale-105 transition-transform flex-shrink-0">
-                  <FaGithub className="text-lg" />
-                </div>
-                <div className="overflow-hidden">
-                  <div className="text-xs text-zinc-500 uppercase tracking-wider font-medium">GitHub</div>
-                  <div className="font-medium text-sm sm:text-base truncate">IgnacioIbaigorria</div>
-                </div>
-              </a>
-            </div>
-          </div>
-
-          <div className="mt-8 pt-5 border-t border-zinc-800/80">
-            <div className="flex items-center gap-2 text-xs text-zinc-400">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span>Respondo habitualmente en menos de 24 hs.</span>
-            </div>
-          </div>
-        </motion.div>
-      </motion.div>
     </div>
   );
 };

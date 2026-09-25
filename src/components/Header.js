@@ -1,243 +1,187 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaLinkedin, FaGithub, FaEnvelope, FaCode } from 'react-icons/fa';
-import { motion, AnimatePresence } from 'framer-motion';
+import { FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { useFocusTrap } from '../utils/useFocusTrap';
 
 const navLinks = [
   { path: '/', label: 'Inicio' },
   { path: '/projects', label: 'Proyectos' },
-  { path: '/contact', label: 'Contacto' }
+  { path: '/contact', label: 'Contacto' },
 ];
 
-// Iconos sociales con colores de marca
 const socialLinks = [
-  {
-    icon: FaLinkedin,
-    href: 'https://www.linkedin.com/in/ignacio-ibaigorria-08a9a9298/',
-    color: '#0A66C2' // Color de LinkedIn
-  },
-  {
-    icon: FaGithub,
-    href: 'https://github.com/IgnacioIbaigorria',
-    color: '#FFFFFF' // Color de GitHub (blanco)
-  },
-  {
-    icon: FaEnvelope,
-    href: 'mailto:ignacioibaigorria@gmail.com',
-    color: '#0284c7' // Cyan/Sky 600
-  }
+  { icon: FaLinkedin, href: 'https://www.linkedin.com/in/ignacio-ibaigorria-08a9a9298/', label: 'LinkedIn' },
+  { icon: FaGithub, href: 'https://github.com/IgnacioIbaigorria', label: 'GitHub' },
+  { icon: FaEnvelope, href: 'mailto:ignacioibaigorria@gmail.com', label: 'Email' },
 ];
 
-// Variantes de animación para el menú móvil
-const mobileMenuVariants = {
-  hidden: {
-    opacity: 0,
-    transition: {
-      when: "afterChildren"
-    }
-  },
-  visible: {
-    opacity: 1,
-    transition: {
-      when: "beforeChildren",
-      staggerChildren: 0.08,
-      delayChildren: 0.2
-    }
-  }
-};
-
-const mobileMenuItemVariants = {
-  hidden: { opacity: 0, x: 50 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { type: "spring", stiffness: 120 }
-  }
-};
-
-
-// Componente para el botón de menú animado
-const AnimatedMenuButton = ({ isOpen, onClick }) => {
-  const barCommonStyles = "block w-6 h-0.5 bg-cyan-300 transition-all duration-300";
-
-  return (
-    <button
-      className="fixed md:hidden top-4 right-4 w-10 h-10 z-[300] flex flex-col justify-center items-center gap-1.5"
-      onClick={onClick}
-      aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
-    >
-      <motion.span
-        className={barCommonStyles}
-        animate={{
-          rotate: isOpen ? 45 : 0,
-          y: isOpen ? 8 : 0
-        }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      />
-      <motion.span
-        className={barCommonStyles}
-        animate={{
-          opacity: isOpen ? 0 : 1
-        }}
-        transition={{ duration: 0.1 }}
-      />
-      <motion.span
-        className={barCommonStyles}
-        animate={{
-          rotate: isOpen ? -45 : 0,
-          y: isOpen ? -8 : 0
-        }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      />
-    </button>
-  );
-};
+/** A schematic corner mark: hairline frame, diagonal, one signal dot. */
+const Mark = () => (
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" className="shrink-0">
+    <rect x="0.5" y="0.5" width="21" height="21" stroke="#232B2F" />
+    <path d="M0.5 15.5 L15.5 0.5" stroke="#232B2F" />
+    <circle cx="16" cy="16" r="2.5" fill="#E3A94F" />
+  </svg>
+);
 
 const Header = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const buttonRef = useRef(null);
+  const panelRef = useRef(null);
+  const reduce = useReducedMotion();
+
+  useFocusTrap(isMenuOpen, panelRef);
+
+  // Close the drawer on navigation.
+  useEffect(() => setIsMenuOpen(false), [location.pathname]);
+
+  // Rotating a phone or resizing past the breakpoint hides the drawer, but the
+  // state (and the body scroll lock) would survive and leave the page unscrollable.
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)');
+    const onChange = (e) => {
+      if (e.matches) setIsMenuOpen(false);
+    };
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+
+  // Escape closes, and the page behind it must not scroll.
+  useEffect(() => {
+    if (!isMenuOpen) return undefined;
+
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        setIsMenuOpen(false);
+        buttonRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
+  const panelMotion = reduce
+    ? { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 } }
+    : {
+        initial: { x: '100%' },
+        animate: { x: 0 },
+        exit: { x: '100%' },
+        transition: { type: 'spring', stiffness: 320, damping: 34 },
+      };
 
   return (
     <>
-      <AnimatedMenuButton
-        isOpen={isMenuOpen}
+      <button
+        ref={buttonRef}
+        type="button"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
-      />
-
-      {/* Header principal */}
-      <motion.header
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="fixed w-full top-0 z-[45] bg-slate-950/80 backdrop-blur-xl border-b border-zinc-800 shadow-sm"
-        style={{
-          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.3)'
-        }}
+        aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+        aria-expanded={isMenuOpen}
+        className="fixed right-5 top-5 z-[60] flex h-10 w-10 flex-col items-center justify-center gap-[5px] md:hidden"
       >
-        <div className="max-w-7xl mx-auto flex justify-between items-center px-4 md:px-8 py-3">
-          {/* Logo con tu nombre */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <motion.div
-              whileHover={{ rotate: 180, scale: 1.1 }}
-              transition={{ duration: 0.4, type: "spring" }}
-              className="p-2 rounded-full bg-gradient-to-tr from-sky-600 to-sky-400 shadow-lg"
-            >
-              <FaCode className="text-xl md:text-2xl text-white" />
-            </motion.div>
-            <span className="text-xl md:text-2xl font-bold text-zinc-100 hidden sm:block">
+        <span
+          className="block h-px w-6 bg-frost transition-transform duration-300 ease-out"
+          style={{ transform: isMenuOpen ? 'translateY(3px) rotate(45deg)' : 'none' }}
+        />
+        <span
+          className="block h-px w-6 transition-opacity duration-200"
+          style={{ background: isMenuOpen ? '#E3A94F' : '#E9EDED', opacity: isMenuOpen ? 0 : 1 }}
+        />
+        <span
+          className="block h-px w-6 bg-frost transition-transform duration-300 ease-out"
+          style={{ transform: isMenuOpen ? 'translateY(-3px) rotate(-45deg)' : 'none' }}
+        />
+      </button>
+
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-ink/85 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 w-full max-w-shell items-center justify-between gap-6 px-5 md:px-8">
+          <Link to="/" className="group flex items-center gap-3" aria-label="Ignacio Ibaigorria — inicio">
+            <Mark />
+            <span className="text-[0.9375rem] font-medium tracking-tight text-frost transition-colors duration-300 group-hover:text-signal">
               Ignacio Ibaigorria
             </span>
           </Link>
 
-          {/* Navegación desktop */}
-          <nav className="hidden md:flex items-center space-x-10">
+          <nav className="hidden items-center gap-8 md:flex" aria-label="Navegación principal">
             {navLinks.map(({ path, label }) => (
-              <motion.div
+              <Link
                 key={path}
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.97 }}
-                className="relative group"
+                to={path}
+                className="link text-small"
+                data-active={location.pathname === path}
+                aria-current={location.pathname === path ? 'page' : undefined}
               >
-                <Link
-                  to={path}
-                  className={`text-lg font-medium px-2 py-1 transition-all duration-300
-                    ${location.pathname === path ? 'text-sky-400' : 'text-zinc-400 hover:text-sky-400'}`}
-                >
-                  {label}
-                  <span
-                    className={`absolute left-0 -bottom-1 h-0.5 bg-gradient-to-r from-cyan-400 to-cyan-700 rounded-full transition-all duration-300
-                      ${location.pathname === path ? 'w-full' : 'w-0 group-hover:w-full'}`}
-                    style={{
-                      transitionProperty: 'width'
-                    }}
-                  />
-                </Link>
-              </motion.div>
+                {label}
+              </Link>
             ))}
           </nav>
 
-          {/* --- CORRECCIÓN AQUÍ --- */}
-          {/* Íconos sociales desktop */}
-          <div className="hidden md:flex items-center space-x-6">
-            {socialLinks.map((item, idx) => (
-              <motion.a
-                key={idx}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{
-                  scale: 1.18,
-                  y: -2,
-                  color: item.color, // Color de marca en hover
-                  filter: `drop-shadow(0 0 6px ${item.color})`,
-                  transition: { duration: 0.2 } // Añade transición suave de framer-motion
-                }}
-                whileTap={{ scale: 0.92 }}
-                className="text-2xl text-zinc-500 hover:text-sky-400"
+          <div className="hidden items-center gap-5 md:flex">
+            {socialLinks.map(({ icon: Icon, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                aria-label={label}
+                {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                className="text-muted transition-colors duration-300 hover:text-signal"
               >
-                <item.icon />
-              </motion.a>
+                <Icon aria-hidden="true" />
+              </a>
             ))}
+            <span className="flex items-center gap-2 border-l border-line pl-5 font-mono text-micro uppercase tracking-[0.14em] text-muted">
+              <span className="h-1.5 w-1.5 animate-pulse-dot rounded-full bg-live" />
+              Disponible
+            </span>
           </div>
         </div>
-      </motion.header >
+      </header>
 
-      {/* Menú móvil mejorado */}
-      < AnimatePresence >
+      <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed top-0 right-0 bottom-0 w-64 bg-slate-950/95 backdrop-blur-xl
-              flex flex-col items-center pt-24 px-4 border-l border-zinc-800 shadow-xl z-[200] md:hidden"
+            {...panelMotion}
+            ref={panelRef}
+            className="fixed inset-y-0 right-0 z-[55] flex w-72 flex-col border-l border-line bg-ink px-8 pb-10 pt-28 md:hidden"
           >
-            {/* Navegación móvil con animación 'stagger' */}
-            <motion.nav
-              className="flex flex-col items-center w-full space-y-6 p-4"
-              variants={mobileMenuVariants}
-              initial="hidden"
-              animate="visible"
-            >
+            <nav className="flex flex-col" aria-label="Navegación principal">
               {navLinks.map(({ path, label }) => (
-                <motion.div key={path} variants={mobileMenuItemVariants} className="w-full">
-                  <Link
-                    to={path}
-                    onClick={() => setIsMenuOpen(false)}
-                    className={`text-xl font-medium transition-all duration-300 w-full text-center py-2
-                      ${location.pathname === path ? 'text-sky-400' : 'text-zinc-300 hover:text-sky-400'}`}
-                  >
-                    {label}
-                  </Link>
-                </motion.div>
-              ))}
-            </motion.nav>
-
-            {/* --- CORRECCIÓN AQUÍ (móvil) --- */}
-            <div className="flex justify-center space-x-8 w-full p-4 mt-8 border-t border-cyan-700/30">
-              {socialLinks.map((item, idx) => (
-                <motion.a
-                  key={idx}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileTap={{ scale: 0.9 }}
-                  whileHover={{
-                    color: item.color,
-                    filter: `drop-shadow(0 0 6px ${item.color})`,
-                    transition: { duration: 0.2 }
-                  }}
-                  // --- SE ELIMINÓ "transition-colors" Y "duration-300" ---
-                  className="text-2xl text-gray-500"
+                <Link
+                  key={path}
+                  to={path}
+                  className={`border-b border-line py-5 text-title transition-colors duration-300 ${
+                    location.pathname === path ? 'text-signal' : 'text-frost'
+                  }`}
+                  aria-current={location.pathname === path ? 'page' : undefined}
                 >
-                  <item.icon />
-                </motion.a>
+                  {label}
+                </Link>
+              ))}
+            </nav>
+
+            <div className="mt-auto flex flex-col gap-4 pt-10">
+              {socialLinks.map(({ icon: Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  className="flex items-center gap-3 text-small text-muted transition-colors duration-300 hover:text-signal"
+                >
+                  <Icon aria-hidden="true" className="text-signal" />
+                  {label}
+                </a>
               ))}
             </div>
           </motion.div>
-        )
-        }
-      </AnimatePresence >
+        )}
+      </AnimatePresence>
     </>
   );
 };
