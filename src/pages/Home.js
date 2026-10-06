@@ -270,7 +270,7 @@ const Home = () => {
           </motion.p>
 
           <motion.p {...rise(0.32)} className="mt-6 max-w-measure text-lead text-muted">
-            Construyo software que se puede medir: backends con Spring Boot y Go, frontends con React
+            Construyo software que se puede medir: backends con Spring Boot, Node(NestJS) y Go, frontends con React
             y apps móviles en las stores. Trabajo con empresas que necesitan resultados, no
             maquetas.
           </motion.p>
@@ -289,7 +289,7 @@ const Home = () => {
         </div>
 
         <motion.div {...rise(0.3)} className="lg:col-span-5">
-          <figure className="relative mx-auto w-[70%] max-w-[340px] lg:ml-auto lg:mr-0">
+          <figure className="relative mx-auto w-[80%] max-w-[340px] lg:ml-auto lg:mr-0">
             <div className="overflow-hidden border border-line bg-inset">
               <img
                 src="/images/profile.png"
