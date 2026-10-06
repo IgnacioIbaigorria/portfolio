@@ -59,11 +59,7 @@ function App() {
         <AnimatedBackground />
         <Header />
         <main className="flex-grow relative z-[40] container mx-auto px-4 md:px-6 lg:px-8 py-8 pt-24 md:pt-28">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
+          <AnimatedRoutes />
         </main>
       </div>
 
