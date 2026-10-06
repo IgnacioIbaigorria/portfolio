@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FaGithub, FaExternalLinkAlt, FaApple, FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaGithub, FaExternalLinkAlt, FaApple, FaTimes, FaChevronLeft, FaChevronRight, FaLock } from 'react-icons/fa';
 import { SiGoogleplay } from 'react-icons/si';
 import { AnimatePresence, motion } from 'framer-motion';
 import { getTechInfo } from '../utils/techData';
@@ -71,7 +71,8 @@ const projects = [
       '/images/projects/servicold-app/servicold_app7.jpeg',
     ],
     technologies: ['React Native', 'Expo', 'TypeScript', 'PHP', 'MySQL', 'Arduino'],
-    github: 'https://github.com/IgnacioIbaigorria/servicold-app',
+    github: '',
+    privateRepo: true,
     stores: {
       android: 'https://play.google.com/store/apps/details?id=com.ignacioivan00.servicoldApp&hl=es_419',
       ios: 'https://apps.apple.com/ar/app/servicold-app/id6751702418',
@@ -94,7 +95,8 @@ const projects = [
       '/images/projects/servicold-web/servicold-web7.jpg',
     ],
     technologies: ['JavaScript', 'Bootstrap', 'PHP', 'MySQL', 'Hostinger'],
-    github: 'https://github.com/IgnacioIbaigorria/ServiCold',
+    github: '',
+    privateRepo: true,
     live: 'https://servicoldingenieria.com',
     categories: ['Web'],
     isLive: true,
@@ -141,7 +143,7 @@ const projects = [
   {
     title: 'Gestión App',
     description:
-      'App móvil de gestión para PyMEs: inventario, ventas, análisis financiero, generación de PDFs, control de caja y estadísticas. Con tema oscuro y claro, y multiidioma.',
+      'App móvil de gestión para PyMEs: inventario, ventas, análisis financiero, generación de PDFs, control de caja y estadísticas. Entregada y en producción activa para cliente.',
     images: [
       '/images/projects/gestion-punto-eco/gestion-punto-eco1.jpg',
       '/images/projects/gestion-punto-eco/gestion-punto-eco2.jpg',
@@ -154,10 +156,12 @@ const projects = [
       '/images/projects/gestion-punto-eco/gestion-punto-eco9.jpg',
     ],
     technologies: ['React Native', 'Node.js', 'Firebase Database', 'Chart.js', 'i18next'],
-    github: 'https://github.com/IgnacioIbaigorria/gestion-app',
+    github: '',
+    privateRepo: true,
     live: '',
     categories: ['Móvil'],
-    metrics: ['Mejora del 20% en productividad y ventas.', 'Ahorro importante con generación automática de PDFs.'],
+    isLive: true,
+    metrics: ['Entregada a cliente y en uso diario en producción.', 'Mejora del 20% en productividad y ventas.', 'Ahorro importante con generación automática de PDFs.'],
   },
   {
     title: 'FaltaUno',
@@ -224,6 +228,11 @@ const ProjectLinks = ({ project, onOpenGallery }) => (
       <a href={project.github} target="_blank" rel="noopener noreferrer" className="link flex items-center gap-1.5 font-mono text-[0.8125rem]">
         <FaGithub aria-hidden="true" /> Código
       </a>
+    )}
+    {project.privateRepo && (
+      <span className="flex items-center gap-1.5 font-mono text-[0.8125rem] text-muted" title="Repositorio privado para cliente">
+        <FaLock aria-hidden="true" className="text-[0.7rem]" /> Código privado
+      </span>
     )}
     {project.live && (
       <a href={project.live} target="_blank" rel="noopener noreferrer" className="link flex items-center gap-1.5 font-mono text-[0.8125rem]">
@@ -298,8 +307,7 @@ const Projects = () => {
         </div>
         <Blur className="mt-6 max-w-measure">
           <p className="text-lead text-muted">
-            De APIs backend a apps publicadas en las stores. Todos con código, y la mayoría con
-            números de lo que cambió después de entregarlos.
+            De APIs backend a apps publicadas en las stores. Proyectos con código abierto y desarrollos en producción para clientes, la mayoría con números de impacto.
           </p>
         </Blur>
       </header>

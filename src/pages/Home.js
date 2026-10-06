@@ -289,7 +289,7 @@ const Home = () => {
         </div>
 
         <motion.div {...rise(0.3)} className="lg:col-span-5">
-          <figure className="relative">
+          <figure className="relative mx-auto w-[70%] max-w-[340px] lg:ml-auto lg:mr-0">
             <div className="overflow-hidden border border-line bg-inset">
               <img
                 src="/images/profile.png"
@@ -309,7 +309,7 @@ const Home = () => {
           </figure>
         </motion.div>
 
-        <div className="mt-4">
+        <div className="mt-4 lg:col-span-12">
           <RuleReveal delay={0.5} />
         </div>
       </section>
