@@ -1,12 +1,40 @@
 // import './portfolio-dark.css';
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Toaster } from 'react-hot-toast';
 import Header from './components/Header';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import AnimatedBackground from './components/AnimatedBackground';
+
+/* Envuelve cada página para animar su entrada/salida */
+const PageTransition = ({ children }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 16 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -16 }}
+    transition={{ duration: 0.35, ease: 'easeInOut' }}
+  >
+    {children}
+  </motion.div>
+);
+
+/* Necesita estar dentro de <Router> para poder usar useLocation */
+const AnimatedRoutes = () => {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+        <Route path="/projects" element={<PageTransition><Projects /></PageTransition>} />
+        <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
+      </Routes>
+    </AnimatePresence>
+  );
+};
 
 function App() {
   useEffect(() => {
@@ -30,7 +58,7 @@ function App() {
       <div className="relative flex min-h-screen flex-col">
         <AnimatedBackground />
         <Header />
-        <main className="relative z-10 mx-auto w-full max-w-shell flex-grow px-5 pb-24 pt-24 md:px-8 md:pt-28">
+        <main className="flex-grow relative z-[40] container mx-auto px-4 md:px-6 lg:px-8 py-8 pt-24 md:pt-28">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/projects" element={<Projects />} />

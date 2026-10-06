@@ -92,7 +92,7 @@ const SectionHead = ({ title, note }) => (
 
 const stats = [
   { value: 4, suffix: '+', label: 'Años construyendo software' },
-  { value: 9, suffix: '+', label: 'Proyectos entregados' },
+  { value: 10, suffix: '+', label: 'Proyectos entregados' },
   { value: 2, suffix: '', label: 'Apps publicadas en stores' },
   { value: 25, suffix: '%', prefix: '+', label: 'Impacto en ventas de un cliente' },
 ];

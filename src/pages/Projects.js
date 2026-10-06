@@ -31,6 +31,33 @@ const projects = [
     metrics: ['Sincronización en tiempo real con latencia por debajo de 100 ms.', 'Soporte offline completo con sincronización automática.'],
   },
   {
+    title: 'PuntoEco Gestión',
+    description:
+      'Sistema full-stack de gestión de stock: catálogo, ventas con pagos divididos, caja, reposiciones e historial de cambios, con administración de usuarios y roles. API en NestJS con Cognito y panel en React, desplegado en AWS.',
+    images: [
+      '/images/projects/punto-eco-gestion/02-productos.png',
+      '/images/projects/punto-eco-gestion/09-usuarios.png',
+      '/images/projects/punto-eco-gestion/04-caja.png',
+      '/images/projects/punto-eco-gestion/03-ventas.png',
+      '/images/projects/punto-eco-gestion/07-reposicion.png',
+      '/images/projects/punto-eco-gestion/01-login.png',
+      '/images/projects/punto-eco-gestion/05-categorias.png',
+      '/images/projects/punto-eco-gestion/06-etiquetas.png',
+      '/images/projects/punto-eco-gestion/08-historial.png',
+      '/images/projects/punto-eco-gestion/10-mobile.png',
+    ],
+    technologies: ['NestJS', 'React', 'TypeScript', 'PostgreSQL', 'Prisma', 'Amazon Cognito', 'Docker'],
+    github: 'https://github.com/IgnacioIbaigorria/backend_NestJS',
+    live: 'https://d1hjojyfabiyi5.cloudfront.net/',
+    categories: ['Web', 'Backend'],
+    isLive: true,
+    metrics: [
+      'Control de acceso con 6 roles aplicado en guards del backend y en la interfaz.',
+      'CI/CD con GitHub Actions: lint, build y tests en cada PR, deploy en Docker sobre EC2.',
+      '97 productos sembrados y usuario admin creado automáticamente en cada arranque.',
+    ],
+  },
+  {
     title: 'Servicold App',
     description:
       'App móvil para monitoreo remoto de sensores IoT de temperatura y combustible. Datos en tiempo real, históricos con gráficos, reportes en Excel, alertas push y acceso por niveles de suscripción.',

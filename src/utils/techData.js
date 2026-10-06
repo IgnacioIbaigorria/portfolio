@@ -2,7 +2,8 @@ import {
   SiReact, SiNextdotjs, SiJavascript, SiTypescript, SiHtml5, SiCss3, SiTailwindcss,
   SiNodedotjs, SiExpress, SiSpringboot, SiPhp, SiPython, SiDjango, SiLaravel,
   SiPostgresql, SiMysql, SiMongodb, SiFirebase, SiSupabase, SiFlutter, SiExpo,
-  SiGit, SiDocker, SiAmazonwebservices as SiAmazonaws, SiGitlab, SiGithub, SiFigma, SiBootstrap, SiPhpmyadmin, SiSqlite, SiChartdotjs, SiI18Next, SiShadcnui, SiPrisma, SiGo, SiGin, SiArduino
+  SiGit, SiDocker, SiAmazonwebservices as SiAmazonaws, SiGitlab, SiGithub, SiFigma, SiBootstrap, SiPhpmyadmin, SiSqlite, SiChartdotjs, SiI18Next, SiShadcnui, SiPrisma, SiGo, SiGin, SiArduino,
+  SiNestjs, SiAmazoncognito, SiGithubactions, SiSwagger, SiVitest
 } from 'react-icons/si';
 
 export const techInfoMap = {
@@ -47,6 +48,11 @@ export const techInfoMap = {
   'gin': { icon: <SiGin />, color: "#4DD0E1" },
   'arduino': { icon: <SiArduino />, color: "#00878A" },
   'hostinger': { icon: null, color: "#7B2D8B" },
+  'nestjs': { icon: <SiNestjs />, color: "#E0234E" },
+  'amazon cognito': { icon: <SiAmazoncognito />, color: "#FF9900" },
+  'github actions': { icon: <SiGithubactions />, color: "#2088FF" },
+  'swagger': { icon: <SiSwagger />, color: "#85EA2D" },
+  'vitest': { icon: <SiVitest />, color: "#729B1B" },
 };
 
 export const getTechInfo = (techName) => {
