@@ -11,7 +11,7 @@ const navLinks = [
 ];
 
 const socialLinks = [
-  { icon: FaLinkedin, href: 'https://www.linkedin.com/in/ignacio-ibaigorria-08a9a9298/', label: 'LinkedIn' },
+  { icon: FaLinkedin, href: 'https://www.linkedin.com/in/ignacio-ibaigorria', label: 'LinkedIn' },
   { icon: FaGithub, href: 'https://github.com/IgnacioIbaigorria', label: 'GitHub' },
   { icon: FaEnvelope, href: 'mailto:ignacioibaigorria@gmail.com', label: 'Email' },
 ];
