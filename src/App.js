@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Toaster } from 'react-hot-toast';
+import { Analytics } from '@vercel/analytics/react';
 import Header from './components/Header';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
@@ -81,6 +82,7 @@ function App() {
           error: { iconTheme: { primary: '#E3A94F', secondary: '#101416' } },
         }}
       />
+      <Analytics />
     </Router>
   );
 }
