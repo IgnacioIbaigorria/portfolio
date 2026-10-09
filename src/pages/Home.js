@@ -415,10 +415,11 @@ const Home = () => {
                       className="group flex items-center gap-1.5 text-small text-frost"
                     >
                       {tech.icon && (
-                        /* Rests dimmed; the chip's hover lights it to its brand
-                           color and lifts it 2px. Names stay readable either way. */
+                        /* Full brand color at rest — the icons are the page's
+                           chroma alongside the portrait. Hover only lifts them
+                           2px; the color never changes. */
                         <span
-                          className="text-[0.95rem] leading-none opacity-45 saturate-0 transition-all duration-300 ease-out group-hover:-translate-y-0.5 group-hover:opacity-100 group-hover:saturate-100"
+                          className="text-[0.95rem] leading-none transition-transform duration-300 ease-out group-hover:-translate-y-0.5"
                           style={{ color: tech.color }}
                           aria-hidden="true"
                         >
