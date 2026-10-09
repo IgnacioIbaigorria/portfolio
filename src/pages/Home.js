@@ -8,7 +8,7 @@ import {
   SiGithub, SiGo, SiGin
 } from 'react-icons/si';
 import { FaCode, FaMobile, FaDatabase, FaBoxes } from 'react-icons/fa';
-import { motion, useInView, useMotionValue, useMotionTemplate, useSpring, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { motion, useInView, useMotionValue, useSpring, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { Wipe, Blur, RuleReveal } from '../components/Reveal';
 import Magnetic from '../components/Magnetic';
 
@@ -237,41 +237,14 @@ const method = [
 
 /* ─── The hero's one orchestrated moment: the hairline draws, then the
    portrait unrolls from under it. While it stays on screen it drifts a
-   touch slower than the page — the only depth cue on the site. With a
-   real pointer the photo rests in black & white and a soft circle of
-   color follows the cursor; touch and reduced-motion visitors get the
-   photo as it was drawn. ───────────────────────────────────────────── */
+   touch slower than the page — the only depth cue on the site. Full
+   color, no filter: the photo carries the page's only real chroma.
+   Collapses for reduced-motion visitors. ───────────────────────────── */
 const Portrait = () => {
   const reduce = useReducedMotion();
   const frameRef = React.useRef(null);
   const { scrollYProgress } = useScroll({ target: frameRef, offset: ['start end', 'end start'] });
   const y = useTransform(scrollYProgress, [0, 1], [22, -22]);
-
-  const [hasPointer, setHasPointer] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia('(pointer: fine)');
-    const onChange = (e) => setHasPointer(e.matches);
-    setHasPointer(mq.matches);
-    mq.addEventListener('change', onChange);
-    return () => mq.removeEventListener('change', onChange);
-  }, []);
-
-  // The reveal is a luxury, not the design: without a cursor it never arms.
-  const reveal = hasPointer && !reduce;
-  const mx = useMotionValue(-400);
-  const my = useMotionValue(-400);
-  const sx = useSpring(mx, { stiffness: 220, damping: 26, mass: 0.5 });
-  const sy = useSpring(my, { stiffness: 220, damping: 26, mass: 0.5 });
-  const mask = useMotionTemplate`radial-gradient(circle 110px at ${sx}px ${sy}px, #000 0 30%, transparent 100%)`;
-
-  const track = (e) => {
-    mx.set(e.nativeEvent.offsetX);
-    my.set(e.nativeEvent.offsetY);
-  };
-  const untrack = () => {
-    mx.set(-400);
-    my.set(-400);
-  };
 
   return (
     <motion.div ref={frameRef} style={reduce ? undefined : { y }} className="lg:col-span-5">
@@ -281,29 +254,14 @@ const Portrait = () => {
         animate={reduce ? undefined : { clipPath: 'inset(0% 0% 0% 0%)', scale: 1 }}
         transition={{ duration: 1.05, delay: 0.75, ease: EASE }}
       >
-        <div
-          className="relative overflow-hidden border border-line bg-inset"
-          onPointerMove={reveal ? track : undefined}
-          onPointerLeave={reveal ? untrack : undefined}
-        >
+        <div className="overflow-hidden border border-line bg-inset">
           <img
             src="/images/profile.png"
             alt="Ignacio Ibaigorria"
             width="640"
             height="800"
-            className={`aspect-[4/5] w-full object-cover ${reveal ? 'grayscale' : 'grayscale-[0.15]'}`}
+            className="aspect-[4/5] w-full object-cover"
           />
-          {reveal && (
-            <motion.img
-              src="/images/profile.png"
-              alt=""
-              aria-hidden="true"
-              width="640"
-              height="800"
-              className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-              style={{ maskImage: mask, WebkitMaskImage: mask }}
-            />
-          )}
         </div>
         <figcaption className="mt-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 font-mono text-micro uppercase tracking-[0.14em] text-muted">
           <span>Desarrollador Fullstack</span>
