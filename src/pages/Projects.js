@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FaGithub, FaExternalLinkAlt, FaApple, FaTimes, FaChevronLeft, FaChevronRight, FaLock } from 'react-icons/fa';
 import { SiGoogleplay } from 'react-icons/si';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { useSearchParams } from 'react-router-dom';
 import { getTechInfo } from '../utils/techData';
 import { useFocusTrap } from '../utils/useFocusTrap';
 import { Wipe, Blur } from '../components/Reveal';
@@ -258,8 +259,16 @@ const ProjectLinks = ({ project, onOpenGallery }) => (
 /* ─── Page ─────────────────────────────────────────────────────────── */
 
 const Projects = () => {
-  const [activeFilter, setActiveFilter] = useState('Todos');
+  const reduce = useReducedMotion();
+  // The filter lives in the URL: shareable, deep-linkable, survives refresh.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const urlFilter = searchParams.get('cat');
+  const activeFilter = CATEGORIES.includes(urlFilter) ? urlFilter : 'Todos';
   const [hovered, setHovered] = useState(null);
+  // Which way the visitor is moving through the list, so the preview can
+  // leave in the same direction instead of crossfading in place.
+  const [dir, setDir] = useState(1);
+  const lastIndexRef = React.useRef(0);
   const [gallery, setGallery] = useState(null); // { title, images, index }
   const galleryRef = useRef(null);
 
@@ -269,6 +278,25 @@ const Projects = () => {
   // Look inside `filtered`, not `projects`, so the preview can never show a
   // project the active filter has just hidden.
   const preview = filtered.find((p) => p.title === hovered) || filtered[0] || projects[0];
+
+  const setFilter = (cat) => {
+    const next = new URLSearchParams(searchParams);
+    if (cat === 'Todos') next.delete('cat');
+    else next.set('cat', cat);
+    setSearchParams(next, { replace: true });
+    // New list, new direction baseline.
+    lastIndexRef.current = 0;
+    setDir(1);
+  };
+
+  const hoverProject = (project) => {
+    const index = filtered.findIndex((p) => p.title === project.title);
+    if (index !== -1 && index !== lastIndexRef.current) {
+      setDir(index > lastIndexRef.current ? 1 : -1);
+      lastIndexRef.current = index;
+    }
+    setHovered(project.title);
+  };
 
   const openGallery = (project) => setGallery({ title: project.title, images: project.images, index: 0 });
   const closeGallery = () => setGallery(null);
@@ -323,14 +351,26 @@ const Projects = () => {
             <button
               key={cat}
               type="button"
-              onClick={() => setActiveFilter(cat)}
+              onClick={() => setFilter(cat)}
               aria-pressed={isActive}
               className={`relative -mb-px shrink-0 whitespace-nowrap border-b-2 px-4 py-3 text-small transition-colors duration-300 ${isActive
-                  ? 'border-signal text-frost'
+                  ? 'border-transparent text-frost'
                   : 'border-transparent text-muted hover:border-line hover:text-frost'
                 }`}
             >
               {cat}
+              {/* The underline travels between tabs instead of blinking.
+                  Static under reduced motion: no shared-layout animation. */}
+              {isActive &&
+                (reduce ? (
+                  <span className="absolute inset-x-0 bottom-[-2px] h-0.5 bg-signal" />
+                ) : (
+                  <motion.span
+                    layoutId="filter-underline"
+                    className="absolute inset-x-0 bottom-[-2px] h-0.5 bg-signal"
+                    transition={{ type: 'spring', stiffness: 480, damping: 40 }}
+                  />
+                ))}
             </button>
           );
         })}
@@ -344,7 +384,7 @@ const Projects = () => {
             return (
               <li
                 key={project.title}
-                onMouseEnter={() => setHovered(project.title)}
+                onMouseEnter={() => hoverProject(project)}
                 onMouseLeave={() => setHovered(null)}
                 className="group relative border-b border-line"
               >
@@ -354,7 +394,7 @@ const Projects = () => {
                   aria-hidden="true"
                 />
 
-                <div className="py-8 pl-5 lg:pl-6">
+                <div className="py-8 pl-5 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1.5 lg:pl-6">
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
                     <h2
                       className={`font-display text-title transition-colors duration-300 ${isPreview ? 'text-signal' : 'text-frost'
@@ -400,6 +440,8 @@ const Projects = () => {
                       <img
                         src={project.images[0]}
                         alt={`${project.title} — captura`}
+                        width="800"
+                        height="500"
                         loading="lazy"
                         className="aspect-[16/10] w-full object-cover"
                       />
@@ -421,10 +463,23 @@ const Projects = () => {
                     key={preview.title}
                     src={preview.images[0]}
                     alt={`${preview.title} — vista previa`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.28, ease: 'easeOut' }}
+                    width="640"
+                    height="800"
+                    /* The new frame opens like an aperture (scale + blur
+                       resolving); the old one clips away in the direction the
+                       visitor is moving through the list. */
+                    initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.02, filter: 'blur(6px)' }}
+                    animate={reduce ? { opacity: 1 } : { opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                    exit={
+                      reduce
+                        ? { opacity: 0 }
+                        : {
+                          opacity: 0,
+                          clipPath: dir > 0 ? 'inset(0% 0% 100% 0%)' : 'inset(100% 0% 0% 0%)',
+                          transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+                        }
+                    }
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                     className="aspect-[4/5] w-full object-cover"
                   />
                 )}

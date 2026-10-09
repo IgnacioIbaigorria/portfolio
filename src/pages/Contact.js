@@ -179,7 +179,7 @@ const Contact = () => {
                     autoComplete="email"
                     autoCapitalize="none"
                     autoCorrect="off"
-                    spellCheck="false"
+                    spellCheck={false}
                     inputMode="email"
                     placeholder="tu@email.com"
                     onChange={() => clearError('email')}
@@ -227,7 +227,7 @@ const Contact = () => {
                     disabled={loading}
                     className="inline-flex items-center gap-2.5 bg-signal px-7 py-3.5 text-small font-medium text-ink transition-colors duration-300 ease-out hover:bg-[#F0BC63] disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    {loading ? 'Enviando' : 'Enviar mensaje'}
+                    {loading ? 'Enviando…' : 'Enviar mensaje'}
                     {!loading && <FaPaperPlane aria-hidden="true" className="text-[0.9rem]" />}
                   </button>
                 </div>

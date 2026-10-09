@@ -62,10 +62,6 @@ module.exports = {
         out: "cubic-bezier(0.16, 1, 0.3, 1)",
       },
       keyframes: {
-        "rule-draw": {
-          "0%": { transform: "scaleX(0)" },
-          "100%": { transform: "scaleX(1)" },
-        },
         glow: {
           "0%, 100%": { opacity: "0.4" },
           "50%": { opacity: "0.72" },
@@ -76,7 +72,6 @@ module.exports = {
         },
       },
       animation: {
-        "rule-draw": "rule-draw 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         glow: "glow 28s ease-in-out infinite",
         "pulse-dot": "pulse-dot 2.8s ease-in-out infinite",
       },

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion, useScroll } from 'framer-motion';
 import { useFocusTrap } from '../utils/useFocusTrap';
 
 const navLinks = [
@@ -31,6 +31,9 @@ const Header = () => {
   const buttonRef = useRef(null);
   const panelRef = useRef(null);
   const reduce = useReducedMotion();
+  // Scroll-linked, so it maps 1:1 to the visitor's own input — it stays on
+  // under reduced motion, same as the scrollbar it replaces visually.
+  const { scrollYProgress } = useScroll();
 
   useFocusTrap(isMenuOpen, panelRef);
 
@@ -102,6 +105,11 @@ const Header = () => {
       </button>
 
       <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-ink/85 backdrop-blur-xl">
+        <motion.div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-signal"
+          style={{ scaleX: scrollYProgress }}
+        />
         <div className="mx-auto flex h-16 w-full max-w-shell items-center justify-between gap-6 px-5 md:px-8">
           <Link to="/" className="group flex items-center gap-3" aria-label="Ignacio Ibaigorria — inicio">
             <Mark />

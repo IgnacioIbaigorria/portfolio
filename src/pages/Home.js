@@ -8,8 +8,10 @@ import {
   SiGithub, SiGo, SiGin
 } from 'react-icons/si';
 import { FaCode, FaMobile, FaDatabase, FaBoxes } from 'react-icons/fa';
-import { motion, useInView, useMotionValue, useSpring, useReducedMotion } from 'framer-motion';
+import { motion, useInView, useMotionValue, useSpring, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { Wipe, Blur, RuleReveal } from '../components/Reveal';
+
+const EASE = [0.16, 1, 0.3, 1];
 
 /* ─── Measured value. Counts once, when it is first seen. ─────────────── */
 const Counter = ({ target, suffix = '', prefix = '' }) => {
@@ -232,6 +234,45 @@ const method = [
   },
 ];
 
+/* ─── The hero's one orchestrated moment: the hairline draws, then the
+   portrait unrolls from under it. While it stays on screen it drifts a
+   touch slower than the page — the only depth cue on the site. Both
+   parts collapse for reduced-motion visitors. ─────────────────────── */
+const Portrait = () => {
+  const reduce = useReducedMotion();
+  const frameRef = React.useRef(null);
+  const { scrollYProgress } = useScroll({ target: frameRef, offset: ['start end', 'end start'] });
+  const y = useTransform(scrollYProgress, [0, 1], [22, -22]);
+
+  return (
+    <motion.div ref={frameRef} style={reduce ? undefined : { y }} className="lg:col-span-5">
+      <motion.figure
+        className="relative mx-auto w-[80%] max-w-[340px] lg:ml-auto lg:mr-0"
+        initial={reduce ? false : { clipPath: 'inset(0% 0% 100% 0%)', scale: 1.04 }}
+        animate={reduce ? undefined : { clipPath: 'inset(0% 0% 0% 0%)', scale: 1 }}
+        transition={{ duration: 1.05, delay: 0.75, ease: EASE }}
+      >
+        <div className="overflow-hidden border border-line bg-inset">
+          <img
+            src="/images/profile.png"
+            alt="Ignacio Ibaigorria"
+            width="640"
+            height="800"
+            className="aspect-[4/5] w-full object-cover grayscale-[0.15]"
+          />
+        </div>
+        <figcaption className="mt-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 font-mono text-micro uppercase tracking-[0.14em] text-muted">
+          <span>Desarrollador Fullstack</span>
+          <span className="flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-live" />
+            Disponible
+          </span>
+        </figcaption>
+      </motion.figure>
+    </motion.div>
+  );
+};
+
 const Home = () => {
   const reduce = useReducedMotion();
 
@@ -288,26 +329,7 @@ const Home = () => {
           </motion.div>
         </div>
 
-        <motion.div {...rise(0.3)} className="lg:col-span-5">
-          <figure className="relative mx-auto w-[80%] max-w-[340px] lg:ml-auto lg:mr-0">
-            <div className="overflow-hidden border border-line bg-inset">
-              <img
-                src="/images/profile.png"
-                alt="Ignacio Ibaigorria"
-                width="640"
-                height="800"
-                className="aspect-[4/5] w-full object-cover grayscale-[0.15]"
-              />
-            </div>
-            <figcaption className="mt-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 font-mono text-micro uppercase tracking-[0.14em] text-muted">
-              <span>Desarrollador Fullstack</span>
-              <span className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-live" />
-                Disponible
-              </span>
-            </figcaption>
-          </figure>
-        </motion.div>
+        <Portrait />
 
         <div className="mt-4 lg:col-span-12">
           <RuleReveal delay={0.5} />
@@ -359,16 +381,14 @@ const Home = () => {
               </Blur>
             </div>
             <div className="border-line-soft lg:col-span-8 lg:border-l lg:pl-10">
-              <Blur delay={0.08}>
-                <ul className="grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2">
-                  {exp.highlights.map((h) => (
-                    <li key={h.name} className="border-t border-line pt-3">
-                      <span className="text-small font-medium text-frost">{h.name}</span>
-                      <p className="mt-1 text-small text-muted">{h.desc}</p>
-                    </li>
-                  ))}
-                </ul>
-              </Blur>
+              <ul className="grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2">
+                {exp.highlights.map((h, i) => (
+                  <Blur as="li" key={h.name} delay={i * 0.05} className="border-t border-line pt-3">
+                    <span className="text-small font-medium text-frost">{h.name}</span>
+                    <p className="mt-1 text-small text-muted">{h.desc}</p>
+                  </Blur>
+                ))}
+              </ul>
             </div>
           </div>
         ))}
@@ -406,24 +426,26 @@ const Home = () => {
       <section className="mt-20 md:mt-28">
         <SectionHead title="Formación" note="En curso" />
         {education.map((ed) => (
-          <Blur key={ed.degree}>
-            <div className="mt-10 grid grid-cols-1 items-baseline gap-x-6 gap-y-3 lg:grid-cols-12">
-              <h3 className="font-display text-headline text-frost lg:col-span-6">
-                {ed.degree}
-              </h3>
-              <p className="text-small text-signal lg:col-span-3">{ed.school}</p>
-              <p className="font-mono text-micro uppercase text-muted lg:col-span-3 lg:text-right">
-                {ed.period}
-              </p>
-            </div>
+          <React.Fragment key={ed.degree}>
+            <Blur>
+              <div className="mt-10 grid grid-cols-1 items-baseline gap-x-6 gap-y-3 lg:grid-cols-12">
+                <h3 className="font-display text-headline text-frost lg:col-span-6">
+                  {ed.degree}
+                </h3>
+                <p className="text-small text-signal lg:col-span-3">{ed.school}</p>
+                <p className="font-mono text-micro uppercase text-muted lg:col-span-3 lg:text-right">
+                  {ed.period}
+                </p>
+              </div>
+            </Blur>
             <ul className="mt-6 grid grid-cols-1 gap-x-10 gap-y-2 border-t border-line pt-5 sm:grid-cols-2 lg:grid-cols-3">
-              {ed.topics.map((topic) => (
-                <li key={topic} className="text-small text-muted">
+              {ed.topics.map((topic, i) => (
+                <Blur as="li" key={topic} delay={i * 0.04} className="text-small text-muted">
                   {topic}
-                </li>
+                </Blur>
               ))}
             </ul>
-          </Blur>
+          </React.Fragment>
         ))}
       </section>
 
