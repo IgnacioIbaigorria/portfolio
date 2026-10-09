@@ -3,6 +3,7 @@ import emailjs from '@emailjs/browser';
 import toast from 'react-hot-toast';
 import { FaLinkedin, FaEnvelope, FaPaperPlane, FaGithub, FaExclamationCircle } from 'react-icons/fa';
 import { Wipe, Blur } from '../components/Reveal';
+import Magnetic from '../components/Magnetic';
 
 const channels = [
   {
@@ -222,14 +223,16 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="inline-flex items-center gap-2.5 bg-signal px-7 py-3.5 text-small font-medium text-ink transition-colors duration-300 ease-out hover:bg-[#F0BC63] disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    {loading ? 'Enviando…' : 'Enviar mensaje'}
-                    {!loading && <FaPaperPlane aria-hidden="true" className="text-[0.9rem]" />}
-                  </button>
+                  <Magnetic>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="inline-flex items-center gap-2.5 bg-signal px-7 py-3.5 text-small font-medium text-ink transition-colors duration-300 ease-out hover:bg-[#F0BC63] disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {loading ? 'Enviando…' : 'Enviar mensaje'}
+                      {!loading && <FaPaperPlane aria-hidden="true" className="text-[0.9rem]" />}
+                    </button>
+                  </Magnetic>
                 </div>
               </div>
             </form>
